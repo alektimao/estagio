@@ -1,0 +1,168 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.DWORDefaultPaneBackground{
+	-fx-background-color: white;
+	
+	-fx-effect: dropshadow(three-pass-box, black , 10.0, 0.0 , 0.0 , 0.0 );
+}
+
+.DWORDefaultFormBackground{
+	-fx-background-color: white;
+	
+}
+
+.DWORNavigationMenu{
+	-fx-spacing: 10.0;
+	-fx-min-width: 170.0;
+}
+
+.DWORNavigationMenuButton{
+	-fx-alignment: CENTER_LEFT;
+	-fx-text-alignment: LEFT;
+	-fx-text-fill: white;
+	-fx-min-height: 40.0;
+	-fx-background-color: #34495e;
+}
+
+.DWORStatusBar{
+	-fx-spacing: 7.0;
+	-fx-padding: 5.0;
+	-fx-alignment: CENTER_RIGHT;
+	-fx-min-height: 30.0;
+	-fx-max-height: 70.0;
+}
+
+.DWORScreenTitle{
+	-fx-font-size: 20px;
+	-fx-font-weight: bold; 
+	-fx-font-style: italic;
+}
+
+.DWORScreenTitleII{
+	-fx-font-size: 15px;
+	-fx-font-weight: bold; 
+	-fx-font-style: italic;
+}
+
+.sidebar{
+    -fx-background-color: #333645;
+}
+
+.sidebaritem{
+    -fx-pref-height: 50px;
+    -fx-pref-width: 300px;
+    -fx-text-alignment: center;
+    -fx-text-fill: white;
+}
+
+.sidebarlabel{
+    -fx-label-padding: 10 10 10 10;
+    -fx-font-size: 15px;
+    -fx-background-color: #4C5067;
+}
+
+.sidebarbtn{
+    -fx-alignment: center-left;
+    -fx-padding: 0 0 0 30;
+}
+
+.JFXButtonDefault {
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+	-fx-background-color: #cf1e24;
+	-fx-min-height: 50.0;
+	-fx-min-width: 80.0;
+	-jfx-button-type: RAISED;
+	-jfx-disable-visual-focus: true;
+}
+
+.JFXButtonUltraCompact{
+	-fx-font-weight: normal;
+	-fx-min-height: 27.0;
+	-fx-pref-height: 27.0;
+	-fx-min-width: 80.0;
+}
+
+.JFXButtonCompact{
+	-fx-min-height: 35.0;
+	-fx-min-width: 80.0;
+}
+
+.JFXButtonCompactII{
+	-fx-min-height: 43.0;
+	-fx-min-width: 80.0;
+}
+
+.JFXButtonDefault:hover {
+	-fx-background-color: #2c3e50;
+}
+
+.JFXButtonNeutral {
+	-fx-background-color: #95a5a6;
+}
+
+.JFXButtonNeutral:hover {
+	-fx-background-color: #7f8c8d;
+}
+
+.JFXButtonAccept {
+	-fx-background-color: Green;
+}
+
+.JFXButtonAccept:hover {
+	-fx-background-color: DarkGreen;
+}
+
+.JFXButtonAdd {
+	-fx-background-color: Green;
+}
+
+.JFXButtonAdd:hover {
+	-fx-background-color: DarkGreen;
+}
+
+.JFXButtonCancel {
+	/* 	-fx-background-color: #f1c40f; */
+	-fx-background-color: orange;
+}
+
+.JFXButtonCancel:hover {
+	/* 	-fx-background-color: #f39c12; */
+	-fx-background-color: darkorange;
+}
+
+.JFXButtonRemove {
+	/* 	-fx-background-color: #e67e22; */
+	-fx-background-color: #f1c40f;
+	/* 	-fx-background-color: yellow; */
+}
+
+.JFXButtonRemove:hover {
+	/* 	-fx-background-color: #d35400; */
+	-fx-background-color: #f39c12;
+	/* 	-fx-background-color: Gold; */
+}
+
+.JFXButtonDelete {
+	-fx-background-color: #e74c3c;
+}
+
+.JFXButtonDelete:hover {
+	-fx-background-color: #c0392b;
+}
+
+.jfx-tab-pane .headers-region {
+    -fx-background-color: grey;
+}
+.jfx-tab-pane .tab-header-background {
+    -fx-background-color: grey;
+}
+.jfx-tab-pane .tab-selected-line {
+    -fx-stroke: grey;
+    -fx-stroke-width: 3pt;
+}
+
+
+.jfx-text-field>*.input-focused-line { /* FX theme stylesheet */
+	-fx-background-color: #cf1e24;
+	-fx-pref-height: 2px;
+}

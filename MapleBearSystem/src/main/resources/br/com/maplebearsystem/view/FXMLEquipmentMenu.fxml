@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="primaryPane" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="15.0" styleClass="DWORDefaultPaneBackground" stylesheets="@FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.controller.FXMLEquipmentMenuController">
+   <children>
+      <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="15.0" layoutX="25.0" layoutY="25.0" vgap="15.0">
+         <children>
+            <JFXButton fx:id="btnManageEquipments" onAction="#actManageEquipments" style="-fx-min-width: 200px;" styleClass="JFXButtonDefault" text="Gerenciar Equipamentos" />
+            <Label text="Cadastrar, Exibir ou Editar Equipamentos " />
+         </children>
+      </FlowPane>
+      <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="15.0" maxWidth="-Infinity" vgap="15.0">
+         <children>
+            <JFXButton fx:id="btnManageEquipmentTypes" onAction="#actManageEquipmentTypes" style="-fx-min-width: 200px;" styleClass="JFXButtonDefault" text="Gerenciar Tipos" />
+            <Label text="Cadastrar, Exibir ou Editar Tipos de Equipamentos" />
+         </children>
+      </FlowPane>
+      <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="15.0" layoutX="25.0" layoutY="25.0" vgap="15.0">
+         <children>
+            <JFXButton fx:id="btnManageEquipmentBrands" onAction="#actManageEquipmentBrands" style="-fx-min-width: 200px;" styleClass="JFXButtonDefault" text="Gerenciar Marcas" />
+            <Label text="Cadastrar, Exibir ou Editar Marcas" />
+         </children>
+      </FlowPane>
+      <FlowPane alignment="CENTER" columnHalignment="CENTER" disable="true" hgap="15.0" layoutX="25.0" layoutY="25.0" vgap="15.0">
+         <children>
+            <JFXButton style="-fx-min-width: 200px;" styleClass="JFXButtonDefault" text="Gerenciar Modelos" />
+            <Label text="Cadastrar, Exibir ou Editar Modelos" />
+         </children>
+      </FlowPane>
+   </children>
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+</VBox>

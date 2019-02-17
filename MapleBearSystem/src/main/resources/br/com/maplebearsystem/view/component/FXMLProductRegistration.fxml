@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLProductRegistrationController">
+   <children>
+      <VBox fx:id="primaryPane" spacing="25.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css">
+      	<children>
+      		<Label styleClass="DWORScreenTitleII" text="Cadastro de Partes / Produtos" />
+      		<fx:include fx:id="pnProductForm" source="FXMLProductForm.fxml" />
+      		<VBox VBox.vgrow="ALWAYS" />
+      		<HBox fx:id="pnButtons" alignment="CENTER" spacing="14.0">
+      			<children>
+      				<JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="10.0" layoutY="10.0" onAction="#actSave" prefWidth="150.0" ripplerFill="#282a2f" text="Salvar">
+      					<effect>
+      						<DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0" />
+      					</effect>
+      					<graphic>
+      						<FontAwesomeIconView fill="WHITE" glyphName="CHECK_SQUARE_ALT" size="20" text="" />
+      					</graphic>
+      					<styleClass>
+      						<String fx:value="JFXButtonDefault" />
+      						<String fx:value="JFXButtonCompactII" />
+      					</styleClass>
+      				</JFXButton>
+      				<JFXButton fx:id="btnDelete" buttonType="RAISED" onAction="#actDelete" prefWidth="150.0" ripplerFill="#282a2f" text="Deletar">
+      					<effect>
+      						<DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0" />
+      					</effect>
+      					<graphic>
+      						<FontAwesomeIconView fill="WHITE" glyphName="TRASH_ALT" size="20" />
+      					</graphic>
+      					<styleClass>
+      						<String fx:value="JFXButtonDefault" />
+      						<String fx:value="JFXButtonDelete" />
+      						<String fx:value="JFXButtonCompactII" />
+      					</styleClass>
+      				</JFXButton>
+      				<JFXButton fx:id="btnCancel" buttonType="RAISED" onAction="#actCancel" prefWidth="150.0" ripplerFill="#282a2f" text="Cancelar">
+      					<effect>
+      						<DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0" />
+      					</effect>
+      					<HBox.margin>
+      						<Insets />
+      					</HBox.margin>
+      					<graphic>
+      						<FontAwesomeIconView fill="WHITE" glyphName="REPLY" size="20" />
+      					</graphic>
+      					<styleClass>
+      						<String fx:value="JFXButtonDefault" />
+      						<String fx:value="JFXButtonCancel" />
+      						<String fx:value="JFXButtonCompactII" />
+      					</styleClass>
+      				</JFXButton>
+      			</children>
+      		</HBox>
+      
+      	</children>
+      	<padding>
+      		<Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+      	</padding>
+      </VBox>
+   </children>
+</StackPane>

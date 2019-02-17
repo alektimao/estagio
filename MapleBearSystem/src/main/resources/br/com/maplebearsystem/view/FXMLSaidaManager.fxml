@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane fx:id="rootpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLSaidaManagerController">
+	<children>
+		<HBox fx:id="pnPrimaryContainer" styleClass="DWORDefaultPaneBackground">
+			<children>
+				<fx:include fx:id="pnProductSearch" source="component/FXMLProductSearch.fxml" HBox.hgrow="ALWAYS" />		
+			</children>
+		</HBox>
+	</children>
+</StackPane>

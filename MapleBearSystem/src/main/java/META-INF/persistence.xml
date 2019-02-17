@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="MapleBSystemPostgreSQLPU" transaction-type="RESOURCE_LOCAL">
+		<class>br.com.maplebearsystem.model.Address</class>
+		<class>br.com.maplebearsystem.model.Alocar</class>
+        <class>br.com.maplebearsystem.model.City</class>
+		<class>br.com.maplebearsystem.model.Estoque</class>
+        <class>br.com.maplebearsystem.model.Federation</class>
+		<class>br.com.maplebearsystem.model.Fornecedor</class>
+        <class>br.com.maplebearsystem.model.FornecedorProduto</class>
+        <class>br.com.maplebearsystem.model.Funcionario</class>
+        <class>br.com.maplebearsystem.model.Parametrizacao</class>
+        <class>br.com.maplebearsystem.model.Product</class>
+        <class>br.com.maplebearsystem.model.ProductMovement</class>
+        <class>br.com.maplebearsystem.model.Payment</class>
+		<class>br.com.maplebearsystem.model.Pessoa</class>
+		<class>br.com.maplebearsystem.model.PessoaFisica</class>
+		<class>br.com.maplebearsystem.model.PessoaJuridica</class>
+		<class>br.com.maplebearsystem.model.Phone</class>
+		<class>br.com.maplebearsystem.model.Produto</class>
+        <class>br.com.maplebearsystem.model.ProvinceState</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/maplebd"/>
+			<property name="javax.persistence.jdbc.user" value="postgres"/>
+			<property name="javax.persistence.jdbc.password" value=""/>
+
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>
+		</properties>
+	</persistence-unit>
+
+	<persistence-unit name="MapleBSystemHyperSQLDBPU" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:hsql://localhost:9001/maplebd"/>
+			<property name="javax.persistence.jdbc.user" value="SA"/>
+			<property name="javax.persistence.jdbc.password" value=""/>
+
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>
+		</properties>
+	</persistence-unit>
+	
+	<persistence-unit name="MapleBSystemHyperSQLDBStandAlonePU" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:data/db;hsqldb.write_delay=false"/>
+			<property name="javax.persistence.jdbc.user" value="SA"/>
+			<property name="javax.persistence.jdbc.password" value=""/>
+
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>
+		</properties>
+	</persistence-unit>
+</persistence>
