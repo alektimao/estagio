@@ -12,6 +12,10 @@ public enum FXMLResourcePathsEnum {
 	FXML_MAPLE_PRODUCTMANAGER("/br/com/maplebearsystem/view/FXMLProductManager.fxml"),
 	FXML_DWOR_INITSETUP("/com/dwor/view/FXMLInitSetup.fxml"),
 	DWOR_ICON("/com/dwor/resources/images/icon.png"),
+	FXML_MAPLE_PEDIDO_MANAGER("/br/com/maplebearsystem/view/FXMLPedirProduto.fxml"),
+	FXML_MAPLE_RECEBER_MANAGER("/br/com/maplebearsystem/view/FXMLReceberPedido.fxml"),
+	FXML_MAPLE_PRODUTO_BUSCA("/br/com/maplebearsystem/view/component/FXMLProductSearch.fxml"),
+	FXML_MAPLE_PEDIDO_BUSCA("/br/com/maplebearsystem/view/component/FXMLPedidoBusca.fxml"),
 	FXML_MAPLE_SAIDA_REGISTRATION("/br/com/maplebearsystem/view/component/FXMLSaidaRegistration.fxml"),
 	FXML_MAPLE_SAIDA_MANAGER("/br/com/maplebearsystem/view/FXMLSaidaManager.fxml");
 	String path;

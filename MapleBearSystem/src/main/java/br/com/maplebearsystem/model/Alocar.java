@@ -38,19 +38,19 @@ public abstract class Alocar implements Serializable {
 	private Date Dia;
 	
 	@ManyToMany(
-			targetEntity = Produto.class,
+			targetEntity = Product.class,
 			fetch = FetchType.LAZY)
-	private List<Produto> produtos;
+	private List<Product> produtos;
 	
 
 
 	public Alocar() {
-		produtos = new ArrayList<Produto>();
+		produtos = new ArrayList<Product>();
 	}
 
 
 
-	public Alocar(Funcionario funcionario, int quantidade, boolean enabled, Date dia, List<Produto> produtos) {
+	public Alocar(Funcionario funcionario, int quantidade, boolean enabled, Date dia, List<Product> produtos) {
 		super();
 		this.funcionario = funcionario;
 		this.quantidade = quantidade;
@@ -109,13 +109,13 @@ public abstract class Alocar implements Serializable {
 
 
 
-	public List<Produto> getProdutos() {
+	public List<Product> getProducts() {
 		return produtos;
 	}
 
 
 
-	public void setProdutos(List<Produto> produtos) {
+	public void setProducts(List<Product> produtos) {
 		this.produtos = produtos;
 	}
 

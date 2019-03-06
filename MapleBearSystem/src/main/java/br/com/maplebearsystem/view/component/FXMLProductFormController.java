@@ -58,7 +58,7 @@ public class FXMLProductFormController implements FXMLDefaultControllerInterface
 			tfieldDescription.setText(partProduct.getShortDescription());
 			tareaExtendedDescription.setText(partProduct.getExtendedDescription());
 			tfieldPrice.setText(partProduct.getUnitPrice().toString());
-			tfieldUnitQuant.setText(partProduct.getStockQuantity().toString());
+			tfieldUnitQuant.setText(partProduct.getEstoque().getQtd()+"");
 			tfieldPartNumber.setText(partProduct.getPartNumber());
 			tfieldOtherNumbers.setText(partProduct.getOtherNumbers());
 		} catch (Exception e) {

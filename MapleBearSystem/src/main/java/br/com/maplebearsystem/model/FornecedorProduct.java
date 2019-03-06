@@ -9,22 +9,22 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import br.com.maplebearsystem.model.compositeid.FornecedorProdutoID;
+import br.com.maplebearsystem.model.compositeid.FornecedorProductID;
 
 /**
  * Entity implementation class for Entity: SoftwareOperator
  *
  */
 @Entity
-@IdClass(FornecedorProdutoID.class)
-public class FornecedorProduto implements Serializable {
+@IdClass(FornecedorProductID.class)
+public class FornecedorProduct implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "produtoID", referencedColumnName = "id")
-	private Produto produto;
+	private Product produto;
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "fornecedorID", referencedColumnName = "id")
@@ -33,18 +33,18 @@ public class FornecedorProduto implements Serializable {
 	private BigDecimal unitPrice;
 	
 
-	public FornecedorProduto() {
+	public FornecedorProduct() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
 
-	public Produto getProduto() {
+	public Product getProduct() {
 		return produto;
 	}
 
 
-	public void setProduto(Produto produto) {
+	public void setProduct(Product produto) {
 		this.produto = produto;
 	}
 

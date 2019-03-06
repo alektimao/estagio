@@ -11,7 +11,6 @@ import javax.persistence.TypedQuery;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.persistance.JPAUtil;
 
-
 public class ProductDAO extends GenericDAO<Product> {
 
 	public ProductDAO() {
@@ -97,6 +96,28 @@ public class ProductDAO extends GenericDAO<Product> {
 	@Override
 	public Long getID(Product obj) {
 		return obj.getId();
+	}
+
+	public void save(List<Product> obj) {
+
+		EntityManager em = JPAUtil.getEntityManager();
+
+		try {
+			em.getTransaction().begin();
+			for (Product product : obj) {
+				if (product.getId() == null) {
+					em.persist(product);
+				} else {
+					em.merge(product);
+				}
+			}
+			em.getTransaction().commit();
+		} catch (Exception ex) {
+			em.getTransaction().rollback();
+			throw ex;
+		} finally {
+			em.close();
+		}
 	}
 
 }

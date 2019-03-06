@@ -68,7 +68,7 @@
 .JFXButtonDefault {
 	-fx-text-fill: white;
 	-fx-font-weight: bold;
-	-fx-background-color: #cf1e24;
+	-fx-background-color: #1C3E54;
 	-fx-min-height: 50.0;
 	-fx-min-width: 80.0;
 	-jfx-button-type: RAISED;
@@ -93,11 +93,12 @@
 }
 
 .JFXButtonDefault:hover {
-	-fx-background-color: #2c3e50;
+	-fx-background-color: #ff1d0b;
 }
 
 .JFXButtonNeutral {
 	-fx-background-color: #95a5a6;
+	-fx-text-fill: white;
 }
 
 .JFXButtonNeutral:hover {
@@ -106,6 +107,7 @@
 
 .JFXButtonAccept {
 	-fx-background-color: Green;
+	-fx-text-fill: white;
 }
 
 .JFXButtonAccept:hover {
@@ -114,6 +116,7 @@
 
 .JFXButtonAdd {
 	-fx-background-color: Green;
+	-fx-text-fill: white;
 }
 
 .JFXButtonAdd:hover {
@@ -133,6 +136,7 @@
 .JFXButtonRemove {
 	/* 	-fx-background-color: #e67e22; */
 	-fx-background-color: #f1c40f;
+	-fx-text-fill: white;
 	/* 	-fx-background-color: yellow; */
 }
 
@@ -143,22 +147,35 @@
 }
 
 .JFXButtonDelete {
-	-fx-background-color: #e74c3c;
+	-fx-background-color: #9e0081;
 }
 
 .JFXButtonDelete:hover {
-	-fx-background-color: #c0392b;
+	-fx-background-color: #5c004b;
 }
 
 .jfx-tab-pane .headers-region {
-    -fx-background-color: grey;
+    -fx-background-color: ff4040;
 }
 .jfx-tab-pane .tab-header-background {
-    -fx-background-color: grey;
+    -fx-background-color: ff4040;
 }
 .jfx-tab-pane .tab-selected-line {
-    -fx-stroke: grey;
+    -fx-stroke: ff4040;
     -fx-stroke-width: 3pt;
+}
+
+.jfx-tab-pane:top .depth-container .tab-header-area .headers-region{
+	-fx-max-height: 10.0px;
+}
+
+.jfx-tab-pane:top .depth-container .tab-header-area .headers-region .tab-selected-line{
+	/*-fx-background-color: -fxdefine-defaultsignaturecolor;*/
+	-fx-background-color: -fxdefine-neutralcolor;
+}
+
+.jfx-tab-pane:top .depth-container .tab-header-area .headers-region .tab:top .jfx-rippler .tab-container .tab-label .text{
+	-fx-font-size: 14.0px;
 }
 
 

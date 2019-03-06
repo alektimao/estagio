@@ -227,7 +227,7 @@ public class ProductController {
 			throw new Exception("Unidade em valor negativo");
 		}
 
-		partProduct.setStockQuantity(integervalue);
+		partProduct.getEstoque().setQtd(integervalue);
 
 	}
 

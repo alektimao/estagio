@@ -2,22 +2,22 @@ package br.com.maplebearsystem.model.compositeid;
 
 import java.io.Serializable;
 
-public class FornecedorProdutoID implements Serializable {
+public class FornecedorProductID implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long produto;
 	private Long fornecedor;
 
-	public FornecedorProdutoID() {
+	public FornecedorProductID() {
 		super();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj instanceof FornecedorProdutoID) {
-			FornecedorProdutoID objIDclass = (FornecedorProdutoID) obj;
+		if (obj instanceof FornecedorProductID) {
+			FornecedorProductID objIDclass = (FornecedorProductID) obj;
 
 			return objIDclass.getProduto().longValue() == produto.longValue()
 					&& objIDclass.getFornecedor().longValue() == fornecedor.longValue();

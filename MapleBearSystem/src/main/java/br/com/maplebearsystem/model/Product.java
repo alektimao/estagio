@@ -3,10 +3,12 @@ package br.com.maplebearsystem.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  * Entity implementation class for Entity: PartProduct
@@ -24,11 +26,15 @@ public class Product implements Serializable {
 	private String otherNumbers;
 	private String partNumber;
 	private String shortDescription;
-	private Integer stockQuantity;
+	//colocar relaço e adicionar o cascade=cascadeAll
+//	private Integer stockQuantity;
+	@OneToOne(cascade = CascadeType.ALL)
+	private Estoque estoque;
 	private BigDecimal unitPrice;
 
 	public Product() {
 		super();
+		this.estoque = new Estoque();
 	}
 
 	public String getExtendedDescription() {
@@ -51,9 +57,9 @@ public class Product implements Serializable {
 		return this.shortDescription;
 	}
 
-	public Integer getStockQuantity() {
-		return this.stockQuantity;
-	}
+//	public Integer getStockQuantity() {
+//		return this.stockQuantity;
+//	}
 
 	public BigDecimal getUnitPrice() {
 		return this.unitPrice;
@@ -86,12 +92,20 @@ public class Product implements Serializable {
 		this.shortDescription = shortDescription;
 	}
 
-	public void setStockQuantity(Integer stockQuantity) {
-		this.stockQuantity = stockQuantity;
-	}
+//	public void setStockQuantity(Integer stockQuantity) {
+//		this.stockQuantity = stockQuantity;
+//	}
 
 	public void setUnitPrice(BigDecimal unitPrice) {
 		this.unitPrice = unitPrice;
+	}
+
+	public Estoque getEstoque() {
+		return estoque;
+	}
+
+	public void setEstoque(Estoque estoque) {
+		this.estoque = estoque;
 	}
 
 }

@@ -5,10 +5,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="rootPane" spacing="30.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLProductSaidaFormController">
+<VBox fx:id="rootPane" prefHeight="158.0" prefWidth="406.0" spacing="30.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLProductSaidaFormController">
    <children>
       <HBox spacing="15.0">
          <children>
+            <VBox spacing="10.0">
+               <children>
+                  <Label text="Cod. Interno" />
+                  <JFXTextField fx:id="tfieldInternalCod" prefWidth="100.0" />
+               </children>
+            </VBox>
             <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Descriçao do  Produto" />
@@ -19,20 +25,25 @@
       </HBox>
       <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
          <children>
-            <VBox spacing="10.0">
-               <children>
-                  <Label text="Cod. Interno" />
-                  <JFXTextField fx:id="tfieldInternalCod" prefWidth="100.0" />
-               </children>
-            </VBox>
             <VBox layoutX="255.0" layoutY="10.0" spacing="10.0">
                <children>
                   <Label text="Quantidade" />
                   <JFXTextField fx:id="tfieldUnitQuant" prefWidth="150.0" />
                </children>
             </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" spacing="10.0">
+               <children>
+                  <Label text="Estoque Max" />
+                  <JFXTextField fx:id="tfieldMaxQtd" prefWidth="150.0" />
+               </children>
+            </VBox>
+            <VBox layoutX="175.0" layoutY="10.0" spacing="10.0">
+               <children>
+                  <Label text="Estoque Min." />
+                  <JFXTextField fx:id="tfieldMinQtd" prefWidth="150.0" />
+               </children>
+            </VBox>
          </children>
       </HBox>
-      <HBox spacing="15.0" VBox.vgrow="ALWAYS" />
    </children>
 </VBox>

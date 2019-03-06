@@ -50,7 +50,6 @@ public class FXMLSaidaManagerController implements Initializable, FXMLDefaultCon
 					.<FXMLSaidaRegistrationController>getController();
 			SaidaRegistrationController.setSourceFXMLController(this);
 			SaidaRegistrationController.setData(resultado);
-			SaidaRegistrationController.switchToSaidaMode();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -5,32 +5,34 @@ import br.com.maplebearsystem.model.Product;
 public class ProdutoAlterado {
 
 	private Product produto;
-	private int qtd;
 	
 	public Product getProduto() {
 		return produto;
 	}
 
 	public int getQtd() {
-		return qtd;
+		return produto.getEstoque().getQtd();
 	}
 
 	public void setProduto(Product produto) {
 		this.produto = produto;
 	}
 
-	public void setQtd(int qtd) {
-		this.qtd = qtd;
-	}
-
 	public ProdutoAlterado() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ProdutoAlterado(Product produto, int qtd) {
+	public ProdutoAlterado(Product produto, int qtd, int max, int min) {
 		super();
 		this.produto = produto;
-		this.qtd = qtd;
+	}
+
+	public int getMax() {
+		return this.produto.getEstoque().getMax();
+	}
+
+	public int getMin() {
+		return this.produto.getEstoque().getMin();
 	}
 
 	public Long getId()
@@ -55,7 +57,7 @@ public class ProdutoAlterado {
 
 	public Integer getStockQuantity() {
 		try {
-			return produto.getStockQuantity();
+			return produto.getEstoque().getQtd();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

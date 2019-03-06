@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import br.com.maplebearsystem.controller.EstoqueController;
+import br.com.maplebearsystem.controller.ProductController;
+import br.com.maplebearsystem.dao.ProductDAO;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.viewmodel.ProdutoAlterado;
@@ -40,16 +43,27 @@ public class FXMLSaidaRegistrationController implements Initializable, FXMLDefau
 
 	@FXML
 	private TableColumn<ProdutoAlterado, String> tviewColPartUnitQuantM;
+	
+	@FXML
+	private TableColumn<ProdutoAlterado, String> tviewColPartUnitQuantMax;
 
 	@FXML
 	private VBox pnButtons;
 
 	@FXML
 	private HBox pnEditorMode;
-	
-	private FXMLDefaultControllerInterface sourceController;
 
+	@FXML
+	private VBox pnSaidaForm;
+	@FXML
+	private FXMLProductSaidaFormController pnSaidaFormController;
+
+	private FXMLDefaultControllerInterface sourceController;
+	private ProdutoAlterado tempproduct;
+	private List<ProdutoAlterado> lista;
+	ProductController modelController;
 	private void initUI() {
+		modelController = new ProductController();
 		initTableViews();
 	}
 
@@ -57,8 +71,9 @@ public class FXMLSaidaRegistrationController implements Initializable, FXMLDefau
 
 		tviewColID.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado, Long>("id"));
 		tviewColProductDescription.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado, String>("shortDescription"));
-		tviewColPartUnitQuant.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado, String>("stockQuantity"));
-		tviewColPartUnitQuantM.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado,String>("qtd"));
+		tviewColPartUnitQuant.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado, String>("qtd"));
+		tviewColPartUnitQuantM.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado, String>("max"));
+		tviewColPartUnitQuantMax.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado, String>("min"));
 	}
 
 	@FXML
@@ -66,6 +81,8 @@ public class FXMLSaidaRegistrationController implements Initializable, FXMLDefau
 
 	@FXML
 	private JFXButton btnGoBack;
+	@FXML
+	private JFXButton btnDeletar;
 
 	@FXML
 	void actGoBack(ActionEvent event) {
@@ -79,7 +96,45 @@ public class FXMLSaidaRegistrationController implements Initializable, FXMLDefau
 
 	@FXML
 	void actSPNew(ActionEvent event) {
+		List<Product> items = new ArrayList<Product>();
+		for (ProdutoAlterado p : tviewSearch.getItems()) {
+			items.add(p.getProduto());
+		}
 
+		new ProductDAO().save(items);
+	}
+	
+	@FXML
+	void actSPDelete(ActionEvent event) {
+//		List<Product> items = new ArrayList<Product>();
+//
+//		for (ProdutoAlterado p : tviewSearch.getItems()) {
+//			p.getProduto().setStockQuantity(new Integer(p.getProduto().getStockQuantity().intValue() - p.getQtd()));
+//			//items.add(p.getProduto());
+//			estoqueController.deleteEstoque();
+//		}
+
+	}
+
+	@FXML
+	void actTableviewSelectItem() {
+		try {
+
+			// checar se tem valor
+			if (tempproduct != null) {
+				int value = Integer.parseInt(pnSaidaFormController.getTfieldUnitQuant().getText());
+				tempproduct.getProduto().getEstoque().setQtd(value);
+			}
+
+			tempproduct = tviewSearch.getSelectionModel().getSelectedItem();
+
+			pnSaidaFormController.loadData(tempproduct);
+
+			tviewSearch.refresh();
+			// popular
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -118,29 +173,33 @@ public class FXMLSaidaRegistrationController implements Initializable, FXMLDefau
 		initUI();
 	}
 
-	public void setData(List<Product> resultado) {
+	public void setData(List<Product> dado) {
 		// TODO Auto-generated method stub
-		ObservableList<ProdutoAlterado> modelo;
-		
+
 		List<ProdutoAlterado> lista = new ArrayList<ProdutoAlterado>();
-		
-		for (Product product : resultado) {
-			lista.add(new ProdutoAlterado(product,0));
+
+		for (Product product : dado) {
+			lista.add(new ProdutoAlterado(product, 0,0,0));
 		}
 
-		modelo = FXCollections.observableArrayList(lista);
+		this.lista = lista;
 
-		tviewSearch.setItems(null);
-		tviewSearch.setItems(modelo);
-	}
-
-	public void switchToSaidaMode() {
-		btnNew.setText("Retirar Produto(s)");
+		recarregarTabela(lista);
 	}
 
 	public VBox getRootPane() {
 		// TODO Auto-generated method stub
 		return this.rootPane;
+	}
+
+	private void recarregarTabela(List<ProdutoAlterado> dado) {
+
+		ObservableList<ProdutoAlterado> modelo;
+
+		modelo = FXCollections.observableArrayList(dado);
+
+		tviewSearch.setItems(null);
+		tviewSearch.setItems(modelo);
 	}
 
 }

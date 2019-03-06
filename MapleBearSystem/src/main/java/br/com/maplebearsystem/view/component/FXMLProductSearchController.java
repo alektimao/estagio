@@ -9,8 +9,10 @@ import com.jfoenix.controls.JFXTextField;
 import br.com.maplebearsystem.controller.ProductController;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
+import br.com.maplebearsystem.view.FXMLPedidoController;
 import br.com.maplebearsystem.view.FXMLProductManagerController;
 import br.com.maplebearsystem.view.FXMLSaidaManagerController;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -108,16 +110,6 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 		try {
 
 			tviewSearch.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE );
-			
-//			tviewSearch.setRowFactory(tv -> {
-//				TableRow<Product> row = new TableRow<Product>();
-//				row.setOnMouseClicked(event -> {
-//					if (event.getClickCount() == 2 && (!row.isEmpty())) {
-//						selectItem();
-//					}
-//				});
-//				return row;
-//			});
 
 			if (pnButtons.getChildren().contains(pnEditorMode))
 				pnButtons.getChildren().remove(pnEditorMode);
@@ -206,7 +198,9 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 		tviewColID.setCellValueFactory(new PropertyValueFactory<Product, Long>("id"));
 		tviewColProductDescription
 				.setCellValueFactory(new PropertyValueFactory<Product, String>("shortDescription"));
-		tviewColPartUnitQuant.setCellValueFactory(new PropertyValueFactory<Product, String>("stockQuantity"));
+		tviewColPartUnitQuant.setCellValueFactory((data)->{
+			return new SimpleStringProperty(""+data.getValue().getEstoque().getQtd());
+			});
 	}
 
 	@Override
@@ -285,6 +279,19 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 				e.printStackTrace();
 			}
 		}
+		if(sourceController instanceof FXMLPedidoController)
+		{
+			FXMLPedidoController controller = (FXMLPedidoController) sourceController;
+			try {
+				List<Product> resultado = tviewSearch.getSelectionModel().getSelectedItems();
+//				controller.abrePainelSaidaRegistration(resultado);
+				controller.receiveData(resultado, this);
+				controller.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@FXML
@@ -327,6 +334,11 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 	public void receiveData(Object data, FXMLDefaultControllerInterface sender) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public  VBox getRootPane() {
+		// TODO Auto-generated method stub
+		return rootPane;
 	}
 
 // ENDSECTION FXMLDefaultControllerInterface Implementation

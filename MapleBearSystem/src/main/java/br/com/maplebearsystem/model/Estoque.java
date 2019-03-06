@@ -20,14 +20,14 @@ public class Estoque implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@OneToOne
-	private Produto produto;
+	private Product produto;
 	private Date data;
 	private int min;
 	private int max;
 	private int qtd;
 	private int lote;
 
-	public Estoque(Long id, Produto produto, Date data, int min, int max, int qtd, int lote) {
+	public Estoque(Long id, Product produto, Date data, int min, int max, int qtd, int lote) {
 		super();
 		this.id = id;
 		this.produto = produto;
@@ -51,11 +51,11 @@ public class Estoque implements Serializable {
 		this.id = id;
 	}
 
-	public Produto getPessoa() {
+	public Product getProduct() {
 		return produto;
 	}
 
-	public void setPessoa(Produto produto) {
+	public void setProduct(Product produto) {
 		this.produto = produto;
 	}
 

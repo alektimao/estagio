@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLReceberController">
+   <center>
+      <StackPane fx:id="rootPane" BorderPane.alignment="CENTER">
+         <children>
+            <VBox fx:id="panelMain" spacing="10.0" style="-fx-background-color: white;" stylesheets="@FXMLStylesheet.css">
+               <children>
+                  <Label text="Recebimento de Produtos" textFill="#545454">
+                     <font>
+                        <Font name="System Bold Italic" size="18.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="TOP_CENTER" spacing="15.0">
+                     <children>
+                        <HBox alignment="CENTER" maxWidth="780.0" spacing="15.0" style="-fx-border-color: lightgrey;" HBox.hgrow="ALWAYS">
+                           <children>
+                              <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <JFXTextField id="tfieldName" fx:id="txtdescricao" editable="false" labelFloat="true" minWidth="275.0" prefHeight="26.0" promptText="Descriçao Pedido">
+                                       <styleClass>
+                                          <String fx:value="jfxtextfieldform" />
+                                          <String fx:value="formMaxWidth" />
+                                       </styleClass>
+                                       <FlowPane.margin>
+                                          <Insets />
+                                       </FlowPane.margin>
+                                    </JFXTextField>
+                                    <JFXDatePicker fx:id="dtdatapedido" prefWidth="164.0" promptText="Data Pedido" />
+                                    <JFXTextField id="tfieldCPFCNPJ" fx:id="txtvalortotal" editable="false" labelFloat="true" maxWidth="154.0" minWidth="99.0" prefHeight="25.0" prefWidth="154.0" promptText="Valor Total" styleClass="formMaxWidth" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
+                                 </padding>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </FlowPane>
+                              <JFXButton fx:id="btBuscarPedido" accessibleText="Ver Cadastro" buttonType="RAISED" minHeight="50.0" minWidth="70.0" ripplerFill="#282a2f" text="Buscar">
+                                 <styleClass>
+                                    <String fx:value="JFXButtonCompact" />
+                                    <String fx:value="JFXButtonDefault" />
+                                 </styleClass>
+                              </JFXButton>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <JFXTabPane style="-fx-background-color: #FAFAFA;" VBox.vgrow="ALWAYS">
+                     <tabs>
+                        <Tab closable="false" text="Requisição">
+                           <content>
+                              <HBox alignment="CENTER" spacing="15.0">
+                                 <children>
+                                    <VBox alignment="CENTER" maxWidth="1000.0" spacing="15.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <VBox spacing="10.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT">
+                                                   <children>
+                                                      <Label text="Produtos" HBox.hgrow="ALWAYS" />
+                                                      <HBox alignment="CENTER_RIGHT" spacing="30.0" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <HBox alignment="CENTER" HBox.hgrow="NEVER" />
+                                                            <HBox alignment="CENTER" HBox.hgrow="NEVER" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </HBox>
+                                                <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <TableView fx:id="tviewprodutos" prefHeight="200.0" prefWidth="200.0">
+                                                        <columns>
+                                                          <TableColumn fx:id="colproduto" prefWidth="226.0" text="Produto" />
+                                                            <TableColumn fx:id="colfornecedor" minWidth="0.0" prefWidth="160.0" text="Fornecedor" />
+                                                            <TableColumn fx:id="colqtd" text="Qtde Pedido" />
+                                                          <TableColumn fx:id="colvalor" minWidth="0.0" prefWidth="60.0" text="Valor" />
+                                                            <TableColumn fx:id="coltotal" text="Valor Total" />
+                                                            <TableColumn fx:id="coldata" minWidth="0.0" prefWidth="70.0" text="Data" />
+                                                            <TableColumn fx:id="colrecebido" prefWidth="63.0" text="Recebido" />
+                                                        </columns>
+                                                      </TableView>
+                                                      <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                                                         <children>
+                                                            <JFXButton fx:id="btReceber" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#receberpedido" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-background-color: green; -fx-text-fill: white;" text="Receber">
+                                                               <graphic>
+                                                                  <FontAwesomeIconView fill="WHITE" glyphName="CUBE" size="16" />
+                                                               </graphic>
+                                                            </JFXButton>
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <effect>
+                                                <DropShadow />
+                                             </effect>
+                                             <padding>
+                                                <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-background-color: white;">
+                                             <padding>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                             </padding>
+                                             <effect>
+                                                <DropShadow />
+                                             </effect>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </JFXTabPane>
+                  <HBox alignment="CENTER" spacing="15.0">
+                     <children>
+                        <JFXButton fx:id="btSalvar" buttonType="RAISED" layoutX="250.0" layoutY="10.0" minHeight="50.0" minWidth="80.0" ripplerFill="#282a2f" style="-fx-background-color: #1C3E54; -fx-text-fill: white;" text="Salvar" />
+                        <JFXButton fx:id="btCancelar" buttonType="RAISED" minHeight="50.0" minWidth="80.0" ripplerFill="#282a2f" style="-fx-background-color: orange; -fx-text-fill: white;" text="Cancelar" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>
