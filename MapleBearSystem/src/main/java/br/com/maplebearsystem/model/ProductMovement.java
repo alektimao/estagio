@@ -21,82 +21,97 @@ public class ProductMovement implements Serializable {
 	private Long id;
 	@ManyToOne
 //	@JoinColumn(name = "partProductID", referencedColumnName = "id")
-	private Product partProduct;
+	private Product produto;
 //	@Id
 	@ManyToOne
 //	@JoinColumn(name = "paymentID", referencedColumnName = "id")
-	private Funcionario funcionario;
+	private Requisicao pedido;
 	private Date date;
-	private Integer quantity;
-	private MovementType type;
-	private String reason;
-
+	private Integer recebido;
+	private Integer restante;
+	private String description;
+	
+	
 	public ProductMovement() {
-
+		super();
 	}
 
-	public Product getPartProduct() {
-		return partProduct;
+
+	public ProductMovement(Long id, Product produto, Requisicao pedido, Date date, Integer recebido,Integer restante,
+			String description) {
+		super();
+		this.id = id;
+		this.produto = produto;
+		this.pedido = pedido;
+		this.date = date;
+		this.recebido = recebido;
+		this.restante = restante;
+		this.description = description;
 	}
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+	public Product getProduto() {
+		return produto;
+	}
+
+
+	public Requisicao getPedido() {
+		return pedido;
+	}
+
 
 	public Date getDate() {
 		return date;
 	}
 
-	public MovementType getType() {
-		return type;
+
+	public Integer getRecebido() {
+		return recebido;
 	}
 	
-	public Integer getQuantity() {
-		return quantity;
+	public Integer getRestante() {
+		return restante;
 	}
-	
-	public Funcionario getFuncionario() {
-		return funcionario;
+
+	public String getDescription() {
+		return description;
 	}
-	
-	public String getReason() {
-		return reason;
+
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	
-	public void setPartProduct(Product partProduct) {
-		this.partProduct = partProduct;
+
+
+	public void setProduto(Product produto) {
+		this.produto = produto;
 	}
+
+
+	public void setPedido(Requisicao pedido) {
+		this.pedido = pedido;
+	}
+
 
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
-	public void setType(MovementType type) {
-		this.type = type;
+
+	public void setRecebido(Integer recebido) {
+		this.recebido = recebido;
 	}
 	
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-	
-	public void setFuncionario(Funcionario employee) {
-		this.funcionario = employee;
-	}
-	
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
-	
-	public enum MovementType {
-		INCREASE("Acréscimo"), DECREASE("Decréscimo");
-
-		String type;
-
-		MovementType(String type) {
-			this.type = type;
-		}
-
-		@Override
-		public String toString() {
-			return this.type;
-		}
-
+	public void setRestante(Integer restante) {
+		this.restante = restante;
 	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

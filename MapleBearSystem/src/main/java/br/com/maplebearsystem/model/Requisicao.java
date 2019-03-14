@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.lang.Long;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,26 +29,22 @@ public class Requisicao implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne
-	private Fornecedor fornecedor;
 	private Date requestDate;
 	private Date expectedDeliveryDate;
-	@OneToMany(mappedBy = "prodRequisicao", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "prodRequisicao",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Requisicao_Produto> requisicao_Produtos;
 	private String descricao;
+	private BigDecimal priceTotal;
 	private BigDecimal frete;
 	private boolean pedidorecebido;
 
 	public Requisicao() {
 		super();
+		requisicao_Produtos = new ArrayList<Requisicao_Produto>();
 	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public Fornecedor getFornecedor() {
-		return fornecedor;
 	}
 
 	public Date getRequestDate() {
@@ -64,11 +62,6 @@ public class Requisicao implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public void setFornecedor(Fornecedor fornecedor) {
-		this.fornecedor = fornecedor;
-	}
-
 	public void setRequestDate(Date requestDate) {
 		this.requestDate = requestDate;
 	}
@@ -103,6 +96,33 @@ public class Requisicao implements Serializable {
 
 	public void setPedidorecebido(boolean pedidorecebido) {
 		this.pedidorecebido = pedidorecebido;
+	}	
+	
+	public void addProdutoRequisicao(Requisicao_Produto requisicao_Produto) {
+		if (requisicao_Produtos.contains(requisicao_Produto))
+			return;
+		
+		requisicao_Produtos.add(requisicao_Produto);
+		requisicao_Produto.setRequisicao(this);
+		
 	}
+
+	public void removeProdutoRequisicao(Requisicao_Produto requisicao_Produto) {
+		if (!requisicao_Produtos.contains(requisicao_Produto))
+			return;
+
+		requisicao_Produtos.remove(requisicao_Produto);
+		requisicao_Produto.setRequisicao(null);
+		
+	}
+
+	public BigDecimal getPriceTotal() {
+		return priceTotal;
+	}
+
+	public void setPriceTotal(BigDecimal priceTotal) {
+		this.priceTotal = priceTotal;
+	}
+	
 
 }

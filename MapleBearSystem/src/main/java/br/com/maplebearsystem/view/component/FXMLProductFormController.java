@@ -20,18 +20,19 @@ public class FXMLProductFormController implements FXMLDefaultControllerInterface
 
 	@FXML
 	private VBox rootPane;
+
 	@FXML
 	private JFXTextField tfieldInternalCod;
+
 	@FXML
 	private JFXTextField tfieldDescription;
+
 	@FXML
 	private JFXTextField tfieldUnitQuant;
-	@FXML
-	private JFXTextField tfieldPrice;
+
 	@FXML
 	private JFXTextField tfieldPartNumber;
-	@FXML
-	private JFXTextField tfieldOtherNumbers;
+
 	@FXML
 	private JFXTextArea tareaExtendedDescription;
 
@@ -57,10 +58,8 @@ public class FXMLProductFormController implements FXMLDefaultControllerInterface
 			tfieldInternalCod.setText(partProduct.getId().toString());
 			tfieldDescription.setText(partProduct.getShortDescription());
 			tareaExtendedDescription.setText(partProduct.getExtendedDescription());
-			tfieldPrice.setText(partProduct.getUnitPrice().toString());
-			tfieldUnitQuant.setText(partProduct.getEstoque().getQtd()+"");
+			tfieldUnitQuant.setText(partProduct.getEstoque().getQtd() + "");
 			tfieldPartNumber.setText(partProduct.getPartNumber());
-			tfieldOtherNumbers.setText(partProduct.getOtherNumbers());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,16 +75,8 @@ public class FXMLProductFormController implements FXMLDefaultControllerInterface
 		return tfieldUnitQuant;
 	}
 
-	public JFXTextField getTfieldPrice() {
-		return tfieldPrice;
-	}
-
 	public JFXTextField getTfieldPartNumber() {
 		return tfieldPartNumber;
-	}
-
-	public JFXTextField getTfieldOtherNumbers() {
-		return tfieldOtherNumbers;
 	}
 
 	public JFXTextArea getTareaExtendedDescription() {
@@ -100,7 +91,7 @@ public class FXMLProductFormController implements FXMLDefaultControllerInterface
 	}
 
 	private void initTextFieldMasks() {
-		
+
 		tfieldDescription.setTextFormatter(TextFieldFormatterHelper.getTextFieldToUpperFormatter(
 				FieldValidators.RegexCharsets.CHARSET_PARTPRODUCT_DESCRIPTION.getValue(),
 				ProductConstants.MAXLEN_PARTPRODUCT_DESCRIPTION.getValue()));
@@ -113,16 +104,10 @@ public class FXMLProductFormController implements FXMLDefaultControllerInterface
 				FieldValidators.RegexCharsets.CHARSET_PARTPRODUCT_PARTNUMBER.getValue(),
 				ProductConstants.MAXLEN_PARTPRODUCT_PARTNUMBER.getValue()));
 
-		tfieldOtherNumbers.setTextFormatter(TextFieldFormatterHelper.getTextFieldToUpperFormatter(
-				FieldValidators.RegexCharsets.CHARSET_PARTPRODUCT_OTHERNUMBERS.getValue(),
-				ProductConstants.MAXLEN_PARTPRODUCT_OTHERNUMBERS.getValue()));
-
 		tfieldUnitQuant.setTextFormatter(TextFieldFormatterHelper.getTextFieldFormatter(
 				FieldValidators.RegexCharsets.CHARSET_PARTPRODUCT_STOCKQUANTITY.getValue(),
 				ProductConstants.MAXLEN_PARTPRODUCT_STOCKQUANTITY.getValue()));
 
-		tfieldPrice.setTextFormatter(TextFieldFormatterHelper
-				.getTextFieldDoubleFormatter(ProductConstants.MAXLEN_PARTPRODUCT_PRICE.getValue(), 2));
 	}
 
 	@Override

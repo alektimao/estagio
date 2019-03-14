@@ -45,9 +45,6 @@ public class FXMLBuscaPedidoController implements Initializable, FXMLDefaultCont
 	private TableColumn<Requisicao, String> tviewColProd;
 
 	@FXML
-	private TableColumn<Requisicao, String> tviewColFornecedor;
-
-	@FXML
 	private TableColumn<Requisicao, String> tviewColData;
 
 	@FXML
@@ -145,7 +142,7 @@ public class FXMLBuscaPedidoController implements Initializable, FXMLDefaultCont
 		if (sourceController instanceof FXMLReceberController) {
 			FXMLReceberController controller = (FXMLReceberController) sourceController;
 			try {
-				List<Requisicao> resultado = tviewSearch.getSelectionModel().getSelectedItems();
+				Requisicao resultado = tviewSearch.getSelectionModel().getSelectedItem();
 				controller.receiveData(resultado, this);
 				controller.closeSenderNode(this);
 			} catch (Exception e) {
@@ -256,6 +253,10 @@ public class FXMLBuscaPedidoController implements Initializable, FXMLDefaultCont
 			System.out.println(e.getMessage());
 		}
 
+	}
+
+	public VBox getRootPane() {
+		return rootPane;
 	}
 	
 //	private boolean editItem() {

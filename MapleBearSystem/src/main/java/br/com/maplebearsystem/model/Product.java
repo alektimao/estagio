@@ -107,5 +107,20 @@ public class Product implements Serializable {
 	public void setEstoque(Estoque estoque) {
 		this.estoque = estoque;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		
+		if (obj instanceof Product) {
+			Product new_name = (Product) obj;
+			if (this.id.equals(new_name.getId())) {
+				return true;
+			}
+		}
+		return super.equals(obj);
+	}
 
 }

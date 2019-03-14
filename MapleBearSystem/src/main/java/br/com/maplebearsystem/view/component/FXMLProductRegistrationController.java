@@ -64,10 +64,8 @@ public class FXMLProductRegistrationController implements Initializable, FXMLDef
 		List<Exception> errorList = modelController.saveProduct(
 				pnProductFormController.getTfieldDescription().getText(),
 				pnProductFormController.getTareaExtendedDescription().getText(),
-				pnProductFormController.getTfieldPrice().getText(),
 				pnProductFormController.getTfieldUnitQuant().getText(),
-				pnProductFormController.getTfieldPartNumber().getText(),
-				pnProductFormController.getTfieldOtherNumbers().getText());
+				pnProductFormController.getTfieldPartNumber().getText());
 
 		if (errorList.isEmpty()) {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION, "Salvo", ButtonType.OK);

@@ -30,8 +30,12 @@ public class Requisicao_Produto implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "produtoRequisicaoID", referencedColumnName = "id")
 	private Product prodRequisicao;
-	
+	@ManyToOne
+	@JoinColumn(name = "produtoFornecedorID", referencedColumnName = "id")
+	private Fornecedor prodFornecedor;
 	private Integer quantity;
+	private Integer recebido;
+	private Integer restante;
 	private BigDecimal unitPrice;
 	private BigDecimal priceTotal;
 	private boolean produtorecebido;
@@ -63,8 +67,23 @@ public class Requisicao_Produto implements Serializable {
 		this.id = id;
 	}
 
+	
+	private boolean sameAsFormer(Requisicao novo) {
+		return this.requisicao == null ? novo == null : this.requisicao.equals(novo);
+	}
+
 	public void setRequisicao(Requisicao requisicao) {
+		if (sameAsFormer(requisicao))
+			return;
+		// set new work
+		Requisicao old = this.requisicao;
 		this.requisicao = requisicao;
+		// remove from the old work
+		if (old != null)
+			old.removeProdutoRequisicao(this);
+		// set myself into new work
+		if (requisicao != null)
+			requisicao.addProdutoRequisicao(this);
 	}
 
 	public void setProdRequisicao(Product prodRequisicao) {
@@ -95,4 +114,28 @@ public class Requisicao_Produto implements Serializable {
 		this.produtorecebido = produtorecebido;
 	}
 
+	public Fornecedor getProdFornecedor() {
+		return prodFornecedor;
+	}
+
+	public void setProdFornecedor(Fornecedor prodFornecedor) {
+		this.prodFornecedor = prodFornecedor;
+	}
+
+	public Integer getRecebido() {
+		return recebido;
+	}
+
+	public Integer getRestante() {
+		return restante;
+	}
+
+	public void setRecebido(Integer recebido) {
+		this.recebido = recebido;
+	}
+
+	public void setRestante(Integer restante) {
+		this.restante = restante;
+	}
+	
 }

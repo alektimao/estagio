@@ -15,6 +15,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import br.com.maplebearsystem.controller.PedidoController;
 import br.com.maplebearsystem.main.MapleBearSystemDesktopClient;
+import br.com.maplebearsystem.model.FornecedorProduct;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.model.constants.PedidoConstants;
@@ -56,9 +57,12 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 
 	@FXML
 	private TableView<Requisicao_Produto> tviewProducts;
-
+	 @FXML
+	    private VBox vboxprodutos;
 	@FXML
 	private TableColumn<Requisicao_Produto, String> colproduto;
+	@FXML
+	private TableColumn<Requisicao_Produto, String> colfornecedor;
 
 	@FXML
 	private TableColumn<Requisicao_Produto, String> colqtd;
@@ -89,6 +93,12 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 
 	@FXML
 	private JFXTextField txtvalor;
+
+	@FXML
+	private JFXButton btsalvar;
+
+	@FXML
+	private JFXButton btautorizar;
 
 	private PedidoController controlerPedido;
 
@@ -134,7 +144,9 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 	@FXML
 	void salvarpedido(ActionEvent event) {
 		if (save()) {
-
+			tviewProducts.setDisable(true);
+			btsalvar.setDisable(true);
+			vboxprodutos.setDisable(true);
 		}
 	}
 
@@ -182,7 +194,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 		}
 		if (sender instanceof FXMLProductSearchController) {
 			if (data instanceof List<?>) {
-				List<Product> resultado = (List<Product>) data;
+				List<FornecedorProduct> resultado = (List<FornecedorProduct>) data;
 				controlerPedido.validateListaProduto(resultado);
 				loadTableView();
 			}
@@ -222,6 +234,9 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 		colproduto.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getProdRequisicao().getShortDescription());
 		});
+		colfornecedor.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getProdFornecedor().getNomefantasia());
+		});
 		colqtd.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getProdRequisicao().getEstoque().getQtd());
 		});
@@ -252,6 +267,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 				pedido.setPriceTotal(BigDecimal.ZERO);
 			}
 			tviewProducts.getItems().set(row, pedido);
+			calculartotal();
 		});
 		colvalor.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getUnitPrice());
@@ -300,7 +316,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 		for (Requisicao_Produto rp : produtos) {
 			if (rp.getPriceTotal() != null) {
 				int test = rp.getPriceTotal().toBigInteger().intValue();
-				valor.add(rp.getPriceTotal());
+				valor = valor.add(rp.getPriceTotal());
 			}
 		}
 		txtvalor.setText(valor.setScale(2, RoundingMode.HALF_UP).toString());
@@ -322,4 +338,13 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 				FieldValidators.RegexCharsets.CHARSET_DESCRIPTION.getValue(), PedidoConstants.MAXLEN_DESCRIPTION));
 	}
 
+	@FXML
+	void autorizarpedido(ActionEvent event) {
+
+	}
+
+	@FXML
+	void buscarpedido(ActionEvent event) {
+
+	}
 }

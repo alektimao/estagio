@@ -6,10 +6,13 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.persistence.EntityExistsException;
 
 import br.com.maplebearsystem.dao.RequisicaoDAO;
+import br.com.maplebearsystem.dao.Requisicao_ProductDAO;
+import br.com.maplebearsystem.model.FornecedorProduct;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.Requisicao;
 import br.com.maplebearsystem.model.Requisicao_Produto;
@@ -138,7 +141,7 @@ public class PedidoController {
 
 		bigdecimalvalue = bigdecimalvalue.setScale(2, RoundingMode.HALF_UP);
 
-		// requisicao.set.setInitialValue(bigdecimalvalue);
+		requisicao.setPriceTotal(bigdecimalvalue);
 
 	}
 // ENDSECTION Requisicao Methods
@@ -156,28 +159,41 @@ public class PedidoController {
 		return dao.listPedidos(filter);
 	}
 
-	public void validateListaProduto(List<Product> data) {
+	public void validateListaProduto(List<FornecedorProduct> data) {
 
 		List<Requisicao_Produto> lrp = new ArrayList<Requisicao_Produto>();
 		// fazer dentro da controler
-		for (Product product : data) {
+		for (FornecedorProduct product : data) {
 			Requisicao_Produto p = new Requisicao_Produto();
-			p.setProdRequisicao(product);
+			p.setProdRequisicao(product.getProduct());
+			p.setProdFornecedor(product.getFornecedor());
 			p.setQuantity(0);
 			p.setUnitPrice(BigDecimal.ZERO);
 			lrp.add(p);
 		}
 
 		if (requisicao.getRequestedParts() == null) {
-			requisicao.setRequestedParts(lrp);
+			for (Requisicao_Produto requisicao_Produto : lrp) {
+				requisicao.addProdutoRequisicao(requisicao_Produto);
+			}
 		} else {
-			List<Requisicao_Produto> produtosexiste = requisicao.getRequestedParts();
-			for (Requisicao_Produto produto : lrp) {
-				if (!produtosexiste.contains(produto)) {
-					produtosexiste.add(produto);
+ 
+			for (FornecedorProduct produto : data) {
+				Requisicao_Produto query;
+				try {
+					query = requisicao.getRequestedParts().stream()
+							.filter((Requisicao_Produto produtorequisitado) -> produtorequisitado.getProdRequisicao()
+									.equals(produto.getProduct()))
+							.findFirst().get();
+				} catch (NoSuchElementException e) {
+					Requisicao_Produto p = new Requisicao_Produto();
+					p.setProdRequisicao(produto.getProduct());
+					p.setProdFornecedor(produto.getFornecedor());
+					p.setQuantity(0);
+					p.setUnitPrice(BigDecimal.ZERO);
+					requisicao.addProdutoRequisicao(p);
 				}
 			}
-			requisicao.setRequestedParts(produtosexiste);
 		}
 		// controlerPedido.getRequisicao().getRequestedParts().addAll(lrp);
 	}
@@ -188,6 +204,12 @@ public class PedidoController {
 
 		try {
 			validateFrete(frete);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateValorTotal(valor);
 		} catch (Exception e) {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
@@ -229,7 +251,7 @@ public class PedidoController {
 
 	private void validateListaProdutos(List<Requisicao_Produto> produtos) throws Exception {
 		if (produtos.isEmpty()) {
-			throw new Exception("Data do Pedido não selecionada");
+			throw new Exception("Pedido Sem Produtos");
 		}
 		requisicao.setRequestedParts(produtos);
 	}
@@ -266,7 +288,7 @@ public class PedidoController {
 		String textM = frete;
 
 		if (frete == null || frete.equals("")) {
-			throw new Exception("Defina o Valor Total do peidido!");
+			throw new Exception("Defina o Valor Total do Frete!");
 		}
 
 		textM = textM.trim();
@@ -291,11 +313,16 @@ public class PedidoController {
 		requisicao.getRequestedParts().remove(product);
 	}
 
-//	public List<Requisicao> getRequisicaos(Product produto) {
-//		RequisicaoDAO dao = new RequisicaoDAO();
-//
-//		return dao.listRequisicao(produto);
-//	}
+	public void editarRequisicao(Requisicao requisicao2) {
+		this.requisicao = requisicao2;
+		
+	}
+
+	public List<Requisicao_Produto> BuscaProdutosPedidos(Long id) {
+		Requisicao_ProductDAO dao = new Requisicao_ProductDAO();
+
+		return dao.listProdutosPedidos(id);
+	}
 
 // ENDSECTION Controller to DAO Methods
 

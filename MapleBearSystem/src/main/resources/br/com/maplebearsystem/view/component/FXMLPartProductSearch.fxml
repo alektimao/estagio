@@ -38,9 +38,9 @@
       </HBox>
       <TableView fx:id="tviewSearch" prefHeight="200.0" VBox.vgrow="ALWAYS">
          <columns>
-            <TableColumn fx:id="tviewColID" editable="false" maxWidth="-1.0" minWidth="50.0" prefWidth="60.0" text="ID" />
-            <TableColumn fx:id="tviewColPartProductDescription" editable="false" maxWidth="1.7976931348623157E308" minWidth="400.0" prefWidth="-1.0" text="Descrição" />
-         	<TableColumn fx:id="tviewColPartUnitQuant" maxWidth="150.0" minWidth="150.0" prefWidth="-1.0" resizable="false" text="Qtde estoque" />
+            <TableColumn fx:id="tviewColID" editable="false" maxWidth="-1.0" minWidth="200.0" prefWidth="0.0" resizable="false" text="Fornecedor" />
+            <TableColumn fx:id="tviewColPartProductDescription" editable="false" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="0.0" resizable="false" text="Descrição" />
+         	<TableColumn fx:id="tviewColPartUnitQuant" editable="false" maxWidth="150.0" minWidth="80.0" prefWidth="110.0" resizable="false" text="Qtde estoque" />
          </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -7,7 +7,9 @@ import java.util.List;
 
 import javax.persistence.EntityExistsException;
 
+import br.com.maplebearsystem.dao.FornecedorProductDAO;
 import br.com.maplebearsystem.dao.ProductDAO;
+import br.com.maplebearsystem.model.FornecedorProduct;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.validators.FieldValidators;
 
@@ -40,8 +42,8 @@ public class ProductController {
 
 	}
 
-	public List<Exception> saveProduct(String description, String extendedDescription, String price,
-			String unitQuant, String partNmber, String otherNumbers) {
+	public List<Exception> saveProduct(String description, String extendedDescription,
+			String unitQuant, String partNmber) {
 		List<Exception> errorList = new ArrayList<Exception>();
 
 		if (partProduct == null) {
@@ -55,15 +57,7 @@ public class ProductController {
 			errorList.add(e);
 			System.out.println("Info:" + e.getMessage());
 		}
-
-		try {
-			setProductUnitPrice(price);
-		} catch (Exception e) {
-			// TODO log user input exception
-			errorList.add(e);
-			System.out.println("Info:" + e.getMessage());
-		}
-
+		
 		try {
 			setProductExtendedDescription(extendedDescription);
 		} catch (Exception e) {
@@ -79,15 +73,7 @@ public class ProductController {
 			errorList.add(e);
 			System.out.println("Info:" + e.getMessage());
 		}
-
-		try {
-			setProductOtherNumbers(otherNumbers);
-		} catch (Exception e) {
-			// TODO log user input exception
-			errorList.add(e);
-			System.out.println("Info:" + e.getMessage());
-		}
-
+		
 		try {
 			setProductStockQuantity(unitQuant);
 		} catch (Exception e) {
@@ -264,6 +250,17 @@ public class ProductController {
 
 // SECTION Controller to DAO Methods
 
+	public List<FornecedorProduct> getFornecedorProducts() {
+		FornecedorProductDAO dao = new FornecedorProductDAO();
+
+		return dao.listAllProduct();
+	}
+
+	public List<FornecedorProduct> getFornecedorProducts(String filter) {
+		FornecedorProductDAO dao = new FornecedorProductDAO();
+
+		return dao.listProduct(filter);
+	}
 	public List<Product> getProducts() {
 		ProductDAO dao = new ProductDAO();
 

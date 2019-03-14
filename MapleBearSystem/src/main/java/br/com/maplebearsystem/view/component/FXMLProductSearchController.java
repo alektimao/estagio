@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
 import br.com.maplebearsystem.controller.ProductController;
+import br.com.maplebearsystem.model.FornecedorProduct;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.FXMLPedidoController;
@@ -36,15 +37,15 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 	@FXML
 	private JFXButton btnSearch;
 	@FXML
-	private TableView<Product> tviewSearch;
+	private TableView<FornecedorProduct> tviewSearch;
 	@FXML
-	private TableColumn<Product, Long> tviewColID;
+	private TableColumn<FornecedorProduct, String> tviewColID;
 	@FXML
-	private TableColumn<Product, String> tviewColProductDescription;
+	private TableColumn<FornecedorProduct, String> tviewColProductDescription;
 	@FXML
-	private TableColumn<Product, String> tviewColProductPrice;
+	private TableColumn<FornecedorProduct, String> tviewColProductPrice;
 	@FXML
-	private TableColumn<Product, String> tviewColPartUnitQuant;
+	private TableColumn<FornecedorProduct, String> tviewColPartUnitQuant;
 	@FXML
 	private VBox pnButtons;
 	@FXML
@@ -67,6 +68,7 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 	private FXMLDefaultControllerInterface sourceController;
 	
 	private ProductController modelController;
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -94,7 +96,7 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 		if (sourceController instanceof FXMLProductManagerController) {
 			try {
 				((FXMLProductManagerController) sourceController)
-						.editProduct(tviewSearch.getSelectionModel().getSelectedItem());
+						.editProduct(tviewSearch.getSelectionModel().getSelectedItem().getProduct());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -123,11 +125,11 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 		}
 
 	}
-
+	
 	public void switchToEditorMode() {
 		try {
 			tviewSearch.setRowFactory(tv -> {
-				TableRow<Product> row = new TableRow<Product>();
+				TableRow<FornecedorProduct> row = new TableRow<FornecedorProduct>();
 				row.setOnMouseClicked(event -> {
 					if (event.getClickCount() == 2 && (!row.isEmpty())) {
 						editItem();
@@ -155,13 +157,21 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 
 	private void loadTableView(String filter) {
 
-		ObservableList<Product> modelo;
+//		ObservableList<Product> modelo;
+//
+//		if (filter.equals("")) {
+//			modelo = FXCollections.observableArrayList(modelController.getProducts());
+//		} else {
+//
+//			modelo = FXCollections.observableArrayList(modelController.getProducts(filter));
+//		}
+		ObservableList<FornecedorProduct> modelo;
 
 		if (filter.equals("")) {
-			modelo = FXCollections.observableArrayList(modelController.getProducts());
+			modelo = FXCollections.observableArrayList(modelController.getFornecedorProducts());
 		} else {
 
-			modelo = FXCollections.observableArrayList(modelController.getProducts(filter));
+			modelo = FXCollections.observableArrayList(modelController.getFornecedorProducts(filter));
 		}
 
 		tviewSearch.setItems(modelo);
@@ -195,11 +205,14 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 
 	private void initTableViews() {
 		
-		tviewColID.setCellValueFactory(new PropertyValueFactory<Product, Long>("id"));
-		tviewColProductDescription
-				.setCellValueFactory(new PropertyValueFactory<Product, String>("shortDescription"));
+		tviewColID.setCellValueFactory((data)->{
+			return new SimpleStringProperty(""+data.getValue().getFornecedor().getNomefantasia());
+			});
+		tviewColProductDescription.setCellValueFactory((data)->{
+			return new SimpleStringProperty(""+data.getValue().getProduct().getShortDescription());
+			});
 		tviewColPartUnitQuant.setCellValueFactory((data)->{
-			return new SimpleStringProperty(""+data.getValue().getEstoque().getQtd());
+			return new SimpleStringProperty(""+data.getValue().getProduct().getEstoque().getQtd());
 			});
 	}
 
@@ -209,8 +222,8 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 
 	}
 
-	public void loadResultList(List<Product> list) {
-		ObservableList<Product> modelo;
+	public void loadResultList(List<FornecedorProduct> list) {
+		ObservableList<FornecedorProduct> modelo;
 
 		modelo = FXCollections.observableArrayList(list);
 
@@ -239,7 +252,7 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 	@FXML
 	void actSPDelete(ActionEvent event) {
 		try {
-			modelController.setupEditProduct(tviewSearch.getSelectionModel().getSelectedItem());
+			modelController.setupEditProduct(tviewSearch.getSelectionModel().getSelectedItem().getProduct());
 			if (delete()) {
 				loadTableView(tfieldSearch.getText());
 			}
@@ -272,8 +285,8 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 			FXMLSaidaManagerController controller = (FXMLSaidaManagerController) sourceController;
 			
 			try {
-				List<Product> resultado = tviewSearch.getSelectionModel().getSelectedItems();
-				controller.abrePainelSaidaRegistration(resultado);
+				List<FornecedorProduct> resultado = tviewSearch.getSelectionModel().getSelectedItems();
+				//controller.abrePainelSaidaRegistration(resultado);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -283,7 +296,7 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 		{
 			FXMLPedidoController controller = (FXMLPedidoController) sourceController;
 			try {
-				List<Product> resultado = tviewSearch.getSelectionModel().getSelectedItems();
+				List<FornecedorProduct> resultado = tviewSearch.getSelectionModel().getSelectedItems();
 //				controller.abrePainelSaidaRegistration(resultado);
 				controller.receiveData(resultado, this);
 				controller.closeSenderNode(this);

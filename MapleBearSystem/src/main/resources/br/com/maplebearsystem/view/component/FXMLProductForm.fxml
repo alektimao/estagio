@@ -18,41 +18,33 @@
             </VBox>
             <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label text="Descriçao do Parte / Produto" />
-                  <JFXTextField fx:id="tfieldDescription" prefWidth="245.0" promptText="Descrição simplificada da Parte / Produto" />
+                  <Label text="Descriçao do Produto" />
+                  <JFXTextField fx:id="tfieldDescription" prefWidth="245.0" promptText="Descrição simplificada do Produto" />
                </children>
             </VBox>
          </children>
       </HBox>
       <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
          <children>
-            <VBox HBox.hgrow="ALWAYS" />
             <VBox layoutX="255.0" layoutY="10.0" spacing="10.0">
                <children>
                   <Label text="Quantidade" />
-                  <JFXTextField fx:id="tfieldUnitQuant" prefWidth="150.0" />
+                  <JFXTextField fx:id="tfieldUnitQuant" prefWidth="100.0" />
                </children>
             </VBox>
             <VBox spacing="10.0">
                <children>
-                  <Label text="Preço Sugerido R$:" />
-                  <JFXTextField fx:id="tfieldPrice" prefWidth="150.0" promptText="Preço base" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
-         <children>
-            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label text="PartNumber / Modelo" />
-                  <JFXTextField fx:id="tfieldPartNumber" prefWidth="245.0" />
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label text="Outros números" />
-                  <JFXTextField fx:id="tfieldOtherNumbers" prefWidth="245.0" />
+                  <HBox spacing="15.0">
+                     <children>
+                        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Modelo/Tipo" />
+                              <JFXTextField fx:id="tfieldPartNumber" prefWidth="245.0" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="10.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>
