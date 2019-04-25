@@ -1,15 +1,13 @@
 package br.com.maplebearsystem.main;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-//import br.com.maplebearsystem.controller.ProgramParameterController;
-import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
-import br.com.maplebearsystem.view.util.FXUISetup;
-
+import br.com.maplebearsystem.ui.util.FXResourcePath;
+import br.com.maplebearsystem.ui.util.FXUISetup;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,26 +15,34 @@ import javafx.stage.Stage;
 public class MapleBearSystemDesktopClient extends Application {
 
 	private static Stage mainStage;
-	private static String programTitle = "Dynamic Work Orders System";
+	private static String programTitle = "MapleBear System";
 
 	private void initProgramStage(Stage primaryStage, boolean doInitConfig) {
-		Parent root;
+		Parent root = null;
 
 		try {
 
 			if (!doInitConfig) {
-				root = FXMLLoader.load(MapleBearSystemDesktopClient.class.getResource(FXMLResourcePathsEnum.FXML_LOGIN.getPath()),
-						ResourceBundle.getBundle("com.dwor.messages.messages"));
-			}else {
-				//execute Program Pameterization
-				root = FXMLLoader.load(MapleBearSystemDesktopClient.class.getResource(FXMLResourcePathsEnum.FXML_DWOR_INITSETUP.getPath()),
-						ResourceBundle.getBundle("com.dwor.messages.messages"));
+//				root = FXMLLoader.load(DworDesktopClient.class.getResource(FXResourcePath.FXML_LOGIN.getPath()),
+//						ResourceBundle.getBundle("br.com.maplebearsystem.messages.messages"));
+				root = FXUISetup.getInstance().loadFXMLAsParent(FXResourcePath.FXML_MAPLEBEARSYSTEM_HOME);
+				// FXMLLoader.load(FXResourcePath.FXML_DWOR_HOME,
+				// ResourceBundle.getBundle("br.com.maplebearsystem.messages.messages"));
+			} else {
+				// execute Program Parameterization
+//				FXMLLoader fxmlLoader = new FXMLLoader();
+//				fxmlLoader.setLocation(FXResourcePath.FXML_DWOR_INITSETUP);
+//
+//				fxmlLoader.load();
+//				root = fxmlLoader.<FXMLInitSetupController>getController().getRootPane();
 			}
+
 			Scene scene = FXUISetup.getInstance().createSceneWithParentMinimalSize(root);
 
 			mainStage = primaryStage;
-
-			FXUISetup.getInstance().setStageIcon(mainStage, FXMLResourcePathsEnum.DWOR_ICON.getPath());
+			
+			//faz um icone carai
+			//FXUISetup.getInstance().setStageIcon(mainStage, FXResourcePath.DWOR_ICON);
 
 			mainStage.setTitle(programTitle);
 
@@ -55,22 +61,26 @@ public class MapleBearSystemDesktopClient extends Application {
 			});
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Failed to Start UI", e);
 		}
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) {
-		
-//		
+
 //		boolean flag = ProgramParameterController.getInstance().isProgramParameterizationNeeded();
-//		
-//		initProgramStage(primaryStage,flag);
-		initProgramStage(primaryStage,false);
+//
+//		if (!flag)
+//			ProgramParameterController.getInstance()
+//					.setLoggedUser(ProgramParameterController.getInstance().getProgramParameter().getAdministrator());
+//		initProgramStage(primaryStage, flag);
+		initProgramStage(primaryStage, false);
+
 	}
 
 	public static void main(String[] args) {
+
+		//makeSureDatabaseHasBrazilianCitiesAndStates();
 
 		launch(args);
 
@@ -83,8 +93,29 @@ public class MapleBearSystemDesktopClient extends Application {
 
 		return programTitle;
 	}
-	
+
 	public static Stage getStage() {
 		return mainStage;
 	}
+
+//	private static void makeSureDatabaseHasBrazilianCitiesAndStates() {
+//
+//		try {
+//			//FederationDAO dao = new FederationDAO();
+//			List<Federation> result = dao.getFederationByName("Brasil");
+//
+//			if (result.size() < 1) {
+//				throw new NoResultException();
+//			}
+//		} catch (NoResultException e) {
+//			//BrazilianStatesAndCitiesImporter.main(null);
+//
+//		} catch (Exception e) {
+//
+//			e.printStackTrace();
+//			Platform.exit();
+//			System.exit(0);
+//		}
+//
+//	}
 }

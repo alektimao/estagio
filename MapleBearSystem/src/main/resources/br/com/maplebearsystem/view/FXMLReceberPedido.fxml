@@ -65,7 +65,7 @@
             </VBox>
             <VBox alignment="CENTER" spacing="5.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" minWidth="800.0" spacing="15.0" style="-fx-border-color: lightgrey; -fx-background-color: ff4040;">
+                  <HBox alignment="CENTER_LEFT" minWidth="800.0" spacing="15.0" style="-fx-border-color: lightgrey; -fx-background-color: -fxtaboption;">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>

@@ -26,8 +26,9 @@ public class MapleBearSystemSaida extends Application {
 			//root = FXMLLoader.load(MapleBearSystemSaida.class.getResource(FXMLResourcePathsEnum.FXML_MAPLE_PRODUCTMANAGER.getPath()));
 			//root = FXMLLoader.load(MapleBearSystemSaida.class.getResource(FXMLResourcePathsEnum.FXML_MAPLE_SAIDA_MANAGER.getPath()));
 			//root = FXMLLoader.load(MapleBearSystemSaida.class.getResource(FXMLResourcePathsEnum.FXML_MAPLE_PEDIDO_MANAGER.getPath()));
-			//root = FXMLLoader.load(MapleBearSystemSaida.class.getResource(FXMLResourcePathsEnum.FXML_MAPLE_PEDIDO_BUSCA.getPath()));
-			root = FXMLLoader.load(MapleBearSystemSaida.class.getResource(FXMLResourcePathsEnum.FXML_MAPLE_RECEBER_MANAGER.getPath()));
+			//root = FXMLLoader.load(MapleBearSystemSaida.class.getResource(FXMLResourcePathsEnum.FXML_MAPLE_RECEBER_MANAGER.getPath()));
+			//root = FXMLLoader.load(MapleBearSystemSaida.class.getResource(FXMLResourcePathsEnum.FXML_MAPLE_RETIRAR_MANAGER.getPath()));
+			root = FXMLLoader.load(MapleBearSystemSaida.class.getResource(FXMLResourcePathsEnum.FXML_MAPLE_MENU_HOME.getPath()));
 			Scene scene = FXUISetup.getInstance().createSceneWithParentMinimalSize(root);
 
 			mainStage = primaryStage;

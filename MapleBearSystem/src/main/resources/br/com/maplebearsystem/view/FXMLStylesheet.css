@@ -1,6 +1,33 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+/* Default looked-up colors */
+* {
+	-fxdefine-defaultsignaturecolor: #34495e;
+	-fxdefine-defaultsignaturecolorhover: #2c3e50;
+	
+	-fxdefine-neutralcolor: #495259;
+	-fxdefine-neutralhovercolor: #606B75;
+	
+	-fxdefine-addcolor: Green;
+	-fxdefine-addhovercolor: DarkGreen;
+	
+	-fxdefine-acceptcolor: Green;
+	-fxdefine-accepthovercolor: DarkGreen;
+	
+	-fxdefine-removecolor: #f1c40f;
+	-fxdefine-removehovercolor: #f39c12;
+	
+	-fxdefine-cautioncolor: Orange;
+	-fxdefine-cautionhovercolor: DarkOrange;
+	
+	-fxdefine-cancelcolor: Orange;
+	-fxdefine-cancelhovercolor: DarkOrange;
+	
+	-fxdefine-deletecolor: #e74c3c;
+	-fxdefine-deletehovercolor: #c0392b;
+	-fxtaboption :#0f0161;
+}
 .DWORDefaultPaneBackground{
-	-fx-background-color: white;
+	-fx-background-color: #f4fffc;
 	
 	-fx-effect: dropshadow(three-pass-box, black , 10.0, 0.0 , 0.0 , 0.0 );
 }
@@ -12,15 +39,15 @@
 
 .DWORNavigationMenu{
 	-fx-spacing: 10.0;
-	-fx-min-width: 170.0;
+	-fx-min-width: 70.0;
 }
 
 .DWORNavigationMenuButton{
 	-fx-alignment: CENTER_LEFT;
 	-fx-text-alignment: LEFT;
 	-fx-text-fill: white;
-	-fx-min-height: 40.0;
-	-fx-background-color: #34495e;
+	-fx-min-height: 25.0;
+	-fx-background-color: #0f0161;
 }
 
 .DWORStatusBar{
@@ -155,10 +182,10 @@
 }
 
 .jfx-tab-pane .headers-region {
-    -fx-background-color: ff4040;
+    -fx-background-color: -fxtaboption;
 }
 .jfx-tab-pane .tab-header-background {
-    -fx-background-color: ff4040;
+    -fx-background-color: -fxtaboption;
 }
 .jfx-tab-pane .tab-selected-line {
     -fx-stroke: ff4040;

@@ -5,6 +5,8 @@ import br.com.maplebearsystem.model.Product;
 public class ProdutoAlterado {
 
 	private Product produto;
+	private int retirar;
+	private int restante;
 	
 	public Product getProduto() {
 		return produto;
@@ -22,9 +24,28 @@ public class ProdutoAlterado {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ProdutoAlterado(Product produto, int qtd, int max, int min) {
+	
+	public int getRetirar() {
+		return retirar;
+	}
+
+	public int getRestante() {
+		return restante;
+	}
+
+	public void setRetirar(int retirar) {
+		this.retirar = retirar;
+	}
+
+	public void setRestante(int restante) {
+		this.restante = restante;
+	}
+
+	public ProdutoAlterado(Product produto, int retirar, int restante) {
 		super();
 		this.produto = produto;
+		this.restante = restante;
+		this.retirar = retirar;
 	}
 
 	public int getMax() {

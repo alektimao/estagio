@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import br.com.maplebearsystem.main.MapleBearSystemDesktopClient;
 import br.com.maplebearsystem.model.Product;
+import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.view.component.FXMLProductSearchController;
 import br.com.maplebearsystem.view.component.FXMLSaidaRegistrationController;
 import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
@@ -45,8 +46,7 @@ public class FXMLSaidaManagerController implements Initializable, FXMLDefaultCon
 		// TODO Auto-generated method stub
 		try {
 			SaidaRegistrationController = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootpane, MapleBearSystemDesktopClient.class,
-							FXMLResourcePathsEnum.FXML_MAPLE_SAIDA_REGISTRATION.getPath(), new DropShadow(), 100.00)
+					.loadFXMLIntoStackPane(rootpane, FXResourcePath.FXML_MAPLE_SAIDA_REGISTRATION, null, 0.0)
 					.<FXMLSaidaRegistrationController>getController();
 			SaidaRegistrationController.setSourceFXMLController(this);
 			SaidaRegistrationController.setData(resultado);

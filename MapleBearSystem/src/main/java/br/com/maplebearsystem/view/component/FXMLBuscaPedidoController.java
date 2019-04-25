@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
 import br.com.maplebearsystem.controller.PedidoController;
+import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.Requisicao;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.FXMLPedidoController;
@@ -83,7 +84,12 @@ public class FXMLBuscaPedidoController implements Initializable, FXMLDefaultCont
 
 	@FXML
 	void actCancel(ActionEvent event) {
-
+		try {
+			sourceController.closeSenderNode(this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -126,19 +132,19 @@ public class FXMLBuscaPedidoController implements Initializable, FXMLDefaultCont
 
 	@FXML
 	void actSelectItem(ActionEvent event) {
-//		if(sourceController instanceof FXMLPedidoController)
-//		{
-//			FXMLPedidoController controller = (FXMLPedidoController) sourceController;
-//			try {
-//				List<Product> resultado = tviewSearch.getSelectionModel().getSelectedItems();
-////				controller.abrePainelSaidaRegistration(resultado);
-//				controller.receiveData(resultado, this);
-//				controller.closeSenderNode(this);
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
+		if(sourceController instanceof FXMLPedidoController)
+		{
+			FXMLPedidoController controller = (FXMLPedidoController) sourceController;
+			try {
+				Requisicao resultado = tviewSearch.getSelectionModel().getSelectedItem();
+//				controller.abrePainelSaidaRegistration(resultado);
+				controller.receiveData(resultado, this);
+				controller.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		if (sourceController instanceof FXMLReceberController) {
 			FXMLReceberController controller = (FXMLReceberController) sourceController;
 			try {
@@ -240,7 +246,7 @@ public class FXMLBuscaPedidoController implements Initializable, FXMLDefaultCont
 
 		try {
 
-			tviewSearch.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE );
+			tviewSearch.getSelectionModel().setSelectionMode(SelectionMode.SINGLE );
 
 			if (pnButtons.getChildren().contains(pnEditorMode))
 				pnButtons.getChildren().remove(pnEditorMode);

@@ -6,6 +6,8 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import br.com.maplebearsystem.view.util.TextFieldFormatterHelper;
 
@@ -17,9 +19,12 @@ import br.com.maplebearsystem.controller.PedidoController;
 import br.com.maplebearsystem.main.MapleBearSystemDesktopClient;
 import br.com.maplebearsystem.model.FornecedorProduct;
 import br.com.maplebearsystem.model.Product;
+import br.com.maplebearsystem.model.Requisicao;
 import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.model.constants.PedidoConstants;
 import br.com.maplebearsystem.model.validators.FieldValidators;
+import br.com.maplebearsystem.ui.util.FXResourcePath;
+import br.com.maplebearsystem.view.component.FXMLBuscaPedidoController;
 import br.com.maplebearsystem.view.component.FXMLProductSearchController;
 import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
 import br.com.maplebearsystem.view.util.FXUISetup;
@@ -57,8 +62,8 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 
 	@FXML
 	private TableView<Requisicao_Produto> tviewProducts;
-	 @FXML
-	    private VBox vboxprodutos;
+	@FXML
+	private VBox vboxprodutos;
 	@FXML
 	private TableColumn<Requisicao_Produto, String> colproduto;
 	@FXML
@@ -106,8 +111,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 	void addproduto(ActionEvent event) {
 		try {
 			FXMLProductSearchController controler = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, MapleBearSystemDesktopClient.class,
-							FXMLResourcePathsEnum.FXML_MAPLE_PRODUTO_BUSCA.getPath(), new DropShadow(), 100.0)
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLE_PRODUTO_BUSCA, null, 0.0)
 					.<FXMLProductSearchController>getController();
 			controler.switchToSelectorMode();
 			controler.setSourceFXMLController(this);
@@ -147,6 +151,8 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 			tviewProducts.setDisable(true);
 			btsalvar.setDisable(true);
 			vboxprodutos.setDisable(true);
+			FXUISetup.getInstance().clearTextInputs(rootPane);
+			FXUISetup.getInstance().clearTableViews(rootPane);
 		}
 	}
 
@@ -199,7 +205,28 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 				loadTableView();
 			}
 		}
+		if (sender instanceof FXMLBuscaPedidoController) {
+			if (data instanceof Requisicao) {
+				Requisicao resultado = (Requisicao) data;
+				carregarcampos(resultado);
+				loadRequisicao(resultado);
+				loadTableView();
+			}
+		}
 
+	}
+	private void loadRequisicao(Requisicao requisicao) {
+		controlerPedido.editarRequisicao(requisicao);
+		controlerPedido.getRequisicao().setRequestedParts(controlerPedido.BuscaProdutosPedidos(requisicao.getId()));
+		loadTableView();
+	}
+
+	private void carregarcampos(Requisicao resultado) {
+		tfieldnome.setText(resultado.getDescricao());;
+		dtdiapedido.setValue(resultado.getRequestDate().toLocalDate());
+		dtdiaentrega.setValue(resultado.getExpectedDeliveryDate().toLocalDate());
+		txtfrete.setText(resultado.getFrete().toString());
+		txtvalor.setText(resultado.getPriceTotal().toString());
 	}
 
 	private void loadTableView() {
@@ -219,15 +246,15 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
 		if (sender == null) {
 			throw new UnsupportedOperationException();
-
 		}
-
 		if (sender instanceof FXMLProductSearchController) {
 			FXMLProductSearchController obj = (FXMLProductSearchController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
-
 		}
-
+		if (sender instanceof FXMLBuscaPedidoController) {
+			FXMLBuscaPedidoController obj = (FXMLBuscaPedidoController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
 	}
 
 	private void initTableViews() {
@@ -345,6 +372,17 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 
 	@FXML
 	void buscarpedido(ActionEvent event) {
+		try {
+			FXMLBuscaPedidoController controller = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_BUSCAR_PEDIDO, null, 0.0)
+					.<FXMLBuscaPedidoController>getController();
+			controller.switchToSelectorMode();
+			controller.setSourceFXMLController(this);
+
+		} catch (Exception e) {
+			Logger.getLogger(this.getClass().getName())
+					.log(Level.WARNING, "Error: failed to open FXMLEquipmentRegistration", e);
+		}
 
 	}
 }

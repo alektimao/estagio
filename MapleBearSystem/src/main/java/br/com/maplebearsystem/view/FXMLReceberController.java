@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -13,11 +14,15 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
 import br.com.maplebearsystem.controller.PedidoController;
+import br.com.maplebearsystem.controller.ProductMovementController;
 import br.com.maplebearsystem.controller.ReceberController;
+import br.com.maplebearsystem.dao.ProductMovementDAO;
+import br.com.maplebearsystem.dao.RequisicaoDAO;
 import br.com.maplebearsystem.main.MapleBearSystemDesktopClient;
 import br.com.maplebearsystem.model.ProductMovement;
 import br.com.maplebearsystem.model.Requisicao;
 import br.com.maplebearsystem.model.Requisicao_Produto;
+import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.view.component.FXMLBuscaPedidoController;
 import br.com.maplebearsystem.view.component.FXMLProductSearchController;
 import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
@@ -80,23 +85,23 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 
 	@FXML
 	private JFXButton btCancelar;
-	
+
 	@FXML
 	private JFXButton btSalvar;
 
 	private PedidoController controlerPedido;
+	private ProductMovementController controlerMovement;
 	private ReceberController controlerReceber;
+	private FXMLDefaultControllerInterface sourceController;
 
 	@Override
 	public void reset() {
 		// TODO Auto-generated method stub
 
 	}
-
 	@Override
 	public void setSourceFXMLController(FXMLDefaultControllerInterface controller) throws Exception {
-		// TODO Auto-generated method stub
-
+		this.sourceController = controller;
 	}
 
 	@Override
@@ -118,12 +123,10 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 			}
 		}
 	}
-
 	private void loadRequisicao(Requisicao requisicao) {
 		controlerPedido.editarRequisicao(requisicao);
 		controlerPedido.getRequisicao().setRequestedParts(controlerPedido.BuscaProdutosPedidos(requisicao.getId()));
 		loadTableView();
-
 	}
 
 	private void loadTableView() {
@@ -153,15 +156,14 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 		if (sender instanceof FXMLBuscaPedidoController) {
 			FXMLBuscaPedidoController obj = (FXMLBuscaPedidoController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
-
 		}
-
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		controlerPedido = new PedidoController();
 		controlerReceber = new ReceberController();
+		controlerMovement = new ProductMovementController();
 		initTables();
 
 	}
@@ -186,10 +188,8 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 		});
 		colRecebido.setCellValueFactory((data) -> {
 			if (data.getValue().getRecebido() == null) {
-				return new SimpleStringProperty("" + 0);				
-			}
-			else
-			{
+				return new SimpleStringProperty("" + 0);
+			} else {
 				return new SimpleStringProperty("" + data.getValue().getRecebido());
 			}
 		});
@@ -215,9 +215,6 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 					|| valor.toBigInteger().intValue() > receber.getRestante()) {
 				receber.setRecebido(0);
 			}
-//			if (receber.getRecebido() > 0 && receber.getRestante() > 0) {
-//				receber.setRestante(receber.getRestante() - receber.getRecebido());
-//			}
 
 			tviewprodutos.getItems().set(row, receber);
 		});
@@ -226,13 +223,19 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 	@FXML
 	void receberpedido(ActionEvent event) {
 		ObservableList<Requisicao_Produto> modelo;
-		List<Requisicao_Produto> tabela = new ArrayList<Requisicao_Produto>() ;
+		List<Requisicao_Produto> tabela = new ArrayList<Requisicao_Produto>();
 		for (Requisicao_Produto t : tviewprodutos.getItems()) {
-			if (t.getRestante() - t.getRecebido() >= 0) {
+			controlerMovement.setupNewProductMovement();
+			if (t.getRecebido() != null && t.getRestante() - t.getRecebido() >= 0 && t.getRecebido() > 0) {
 				t.setRestante(t.getRestante() - t.getRecebido());
+				controlerMovement.saveProductMovement("Entrada de Produto", controlerPedido.getRequisicao(),
+						LocalDate.now(), t.getProdRequisicao(), t.getRecebido(), t.getRestante());
 			}
+			t.setRecebido(0);
+
 			tabela.add(t);
 		}
+
 		modelo = FXCollections.observableArrayList(tabela);
 		if (tviewprodutos.getItems() != null)
 			tviewprodutos.getItems().clear();
@@ -242,20 +245,30 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 
 	@FXML
 	void salvarrecebimento(ActionEvent event) {
-
+		controlerMovement.SalvarMovimentoaoSalvarRecebimento();
+		RequisicaoDAO pedido = new RequisicaoDAO();
+		pedido.save(controlerPedido.getRequisicao());
 	}
 
 	@FXML
 	void cancelar(ActionEvent event) {
+		try {
+			sourceController.closeSenderNode(this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	}
+	public StackPane getRootPane() {
+		return rootPane;
 	}
 
 	@FXML
 	void buscarpedido(ActionEvent event) {
 		try {
 			FXMLBuscaPedidoController controler = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, MapleBearSystemDesktopClient.class,
-							FXMLResourcePathsEnum.FXML_MAPLE_PEDIDO_BUSCA.getPath(), new DropShadow(), 100.0)
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_BUSCAR_PEDIDO, null, 0.0)
 					.<FXMLBuscaPedidoController>getController();
 			controler.switchToSelectorMode();
 			controler.setSourceFXMLController(this);

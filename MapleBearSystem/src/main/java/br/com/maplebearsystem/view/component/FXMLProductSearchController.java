@@ -12,6 +12,7 @@ import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.FXMLPedidoController;
 import br.com.maplebearsystem.view.FXMLProductManagerController;
+import br.com.maplebearsystem.view.FXMLRetirarProdutoController;
 import br.com.maplebearsystem.view.FXMLSaidaManagerController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -297,7 +298,18 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 			FXMLPedidoController controller = (FXMLPedidoController) sourceController;
 			try {
 				List<FornecedorProduct> resultado = tviewSearch.getSelectionModel().getSelectedItems();
-//				controller.abrePainelSaidaRegistration(resultado);
+				controller.receiveData(resultado, this);
+				controller.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(sourceController instanceof FXMLRetirarProdutoController)
+		{
+			FXMLRetirarProdutoController controller = (FXMLRetirarProdutoController) sourceController;
+			try {
+				List<FornecedorProduct> resultado = tviewSearch.getSelectionModel().getSelectedItems();
 				controller.receiveData(resultado, this);
 				controller.closeSenderNode(this);
 			} catch (Exception e) {
@@ -329,7 +341,6 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 	@Override
 	public void setSourceFXMLController(FXMLDefaultControllerInterface controller) throws Exception {
 		sourceController = controller;
-
 	}
 
 	@Override

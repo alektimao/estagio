@@ -5,12 +5,15 @@ package br.com.maplebearsystem.view.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.naming.OperationNotSupportedException;
 
+
 import br.com.maplebearsystem.main.MapleBearSystemDesktopClient;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -37,6 +40,11 @@ import javafx.stage.StageStyle;
 public class FXUISetup {
 
 	private static FXUISetup instance;
+	private FXMLLoader fxmlLoader;
+
+	public FXUISetup() {
+		fxmlLoader = new FXMLLoader();
+	}
 
 	public static FXUISetup getInstance() {
 
@@ -109,12 +117,18 @@ public class FXUISetup {
 		}
 	}
 
-	public void setStageIcon(Stage stage, String path) {
+	public void setStageIcon(Stage stage, URL url) {
 		// Set Stage Icon
 		{
-			InputStream IconInputStream = MapleBearSystemDesktopClient.class.getResourceAsStream(path);
-			Image icon = new Image(IconInputStream);
-			stage.getIcons().add(icon);
+			InputStream IconInputStream = null;
+			try {
+				IconInputStream = url.openStream();
+				Image icon = new Image(IconInputStream);
+				stage.getIcons().add(icon);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -132,11 +146,11 @@ public class FXUISetup {
 		}
 	}
 
-	public FXMLLoader changeScene(Stage stage, Class<?> objectclass, String fxmlPath) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(objectclass.getResource(fxmlPath));
+	public FXMLLoader changeScene(Stage stage, URL fxmlURL) throws IOException {
 
-		Parent parent = fxmlLoader.load();
+		this.resetFXMLLoaderAndSetLocation(fxmlURL);
+
+		Parent parent = fxmlLoader.load(fxmlURL.openStream());
 		Scene scene = createSceneWithParentMinimalSize(parent);
 		stage.setScene(scene);
 		matchStageDimensionsWith(stage, parent);
@@ -144,105 +158,103 @@ public class FXUISetup {
 		return fxmlLoader;
 	}
 
-	public FXMLLoader changeSceneFromDWORMainStage(String fxmlPath) throws IOException {
-		return changeSceneFromDWORMain(MapleBearSystemDesktopClient.getStage(), fxmlPath);
+	@Deprecated
+	public FXMLLoader changeSceneFromDWORMainStage(URL fxmlURL) throws IOException {
+		return changeSceneFromDWORMain(MapleBearSystemDesktopClient.getStage(), fxmlURL);
 
 	}
 
-	public FXMLLoader changeSceneFromDWORMain(Stage stage, String fxmlPath) throws IOException {
-		return changeScene(stage, MapleBearSystemDesktopClient.class, fxmlPath);
+	@Deprecated
+	public FXMLLoader changeSceneFromDWORMain(Stage stage, URL fxmlURL) throws IOException {
+		return changeScene(stage, fxmlURL);
 	}
 
-	public FXMLLoader initNewScene(Stage stage, Class<?> objectclass, String fxmlPath) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(objectclass.getResource(fxmlPath));
+	public FXMLLoader initNewScene(Stage stage, URL fxmlURL) throws IOException {
 
-		Parent parent = fxmlLoader.load();
+		this.resetFXMLLoaderAndSetLocation(fxmlURL);
+
+		Parent parent = fxmlLoader.load(fxmlURL.openStream());
 		Scene scene = createSceneWithParentMinimalSize(parent);
 		stage.setScene(scene);
 		return fxmlLoader;
 	}
 
-	public FXMLLoader launchNewStage(Class<?> objectclass, String fxmlPath) throws IOException {
+	public FXMLLoader launchNewStage(URL fxmlURL) throws IOException {
 		Stage stage = new Stage();
-		FXMLLoader fxmlLoader = initNewScene(stage, objectclass, fxmlPath);
+		FXMLLoader fxmlLoader = initNewScene(stage, fxmlURL);
 		stage.show();
 		return fxmlLoader;
 	}
 
-	public FXMLLoader launchNewStageAndWait(Class<?> objectclass, String fxmlPath) throws IOException {
+	public FXMLLoader launchNewStageAndWait(URL fxmlURL) throws IOException {
 		Stage stage = new Stage();
-		FXMLLoader fxmlLoader = initNewScene(stage, objectclass, fxmlPath);
+		FXMLLoader fxmlLoader = initNewScene(stage, fxmlURL);
 		stage.showAndWait();
 		return fxmlLoader;
 	}
 
-	public FXMLLoader launchNewUndecoratedStageAndWait(Class<?> objectclass, String fxmlPath) throws IOException {
+	public FXMLLoader launchNewUndecoratedStageAndWait(URL fxmlURL) throws IOException {
 		Stage stage = new Stage();
-		FXMLLoader fxmlLoader = initNewScene(stage, objectclass, fxmlPath);
+		FXMLLoader fxmlLoader = initNewScene(stage, fxmlURL);
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.showAndWait();
 		return fxmlLoader;
 	}
 
-	public FXMLLoader loadSubscene(SubScene subScene, Class<?> objectclass, String fxmlPath) throws IOException, Exception {
+	public FXMLLoader loadSubscene(SubScene subScene, URL fxmlURL) throws IOException, Exception {
 		throw new OperationNotSupportedException("Not Implemented yet");
 	}
 
-	public FXMLLoader loadFXMLIntoPane(Pane parent, Class<?> objectclass, String fxmlPath) throws IOException {
-		FXMLLoader fxmlLoader = loadFXMLIntoPane(parent, null, objectclass, fxmlPath);
+	public FXMLLoader loadFXMLIntoPane(Pane parent, URL fxmlURL) throws IOException {
+		FXMLLoader fxmlLoader = loadFXMLIntoPane(parent, null, fxmlURL);
 
 		return fxmlLoader;
 	}
 
-	public FXMLLoader loadFXMLIntoVbox(VBox parent, Class<?> objectclass, String fxmlPath) throws IOException {
-		FXMLLoader fxmlLoader = loadFXMLIntoVbox(parent, null, objectclass, fxmlPath);
+	public FXMLLoader loadFXMLIntoVbox(VBox parent, URL fxmlURL) throws IOException {
+		FXMLLoader fxmlLoader = loadFXMLIntoVbox(parent, null, fxmlURL);
 
 		return fxmlLoader;
 	}
 
-	public FXMLLoader loadFXMLIntoPane(Pane parent, Object controller, Class<?> objectclass, String fxmlPath)
-			throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(objectclass.getResource(fxmlPath));
+	public FXMLLoader loadFXMLIntoPane(Pane parent, Object controller, URL fxmlURL) throws IOException {
+		this.resetFXMLLoaderAndSetLocation(fxmlURL);
 
 		if (controller != null)
 			fxmlLoader.setController(controller);
 
-		Node newchild = fxmlLoader.load();
+		Node newchild = fxmlLoader.load(fxmlURL.openStream());
 		parent.getChildren().clear();
 		parent.getChildren().add(newchild);
 
 		return fxmlLoader;
 	}
 
-	public FXMLLoader loadFXMLIntoVbox(VBox parent, Object controller, Class<?> objectclass, String fxmlPath)
-			throws IOException {
-		FXMLLoader fxmlLoader = loadFXMLIntoPane(parent, controller, objectclass, fxmlPath);
+	public FXMLLoader loadFXMLIntoVbox(VBox parent, Object controller, URL fxmlURL) throws IOException {
+		FXMLLoader fxmlLoader = loadFXMLIntoPane(parent, controller, fxmlURL);
 
-		VBox.setVgrow(parent.getChildren().get(0), Priority.ALWAYS);
+		VBox.setVgrow(parent.getChildren().get(parent.getChildren().size() - 1), Priority.ALWAYS);
 
 		return fxmlLoader;
 	}
-	
-	public FXMLLoader loadFXMLIntoStackPane(StackPane parent, Class<?> objectclass, String fxmlPath, Effect effect) throws IOException {
-		
-		return loadFXMLIntoStackPane(parent, objectclass, fxmlPath, effect, 0.0);
+
+	public FXMLLoader loadFXMLIntoStackPane(StackPane parent, URL fxmlURL, Effect effect) throws IOException {
+
+		return loadFXMLIntoStackPane(parent, fxmlURL, effect, 0.0);
 	}
-	
-	public FXMLLoader loadFXMLIntoStackPane(StackPane parent, Class<?> objectclass, String fxmlPath, Effect effect,
-			Double padding) throws IOException {
 
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(objectclass.getResource(fxmlPath));
+	public FXMLLoader loadFXMLIntoStackPane(StackPane parent, URL fxmlURL, Effect effect, Double padding)
+			throws IOException {
 
-		Pane newchild = fxmlLoader.load();
+		this.resetFXMLLoaderAndSetLocation(fxmlURL);
+
+		Pane newchild = fxmlLoader.load(fxmlURL.openStream());
 
 		if (padding != null && padding > 0.0 && padding < parent.getWidth() && padding < parent.getHeight()) {
 			newchild.setMaxSize(parent.getWidth() - padding, parent.getHeight() - padding);
 		}
-		
+
 		newchild.setEffect(effect);
 
 		parent.getChildren().add(newchild);
@@ -250,15 +262,20 @@ public class FXUISetup {
 		return fxmlLoader;
 	}
 
-	public FXMLLoader loadFXMLIntoNewSubSceneAndPutIntoStackPane(StackPane stackPane, Class<?> objectclass,
-			String fxmlPath) throws IOException {
+	private void resetFXMLLoaderAndSetLocation(URL fxmlURL) {
+		fxmlLoader.setController(null);
+		fxmlLoader.setRoot(null);
+		// fxmlLoader.setResources(null);
+		fxmlLoader.setLocation(fxmlURL);
+	}
+
+	public FXMLLoader loadFXMLIntoNewSubSceneAndPutIntoStackPane(StackPane stackPane, URL fxmlURL) throws IOException {
 
 		SubScene subScene;
 
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(objectclass.getResource(fxmlPath));
+		this.resetFXMLLoaderAndSetLocation(fxmlURL);
 
-		Parent parent = fxmlLoader.load();
+		Parent parent = fxmlLoader.load(fxmlURL.openStream());
 		subScene = createSubSceneWithParentMinimalSize(parent);
 		subScene.setRoot(parent);
 		subScene.setEffect(new DropShadow(127, Color.BLACK));
@@ -267,15 +284,14 @@ public class FXUISetup {
 		return fxmlLoader;
 	}
 
-	public FXMLLoader loadFXMLIntoNewSubSceneAndPutIntoStackPane(StackPane stackPane, Class<?> objectclass,
-			String fxmlPath, Effect effect) throws IOException {
+	public FXMLLoader loadFXMLIntoNewSubSceneAndPutIntoStackPane(StackPane stackPane, URL fxmlURL, Effect effect)
+			throws IOException {
 
 		SubScene subScene;
 
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setLocation(objectclass.getResource(fxmlPath));
+		this.resetFXMLLoaderAndSetLocation(fxmlURL);
 
-		Parent parent = fxmlLoader.load();
+		Parent parent = fxmlLoader.load(fxmlURL.openStream());
 		subScene = createSubSceneWithParentMinimalSize(parent);
 		subScene.setRoot(parent);
 		subScene.setEffect(effect);
@@ -299,7 +315,6 @@ public class FXUISetup {
 		for (Node n : componentes) {
 			if (n instanceof ListView) {
 				((ListView<?>) n).getItems().clear();
-				((ListView<?>) n).setItems(null);
 			}
 		}
 
@@ -310,7 +325,6 @@ public class FXUISetup {
 		for (Node n : componentes) {
 			if (n instanceof TableView) {
 				((TableView<?>) n).getItems().clear();
-				((TableView<?>) n).setItems(null);
 			}
 		}
 
@@ -325,7 +339,6 @@ public class FXUISetup {
 			} else {
 				if (n instanceof TableView) {
 					((TableView<?>) n).getItems().clear();
-					((TableView<?>) n).setItems(null);
 				}
 			}
 		}
@@ -339,6 +352,26 @@ public class FXUISetup {
 				((TextInputControl) n).setEditable(value);
 			}
 		}
+	}
+
+	public void setNodeCache(Pane parent, boolean enabled, CacheHint cacheHint) {
+		ArrayList<Node> componentes = getAllNodes(parent);
+
+		parent.setCache(enabled);
+		parent.setCacheHint(cacheHint);
+		for (Node n : componentes) {
+			n.setCache(enabled);
+			n.setCacheHint(cacheHint);
+		}
+
+	}
+
+	public Parent loadFXMLAsParent(URL fxmlURL) throws IOException {
+
+		this.resetFXMLLoaderAndSetLocation(fxmlURL);
+
+		Parent parent = fxmlLoader.load(fxmlURL.openStream());
+		return parent;
 	}
 
 }
