@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.lang.String?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox fx:id="hbox" maxHeight="92.0" stylesheets="@FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLMenuProdutoController">
+			<styleClass>
+				<String fx:value="DWORStatusBar" />
+				<String fx:value="DWORDefaultPaneBackground" />
+			</styleClass>
+			<children>
+				<JFXButton id="NavigationMenuButton" fx:id="btnCadastroProduto" maxWidth="1.7976931348623157E308" onAction="#actCadastroProduto" text="Cadastro" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
+					<font>
+						<Font name="System Bold" size="13.0" />
+					</font>
+					<styleClass>
+						<String fx:value="DWORNavigationMenu" />
+						<String fx:value="DWORNavigationMenuButton" />
+					</styleClass>
+				</JFXButton>
+				<JFXButton id="NavigationMenuButton" fx:id="btnPedirProduto" maxWidth="1.7976931348623157E308" onAction="#actPedirProduto" text="Pedir Produtos" HBox.hgrow="ALWAYS">
+					<font>
+						<Font name="System Bold" size="13.0" />
+					</font>
+					<styleClass>
+						<String fx:value="DWORNavigationMenu" />
+						<String fx:value="DWORNavigationMenuButton" />
+					</styleClass>
+				</JFXButton>
+				<JFXButton id="NavigationMenuButton" fx:id="btnReceberProduto" maxWidth="1.7976931348623157E308" onAction="#actReceberProduto" text="Receber Produtos" HBox.hgrow="ALWAYS">
+					<font>
+						<Font name="System Bold" size="13.0" />
+					</font>
+					<styleClass>
+						<String fx:value="DWORNavigationMenu" />
+						<String fx:value="DWORNavigationMenuButton" />
+					</styleClass>
+				</JFXButton>
+				<JFXButton id="NavigationMenuButton" fx:id="btnRetirarProdutos" maxWidth="1.7976931348623157E308" onAction="#actRetirarProdutos" text="Retirar Produtos" HBox.hgrow="ALWAYS">
+					<font>
+						<Font name="System Bold" size="13.0" />
+					</font>
+					<styleClass>
+						<String fx:value="DWORNavigationMenu" />
+						<String fx:value="DWORNavigationMenuButton" />
+					</styleClass>
+				</JFXButton>
+      <JFXButton id="NavigationMenuButton" maxWidth="1.7976931348623157E308" text="Relatorios" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <styleClass>
+            <String fx:value="DWORNavigationMenu" />
+            <String fx:value="DWORNavigationMenuButton" />
+         </styleClass>
+      </JFXButton>
+			</children>
+		</HBox>

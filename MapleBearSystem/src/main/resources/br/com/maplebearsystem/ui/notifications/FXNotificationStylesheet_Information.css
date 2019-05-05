@@ -1,0 +1,21 @@
+/* Default looked-up colors */
+* {
+	-fxdefine-informationcolor: #329C93;
+	-fxdefine-informationcolor_highlighted: #44D4C7;
+}
+
+.CloseButton{
+	-fx-background-color: white;
+}
+
+.FXNotificationBody{
+	-fx-background-color: white;
+	-fx-border-color: -fxdefine-informationcolor;
+	-fx-effect: dropshadow(three-pass-box, -fxdefine-informationcolor , 10.0, 0.0 , 0.0 , 0.0 );
+}
+
+.FXNotificationBody:hover{
+	-fx-background-color: white;
+	-fx-border-color: -fxdefine-informationcolor_highlighted;
+	-fx-effect: dropshadow(three-pass-box, -fxdefine-informationcolor_highlighted , 10.0, 0.0 , 0.0 , 0.0 );
+}

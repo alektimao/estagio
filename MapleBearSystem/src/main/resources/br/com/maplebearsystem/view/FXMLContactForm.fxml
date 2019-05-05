@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="rootPane" cache="true" cacheHint="SPEED" stylesheets="@FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLContactFormController">
+   <children>
+      <VBox fx:id="primaryPane" alignment="TOP_CENTER" maxWidth="800.0" minWidth="-Infinity" prefWidth="600.0" spacing="14.0" styleClass="DWORDefaultFormBackground" stylesheets="@FXMLStylesheet.css">
+      	<children>
+      		<VBox fx:id="pnBasicForm" spacing="35.0">
+      			<children>
+      				<JFXTextField id="tfieldName" fx:id="tfieldName" labelFloat="true" promptText="Nome / Razão">
+      					<styleClass>
+      						<String fx:value="jfxtextfieldform" />
+      						<String fx:value="formMaxWidth" />
+      					</styleClass>
+      				</JFXTextField>
+      				<HBox alignment="TOP_CENTER" spacing="14.0" styleClass="formMaxWidth">
+      					<children>
+      						<JFXTextField id="tfieldCPFCNPJ" fx:id="tfieldCPFCNPJ" labelFloat="true" prefWidth="170.0" promptText="CPF / CNPJ" styleClass="jfxtextfieldform" HBox.hgrow="ALWAYS" />
+      						<JFXTextField id="tfieldRGIE" fx:id="tfieldRGIE" labelFloat="true" prefWidth="170.0" promptText="RG / Inscr. Estadual" styleClass="jfxtextfieldform" HBox.hgrow="ALWAYS" />
+      						<JFXTextField id="tfieldEmail" fx:id="tfieldEmail" labelFloat="true" prefWidth="200.0" promptText="E-mail" styleClass="jfxtextfieldform" HBox.hgrow="ALWAYS" />
+      					</children>
+      				</HBox>
+      				<HBox fx:id="pnJurExtras" alignment="TOP_CENTER" spacing="14.0" styleClass="formMaxWidth">
+      					<children>
+      						<JFXTextField fx:id="tfieldOtherName" labelFloat="true" prefWidth="300.0" promptText="Razão Social" HBox.hgrow="ALWAYS">
+      							<styleClass>
+      								<String fx:value="jfxtextfieldform" />
+      								<String fx:value="formMaxWidth" />
+      							</styleClass>
+      						</JFXTextField>
+      						<JFXTextField id="tfieldRGIE" fx:id="tfieldIMunicipal" labelFloat="true" layoutX="302.0" layoutY="10.0" promptText="Inscri. Municipal" styleClass="jfxtextfieldform" />
+      					</children>
+      				</HBox>
+                  <VBox spacing="10.0">
+                     <children>
+                        <VBox alignment="TOP_RIGHT" spacing="10.0" style="-fx-border-color: lightgray;">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                           <children>
+                  				<fx:include fx:id="pnPrimaryPhoneForm" source="FXMLPhoneForm.fxml" />
+                              <JFXButton fx:id="btnManagePhones" onAction="#actManagePhones" text="Gerenciar mais Telefones...">
+                                 <styleClass>
+                                    <String fx:value="JFXButtonDefault" />
+                                    <String fx:value="JFXButtonNeutral" />
+                                    <String fx:value="JFXButtonUltraCompact" />
+                                 </styleClass>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_RIGHT" spacing="10.0" style="-fx-border-color: lightgray;">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                           <children>
+                  				<fx:include fx:id="pnPrimaryAddress" source="FXMLAddressForm.fxml" />
+                              <JFXButton fx:id="btnManageAddresses" onAction="#actManageAddresses" text="Gerenciar mais Endereços...">
+                                 <styleClass>
+                                    <String fx:value="JFXButtonDefault" />
+                                    <String fx:value="JFXButtonNeutral" />
+                                    <String fx:value="JFXButtonUltraCompact" />
+                                 </styleClass>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+      			</children>
+      		</VBox>
+      	</children>
+      	<padding>
+      		<Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+      	</padding>
+      </VBox>
+   </children>
+</StackPane>

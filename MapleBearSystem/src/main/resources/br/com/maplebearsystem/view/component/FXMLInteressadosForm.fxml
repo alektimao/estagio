@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox fx:id="rootPane" spacing="20.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox spacing="15.0">
+         <children>
+            <VBox spacing="10.0">
+               <children>
+                  <Label text="Cod. Interno" />
+                  <JFXTextField fx:id="tfieldInternalCod" prefWidth="100.0" />
+               </children>
+            </VBox>
+            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Nome do Responsável" />
+                  <JFXTextField fx:id="tfieldNome" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox spacing="10.0">
+               <children>
+                  <Label text="Data do Interesse" />
+                  <JFXDatePicker fx:id="dtdatainteresse" prefWidth="200.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox spacing="15.0" />
+      <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
+         <children>
+            <VBox>
+               <children>
+                  <Label text="Telefone 1" />
+                  <JFXTextField fx:id="tftelefone1" prefWidth="240.0" />
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Email 1" />
+                  <JFXTextField fx:id="tfemail1" prefWidth="240.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox spacing="15.0">
+         <children>
+            <VBox>
+               <children>
+                  <Label text="Telefone 2" />
+                  <JFXTextField fx:id="tftelefone2" prefWidth="240.0" />
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Email 2" />
+                  <JFXTextField fx:id="tfemail2" prefWidth="240.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox spacing="15.0" />
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+         <children>
+            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Motivo do Interesse" />
+                  <JFXTextArea fx:id="tareaMotivo" prefHeight="90.0" prefWidth="525.0" VBox.vgrow="ALWAYS" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>
