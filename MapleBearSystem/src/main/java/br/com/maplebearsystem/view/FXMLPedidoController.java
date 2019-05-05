@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import br.com.maplebearsystem.view.util.TextFieldFormatterHelper;
 
+import br.com.maplebearsystem.ui.notifications.FXNotification;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
@@ -106,12 +107,15 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 	private JFXButton btautorizar;
 
 	private PedidoController controlerPedido;
+	
+	private FXMLDefaultControllerInterface sourceController;
+	List<Exception> mainErrorList;
 
 	@FXML
 	void addproduto(ActionEvent event) {
 		try {
 			FXMLProductSearchController controler = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLE_PRODUTO_BUSCA, null, 0.0)
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLE_PRODUTOFORNECEDOR_BUSCA, null, 0.0)
 					.<FXMLProductSearchController>getController();
 			controler.switchToSelectorMode();
 			controler.setSourceFXMLController(this);
@@ -122,6 +126,10 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public StackPane getRootPane() {
+		return rootPane;
 	}
 
 	@FXML
@@ -153,13 +161,29 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 			vboxprodutos.setDisable(true);
 			FXUISetup.getInstance().clearTextInputs(rootPane);
 			FXUISetup.getInstance().clearTableViews(rootPane);
+			
+			FXNotification notification = new FXNotification("Pedido Salvo,", FXNotification.NotificationType.INFORMATION);
+			notification.show();
+		}
+		else {
+			String text = "";
+
+			for (Exception e : mainErrorList) {
+				text = text + e.getMessage() + "\n";
+			}
+
+			FXNotification notification = new FXNotification(text, FXNotification.NotificationType.WARNING);
+			notification.show();
 		}
 	}
 
 	private boolean save() {
 		try {
-			controlerPedido.validateSalvar(txtvalor.getText(), txtfrete.getText(), tfieldnome.getText(),
+			mainErrorList = controlerPedido.validateSalvar(txtvalor.getText(), txtfrete.getText(), tfieldnome.getText(),
 					dtdiapedido.getValue(), dtdiaentrega.getValue(), tviewProducts.getItems());
+			if (mainErrorList.isEmpty()) {
+				return true;
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -170,7 +194,12 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 
 	@FXML
 	void voltar(ActionEvent event) {
-
+		try {
+			sourceController.closeSenderNode(this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -181,9 +210,9 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 
 	@Override
 	public void setSourceFXMLController(FXMLDefaultControllerInterface controller) throws Exception {
-		// TODO Auto-generated method stub
-
+		this.sourceController = controller;
 	}
+
 
 	@Override
 	public void setTargetFXMLController(FXMLDefaultControllerInterface controller) throws Exception {

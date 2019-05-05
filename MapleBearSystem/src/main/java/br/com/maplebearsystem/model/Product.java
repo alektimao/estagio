@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import br.com.maplebearsystem.view.viewmodel.ProdutoAlterado;
+
 /**
  * Entity implementation class for Entity: PartProduct
  *

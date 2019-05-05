@@ -22,6 +22,7 @@ import br.com.maplebearsystem.main.MapleBearSystemDesktopClient;
 import br.com.maplebearsystem.model.ProductMovement;
 import br.com.maplebearsystem.model.Requisicao;
 import br.com.maplebearsystem.model.Requisicao_Produto;
+import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.view.component.FXMLBuscaPedidoController;
 import br.com.maplebearsystem.view.component.FXMLProductSearchController;
@@ -93,12 +94,14 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 	private ProductMovementController controlerMovement;
 	private ReceberController controlerReceber;
 	private FXMLDefaultControllerInterface sourceController;
+	private List<Exception> mainErrorList;
 
 	@Override
 	public void reset() {
 		// TODO Auto-generated method stub
 
 	}
+
 	@Override
 	public void setSourceFXMLController(FXMLDefaultControllerInterface controller) throws Exception {
 		this.sourceController = controller;
@@ -123,6 +126,7 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 			}
 		}
 	}
+
 	private void loadRequisicao(Requisicao requisicao) {
 		controlerPedido.editarRequisicao(requisicao);
 		controlerPedido.getRequisicao().setRequestedParts(controlerPedido.BuscaProdutosPedidos(requisicao.getId()));
@@ -245,9 +249,37 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 
 	@FXML
 	void salvarrecebimento(ActionEvent event) {
-		controlerMovement.SalvarMovimentoaoSalvarRecebimento();
-		RequisicaoDAO pedido = new RequisicaoDAO();
-		pedido.save(controlerPedido.getRequisicao());
+		if (save()) {
+
+			FXNotification notification = new FXNotification("Pedido Recebido,",
+					FXNotification.NotificationType.INFORMATION);
+			notification.show();
+		} else {
+			String text = "";
+
+			for (Exception e : mainErrorList) {
+				text = text + e.getMessage() + "\n";
+			}
+
+			FXNotification notification = new FXNotification(text, FXNotification.NotificationType.WARNING);
+			notification.show();
+		}
+	}
+
+	private boolean save() {
+		try {
+			mainErrorList = controlerMovement.SalvarMovimentoaoSalvarRecebimento();
+			if (mainErrorList.isEmpty()) {
+				RequisicaoDAO pedido = new RequisicaoDAO();
+				pedido.save(controlerPedido.getRequisicao());
+				return true;
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@FXML
@@ -260,6 +292,7 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 		}
 
 	}
+
 	public StackPane getRootPane() {
 		return rootPane;
 	}

@@ -2,12 +2,14 @@
 	<persistence-unit name="MapleBSystemPostgreSQLPU" transaction-type="RESOURCE_LOCAL">
 		<class>br.com.maplebearsystem.model.Address</class>
 		<class>br.com.maplebearsystem.model.Alocar</class>
+        <class>br.com.maplebearsystem.model.Alocar_Produto</class>
         <class>br.com.maplebearsystem.model.City</class>
 		<class>br.com.maplebearsystem.model.Estoque</class>
         <class>br.com.maplebearsystem.model.Federation</class>
 		<class>br.com.maplebearsystem.model.Fornecedor</class>
         <class>br.com.maplebearsystem.model.FornecedorProduct</class>
         <class>br.com.maplebearsystem.model.Funcionario</class>
+        <class>br.com.maplebearsystem.model.Interessados</class>
         <class>br.com.maplebearsystem.model.Parametrizacao</class>
         <class>br.com.maplebearsystem.model.Payment</class>
         <class>br.com.maplebearsystem.model.Pessoa</class>

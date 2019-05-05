@@ -64,10 +64,10 @@ public class City implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if (obj instanceof City) {
 			City city = (City) obj;
-			
+
 			return (city.getId().equals(this.getId()) && city.getName().equals(this.getName()));
 		}
 
@@ -77,5 +77,13 @@ public class City implements Serializable {
 	@Override
 	public String toString() {
 		return "" + this.name;
+	}
+
+	public String getCityAndProvinceStateAbbreviationText() {
+		try {
+			return "" + this.name + "/" + this.provinceState.getAbbreviation();
+		} catch (Exception e) {
+			return "";
+		}
 	}
 }

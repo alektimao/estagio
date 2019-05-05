@@ -21,7 +21,6 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-
 public abstract class Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -32,21 +31,11 @@ public abstract class Pessoa implements Serializable {
 	private String name;
 	private boolean enabled;
 	private String email;
-	
-	@OneToMany(
-			mappedBy = "pessoa", 
-			targetEntity = Address.class, 
-			cascade = CascadeType.ALL, 
-			fetch = FetchType.EAGER, 
-			orphanRemoval = true)
+
+	@OneToMany(mappedBy = "pessoa", targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Address> addresses;
-	
-	@OneToMany(
-			mappedBy = "pessoa", 
-			targetEntity = Phone.class, 
-			cascade = CascadeType.ALL, 
-			fetch = FetchType.LAZY, 
-			orphanRemoval = true)
+
+	@OneToMany(mappedBy = "pessoa", targetEntity = Phone.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Phone> phones;
 
 	public Pessoa() {
@@ -59,19 +48,21 @@ public abstract class Pessoa implements Serializable {
 	 * @param name
 	 * @param enabled
 	 * @param email
-	 * @param address - Address entity class that will be inseted as the first Address in Address list.
-	 * @param phone - Phone entity class that will be inseted as the first phone in phones list.
+	 * @param address - Address entity class that will be inseted as the first
+	 *                Address in Address list.
+	 * @param phone   - Phone entity class that will be inseted as the first phone
+	 *                in phones list.
 	 */
 	public Pessoa(Long id, String name, boolean enabled, String email, Address address, Phone phone) {
 		this.id = id;
 		this.name = name;
 		this.enabled = enabled;
 		this.email = email;
-		
+
 		this.addresses = new ArrayList<Address>();
 		this.addresses.add(address);
-		
-		this.phones= new ArrayList<Phone>();
+
+		this.phones = new ArrayList<Phone>();
 		this.phones.add(phone);
 	}
 
@@ -81,7 +72,7 @@ public abstract class Pessoa implements Serializable {
 	 * @param enabled
 	 * @param email
 	 * @param adresses
-	 * @param phones 
+	 * @param phones
 	 */
 	public Pessoa(Long id, String name, boolean enabled, String email, List<Address> adresses, List<Phone> phones) {
 		this.id = id;
@@ -92,18 +83,35 @@ public abstract class Pessoa implements Serializable {
 		this.phones = phones;
 	}
 
-	public void addPhone(String phone) throws NumberFormatException{
+	@Deprecated
+	public void addPhone(String phone) throws NumberFormatException {
 		Phone newphone = new Phone();
 		Integer.parseInt(phone);
 		newphone.setNumber(Integer.parseInt(phone));
 		newphone.setPessoa(this);
 		phones.add(newphone);
 	}
-	
+
+	public void addPhone(Phone phone) {
+		if (phones.contains(phone))
+			return;
+
+		phones.add(phone);
+		phone.setPessoa(this);
+	}
+
+	public void addAddress(Address address) {
+		if (addresses.contains(address))
+			return;
+
+		addresses.add(address);
+		address.setPessoa(this);
+	}
+
 	public List<Address> getAddresses() {
 		return addresses;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -123,40 +131,59 @@ public abstract class Pessoa implements Serializable {
 	}
 
 	public String getPhoneListBriefString() {
-		String briefString = "";
-		
-		Iterator<Phone> iterator = phones.iterator();
-		
-		briefString = briefString + ((Phone) iterator.next()).getPhoneString();
-		
-		while (iterator.hasNext()) {
-			Phone phone = (Phone) iterator.next();
-			briefString = briefString + ", " + phone.getPhoneString();
+		try {
+			String briefString = "";
+
+			Iterator<Phone> iterator = phones.iterator();
+
+			briefString = briefString + ((Phone) iterator.next()).getPhoneString();
+
+			while (iterator.hasNext()) {
+				Phone phone = (Phone) iterator.next();
+				briefString = briefString + ", " + phone.getPhoneString();
+			}
+
+			return briefString;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(
+					"Info: failed to build PhoneListBriefString, the entity " + this.getClass().getName() + "\n"
+							+ "may have no phones. Falling back to empty String.");
+
+			return "";
 		}
-		
-		return briefString;
 	}
-	
+
 	public String getAddressListBriefString() {
-		String briefString = "";
-		
-		Iterator<Address> iterator = addresses.iterator();
-		
-		briefString = briefString + ((Address) iterator.next()).getAddress();
-		
-		while (iterator.hasNext()) {
-			Address address = (Address) iterator.next();
-			briefString = briefString + ", " + address.getAddress();
+		try {
+			String briefString = "";
+
+			Iterator<Address> iterator = addresses.iterator();
+
+			briefString = briefString + ((Address) iterator.next()).getAddress();
+
+			while (iterator.hasNext()) {
+				Address address = (Address) iterator.next();
+				briefString = briefString + ", " + address.getAddress();
+			}
+
+			return briefString;
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(
+					"Info: failed to build AddressListBriefString, the entity " + this.getClass().getName() + "\n"
+							+ "may have no Addresses. Falling back to empty String.");
+
+			return "";
 		}
-		
-		return briefString;
+
 	}
-	
+
 	public boolean isEnabled() {
 		return enabled;
 	}
 
-	public void setAdresses(List<Address> adresses) {
+	public void setAddresses(List<Address> adresses) {
 		this.addresses = adresses;
 	}
 
@@ -179,5 +206,29 @@ public abstract class Pessoa implements Serializable {
 	public void setPhones(List<Phone> phones) {
 		this.phones = phones;
 	}
-	
+
+	public Address getPrimaryAddress() {
+		return addresses.get(0);
+	}
+
+	public Phone getPrimaryPhone() {
+		return phones.get(0);
+	}
+
+	public void removePhone(Phone phone) {
+		if (!phones.contains(phone))
+			return;
+
+		phones.remove(phone);
+		phone.setPessoa(null);
+	}
+
+	public void removeAddress(Address address) {
+		if (!addresses.contains(address))
+			return;
+
+		addresses.remove(address);
+		address.setPessoa(null);
+	}
+
 }

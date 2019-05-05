@@ -179,7 +179,7 @@ public class FXMLSaidaRegistrationController implements Initializable, FXMLDefau
 		List<ProdutoAlterado> lista = new ArrayList<ProdutoAlterado>();
 
 		for (Product product : dado) {
-			lista.add(new ProdutoAlterado(product, 0,0,0));
+			lista.add(new ProdutoAlterado(product, 0,0));
 		}
 
 		this.lista = lista;

@@ -7,7 +7,7 @@
 	<children>
 		<HBox fx:id="pnPrimaryContainer" styleClass="DWORDefaultPaneBackground">
 			<children>
-				<fx:include fx:id="pnProductSearch" source="component/FXMLProductSearch.fxml" HBox.hgrow="ALWAYS" />
+				<fx:include fx:id="pnProductSearch" source="component/FXMLProdutoSearch.fxml" HBox.hgrow="ALWAYS" />
 				<fx:include fx:id="pnProductRegistration" source="component/FXMLProductRegistration.fxml" HBox.hgrow="ALWAYS" />		
 			</children>
 		</HBox>

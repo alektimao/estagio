@@ -1,5 +1,6 @@
 package br.com.maplebearsystem.model;
 
+
 import java.io.Serializable;
 import java.lang.Long;
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Address implements Serializable {
 	private Pessoa pessoa;
 	private String district;
 	private String address;
+	private String addressNumber;
 	private String addressComplement;
 	private String postalCode;
 	@ManyToOne
@@ -38,6 +40,26 @@ public class Address implements Serializable {
 		this.city = city;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public String getAddressComplement() {
+		return addressComplement;
+	}
+
+	public String getAddressNumber() {
+		return addressNumber;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
 	public Long getId() {
 		return this.id;
 	}
@@ -46,61 +68,87 @@ public class Address implements Serializable {
 		return pessoa;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public String getDistrict() {
-		return district;
-	}
-
-	public String getAddressComplement() {
-		return addressComplement;
-	}
-
 	public String getPostalCode() {
 		return postalCode;
-	}
-
-	public City getCity() {
-		return city;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public void setAddress(String adress) {
 		this.address = adress;
 	}
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-
 	public void setAddressComplement(String addressComplement) {
 		this.addressComplement = addressComplement;
 	}
 
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
+	public void setAddressNumber(String addressNumber) {
+		this.addressNumber = addressNumber;
 	}
 
 	public void setCity(City city) {
 		this.city = city;
 	}
 
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	private boolean sameAsFormer(Pessoa newObject) {
+		return this.pessoa == null ? newObject == null : this.pessoa.equals(newObject);
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		if (sameAsFormer(pessoa))
+			return;
+		// set new work
+		Pessoa old = this.pessoa;
+		this.pessoa = pessoa;
+		// remove from the old work
+		if (old != null)
+			old.removeAddress(this);
+		// set myself into new work
+		if (pessoa != null)
+			pessoa.addAddress(this);
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getAddressAndNumberAndDistrictText() {
+		try {
+			return "" + this.address + ", Nº: " + this.addressNumber + ", " + this.district;
+		} catch (Exception e) {
+			return "";
+		}
+	}
+
 	@Override
 	public String toString() {
-		String extra = ((addressComplement.equals("") || addressComplement == null) ? ""
-				: " Complemento: " + addressComplement);
+		try {
+			String extra = (addressComplement == null || addressComplement.equals("") ? ""
+					: " Complemento: " + addressComplement);
 
-		return "" + address + " - " + city.getName() + "/" + city.getProvinceState().getAbbreviation() + " - "
-				+ "CEP: " + postalCode + extra;
+			String number = addressNumber == null || addressNumber.equals("") ? "" : ", Nº: " + addressNumber;
+
+			return "" + address + number + " - " + city.getName() + "/" + city.getProvinceState().getAbbreviation()
+					+ " - " + "CEP: " + postalCode + extra;
+		} catch (Exception e) {
+			return "";
+		}
+	}
+
+	public String getAddressAndNumber() {
+		try {
+			String number = addressNumber == null || addressNumber.equals("") ? "" : ", Nº: " + addressNumber;
+
+			return "" + address + number;
+		} catch (Exception e) {
+			return "";
+		}
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.view.component.FXMLProductRegistrationController;
 import br.com.maplebearsystem.view.component.FXMLProductSearchController;
+import br.com.maplebearsystem.view.component.FXMLProdutoSearchController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
@@ -22,8 +23,9 @@ public class FXMLProductManagerController implements Initializable, FXMLDefaultC
 
 	@FXML
 	private VBox pnProductSearch;
+
 	@FXML
-	private FXMLProductSearchController pnProductSearchController;
+	private FXMLProdutoSearchController pnProductSearchController;
 
 	@FXML
 	private StackPane pnProductRegistration;
@@ -149,8 +151,8 @@ public class FXMLProductManagerController implements Initializable, FXMLDefaultC
 			enablePnProductSearch();
 			return;
 		}
-		
-		if(sender.equals(pnProductSearchController)) {
+
+		if (sender.equals(pnProductSearchController)) {
 			closeAndGoBack();
 			return;
 		}
