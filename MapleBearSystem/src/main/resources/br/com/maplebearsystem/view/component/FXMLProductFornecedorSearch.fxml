@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="rootPane" minWidth="690.0" spacing="14.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLProductSearchController">
+<VBox fx:id="rootPane" minWidth="690.0" spacing="14.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController">
    <children>
       <Label styleClass="DWORScreenTitleII" text="Busca de Produtos" />
       <HBox alignment="CENTER" spacing="15.0">
@@ -39,7 +39,7 @@
       <TableView fx:id="tviewSearch" prefHeight="200.0" VBox.vgrow="ALWAYS">
          <columns>
             <TableColumn fx:id="tviewColID" editable="false" maxWidth="-1.0" minWidth="200.0" prefWidth="60.0" text="Forrnecedor" />
-            <TableColumn fx:id="tviewColProductDescription" editable="false" maxWidth="1.7976931348623157E308" minWidth="310.0" prefWidth="-1.0" resizable="false" text="Descrição" />
+            <TableColumn fx:id="tviewColProductDescription" editable="false" maxWidth="1.7976931348623157E308" minWidth="310.0" prefWidth="-1.0" resizable="false" text="Produto" />
          	<TableColumn fx:id="tviewColPartUnitQuant" editable="false" maxWidth="150.0" minWidth="150.0" prefWidth="-1.0" resizable="false" text="Qtde estoque" />
          </columns>
          <columnResizePolicy>

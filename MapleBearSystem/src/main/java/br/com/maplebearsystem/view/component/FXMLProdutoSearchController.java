@@ -6,13 +6,14 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
+import br.com.maplebearsystem.controller.InteressadoController;
 import br.com.maplebearsystem.controller.ProductController;
+import br.com.maplebearsystem.model.Interessados;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.FXMLPedidoController;
 import br.com.maplebearsystem.view.FXMLProductManagerController;
 import br.com.maplebearsystem.view.FXMLRetirarProdutoController;
-import br.com.maplebearsystem.view.FXMLSaidaManagerController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -281,17 +282,6 @@ public class FXMLProdutoSearchController implements Initializable, FXMLDefaultCo
 
 	@FXML
 	void actSelectItem(ActionEvent event) {
-		if (sourceController instanceof FXMLSaidaManagerController) {
-			FXMLSaidaManagerController controller = (FXMLSaidaManagerController) sourceController;
-			
-			try {
-				List<Product> resultado = tviewSearch.getSelectionModel().getSelectedItems();
-				//controller.abrePainelSaidaRegistration(resultado);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		if(sourceController instanceof FXMLPedidoController)
 		{
 			FXMLPedidoController controller = (FXMLPedidoController) sourceController;

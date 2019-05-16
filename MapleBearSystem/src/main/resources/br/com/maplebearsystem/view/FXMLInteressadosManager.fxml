@@ -3,12 +3,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLProductManagerController">
+<StackPane fx:id="rootPane" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLInteressadosManagerController">
 	<children>
 		<HBox fx:id="pnPrimaryContainer" styleClass="DWORDefaultPaneBackground">
 			<children>
-            <fx:include fx:id="pnInteressadosSearch" source="component/FXMLInteressadosSearch.fxml" />
-            <fx:include fx:id="pnInteressadosRegistration" source="component/FXMLInteressadosRegistration.fxml" />		
+            <fx:include fx:id="pnInteressadosSearch" source="component/FXMLInteressadosSearch.fxml" HBox.hgrow="ALWAYS" />
+            <fx:include fx:id="pnInteressadosRegistration" source="component/FXMLInteressadosRegistration.fxml" HBox.hgrow="ALWAYS" />		
 			</children>
 		</HBox>
 	</children>

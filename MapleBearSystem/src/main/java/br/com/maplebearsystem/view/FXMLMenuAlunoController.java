@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 public class FXMLMenuAlunoController implements Initializable, FXMLDefaultControllerInterface{
 
@@ -45,6 +46,10 @@ public class FXMLMenuAlunoController implements Initializable, FXMLDefaultContro
 			new FXNotification("Teste aviso", FXNotification.NotificationType.WARNING).show();
 		});
 	}
+    
+//    public StackPane getRootPane() {
+//		return mainAreaContainer;
+//	}
 
     @FXML
     void actCadastroProduto(ActionEvent event) {

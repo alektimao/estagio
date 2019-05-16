@@ -5,13 +5,17 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.common.io.Closer;
 import com.jfoenix.controls.JFXButton;
 
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.notifications.FXNotificationFactory;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.ui.util.FXUISetup;
-import br.com.maplebearsystem.view.component.FXMLProductSearchController;
+import br.com.maplebearsystem.view.component.FXMLContactSearchController;
+import br.com.maplebearsystem.view.component.FXMLFornecedorRegistrationController;
+import br.com.maplebearsystem.view.component.FXMLFornecedorSearchController;
+import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +25,8 @@ import javafx.scene.layout.StackPane;
 public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, Initializable {
 
 	private FXMLDefaultControllerInterface currentFXController;
+
+	private FXMLDefaultControllerInterface currentFXMenuController;
 
 	@FXML
 	private JFXButton btnSidebarContacts;
@@ -45,7 +51,7 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 
 	@FXML
 	private JFXButton btnSidebarConfigs;
-	
+
 	@FXML
 	private JFXButton btnGerais;
 
@@ -75,14 +81,15 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 	}
 
 	@FXML
-	void actExit(ActionEvent event) {
-
+	void actExit(ActionEvent event) throws Exception {
+		closeSenderNode(currentFXController);
+		closeSenderNode(currentFXMenuController);
 	}
-	
+
 	@FXML
-    void actGerais(ActionEvent event) {
+	void actGerais(ActionEvent event) {
 		loadMenu(FXResourcePath.FXML_MAPLEBEARSYSTEM_GERENCIAR_GERAIS);
-    }
+	}
 
 	@FXML
 	void actManageContacts(ActionEvent event) {
@@ -94,6 +101,11 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 		new FXNotification("Teste error", FXNotification.NotificationType.ERROR).show();
 	}
 
+	public void closeSenderNodeMenu() throws Exception {
+		closeSenderNode(currentFXController);
+		closeSenderNode(currentFXMenuController);
+	}
+
 	public void loadForm(URL url) {
 
 		try {
@@ -102,12 +114,21 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 					.loadFXMLIntoStackPane(mainAreaContainer, url, null)
 					.<FXMLDefaultControllerInterface>getController();
 
+			if (currentFXController != null) {
+				closeSenderNode(currentFXController);
+			}
 			controller.setSourceFXMLController(this);
-
+			verificarmode(controller);
 			currentFXController = controller;
 		} catch (Exception e) {
 			Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
 					"Error: failed to load menu: " + url.getPath(), e);
+		}
+	}
+
+	private void verificarmode(FXMLDefaultControllerInterface controller) {
+		if (controller instanceof FXMLContactSearchController) {
+			((FXMLContactSearchController) controller).switchToSelectorMode();
 		}
 	}
 
@@ -121,7 +142,7 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 
 			controller.setSourceFXMLController(this);
 
-			currentFXController = controller;
+			currentFXMenuController = controller;
 		} catch (Exception e) {
 			Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
 					"Error: failed to load menu: " + url.getPath(), e);
@@ -154,6 +175,7 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 
 	@Override
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
+		//sub-menus
 		if (sender instanceof FXMLReceberController) {
 			FXMLReceberController obj = (FXMLReceberController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
@@ -166,10 +188,29 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 			FXMLRetirarProdutoController obj = (FXMLRetirarProdutoController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
 		}
-		if (sender instanceof FXMLProductSearchController) {
-			FXMLProductSearchController obj = (FXMLProductSearchController) sender;
+		if (sender instanceof FXMLProductFornecedorSearchController) {
+			FXMLProductFornecedorSearchController obj = (FXMLProductFornecedorSearchController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
 		}
+		if (sender instanceof FXMLFornecedorSearchController) {
+			FXMLFornecedorSearchController obj = (FXMLFornecedorSearchController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLFornecedorRegistrationController) {
+			FXMLFornecedorRegistrationController obj = (FXMLFornecedorRegistrationController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		//menu
+		if (sender instanceof FXMLMenuProdutoController) {
+			FXMLMenuProdutoController obj = (FXMLMenuProdutoController) sender;
+			menuAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+//		if (sender instanceof FXMLMenuAlunoController) {
+//			FXMLMenuAlunoController obj = (FXMLMenuAlunoController) sender;
+//			menuAreaContainer.getChildren().remove(obj.getRootPane());
+//		}
+		
+
 	}
 
 }

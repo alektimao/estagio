@@ -13,7 +13,6 @@ import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.FXMLPedidoController;
 import br.com.maplebearsystem.view.FXMLProductManagerController;
 import br.com.maplebearsystem.view.FXMLRetirarProdutoController;
-import br.com.maplebearsystem.view.FXMLSaidaManagerController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +29,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class FXMLProductSearchController implements Initializable, FXMLDefaultControllerInterface {
+public class FXMLProductFornecedorSearchController implements Initializable, FXMLDefaultControllerInterface {
 	@FXML
 	private VBox rootPane;
 	@FXML
@@ -282,17 +281,6 @@ public class FXMLProductSearchController implements Initializable, FXMLDefaultCo
 
 	@FXML
 	void actSelectItem(ActionEvent event) {
-		if (sourceController instanceof FXMLSaidaManagerController) {
-			FXMLSaidaManagerController controller = (FXMLSaidaManagerController) sourceController;
-			
-			try {
-				List<FornecedorProduct> resultado = tviewSearch.getSelectionModel().getSelectedItems();
-				//controller.abrePainelSaidaRegistration(resultado);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		if(sourceController instanceof FXMLPedidoController)
 		{
 			FXMLPedidoController controller = (FXMLPedidoController) sourceController;

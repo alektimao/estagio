@@ -4,6 +4,7 @@
 		<class>br.com.maplebearsystem.model.Alocar</class>
         <class>br.com.maplebearsystem.model.Alocar_Produto</class>
         <class>br.com.maplebearsystem.model.City</class>
+		<class>br.com.maplebearsystem.model.Employee</class>
 		<class>br.com.maplebearsystem.model.Estoque</class>
         <class>br.com.maplebearsystem.model.Federation</class>
 		<class>br.com.maplebearsystem.model.Fornecedor</class>
@@ -18,6 +19,7 @@
         <class>br.com.maplebearsystem.model.Phone</class>
         <class>br.com.maplebearsystem.model.Product</class>
         <class>br.com.maplebearsystem.model.ProductMovement</class>
+        <class>br.com.maplebearsystem.model.ProgramParameter</class>
         <class>br.com.maplebearsystem.model.ProvinceState</class>
         <class>br.com.maplebearsystem.model.Requisicao</class>
         <class>br.com.maplebearsystem.model.Requisicao_Produto</class>

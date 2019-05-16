@@ -1,11 +1,17 @@
 package br.com.maplebearsystem.main;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.NoResultException;
+
+import br.com.maplebearsystem.dao.FederationDAO;
+import br.com.maplebearsystem.model.Federation;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.ui.util.FXUISetup;
+import br.com.maplebearsystem.view.util.BrazilianStatesAndCitiesImporter;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -80,7 +86,7 @@ public class MapleBearSystemDesktopClient extends Application {
 
 	public static void main(String[] args) {
 
-		//makeSureDatabaseHasBrazilianCitiesAndStates();
+		makeSureDatabaseHasBrazilianCitiesAndStates();
 
 		launch(args);
 
@@ -98,24 +104,25 @@ public class MapleBearSystemDesktopClient extends Application {
 		return mainStage;
 	}
 
-//	private static void makeSureDatabaseHasBrazilianCitiesAndStates() {
-//
-//		try {
-//			//FederationDAO dao = new FederationDAO();
-//			List<Federation> result = dao.getFederationByName("Brasil");
-//
-//			if (result.size() < 1) {
-//				throw new NoResultException();
-//			}
-//		} catch (NoResultException e) {
-//			//BrazilianStatesAndCitiesImporter.main(null);
-//
-//		} catch (Exception e) {
-//
-//			e.printStackTrace();
-//			Platform.exit();
-//			System.exit(0);
-//		}
-//
-//	}
+	private static void makeSureDatabaseHasBrazilianCitiesAndStates() {
+
+		try {
+			FederationDAO dao = new FederationDAO();
+			List<Federation> result = dao.getFederationByName("Brasil");
+
+			if (result.size() < 1) {
+				throw new NoResultException();
+				//BrazilianStatesAndCitiesImporter.main(null);
+			}
+		} catch (NoResultException e) {
+			BrazilianStatesAndCitiesImporter.main(null);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			Platform.exit();
+			System.exit(0);
+		}
+
+	}
 }

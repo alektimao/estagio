@@ -25,7 +25,7 @@ import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.view.component.FXMLBuscaPedidoController;
-import br.com.maplebearsystem.view.component.FXMLProductSearchController;
+import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
 import br.com.maplebearsystem.view.util.FXUISetup;
 import javafx.beans.property.SimpleStringProperty;
@@ -92,6 +92,7 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 
 	private PedidoController controlerPedido;
 	private ProductMovementController controlerMovement;
+	private List<ProductMovement> ListMovement;
 	private ReceberController controlerReceber;
 	private FXMLDefaultControllerInterface sourceController;
 	private List<Exception> mainErrorList;
@@ -168,6 +169,7 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 		controlerPedido = new PedidoController();
 		controlerReceber = new ReceberController();
 		controlerMovement = new ProductMovementController();
+		ListMovement = new ArrayList<ProductMovement>();
 		initTables();
 
 	}
@@ -232,8 +234,9 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 			controlerMovement.setupNewProductMovement();
 			if (t.getRecebido() != null && t.getRestante() - t.getRecebido() >= 0 && t.getRecebido() > 0) {
 				t.setRestante(t.getRestante() - t.getRecebido());
-				controlerMovement.saveProductMovement("Entrada de Produto", controlerPedido.getRequisicao(),
-						LocalDate.now(), t.getProdRequisicao(), t.getRecebido(), t.getRestante());
+				Requisicao requisicao = controlerPedido.getRequisicao();
+				controlerMovement.saveProductMovement("Entrada de Produto",requisicao,LocalDate.now(), t.getProdRequisicao(), t.getRecebido(), t.getRestante());
+				ListMovement.add(controlerMovement.getProductMovement());
 			}
 			t.setRecebido(0);
 
@@ -250,7 +253,8 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 	@FXML
 	void salvarrecebimento(ActionEvent event) {
 		if (save()) {
-
+			FXUISetup.getInstance().clearTextInputs(rootPane);
+			FXUISetup.getInstance().clearTableViews(rootPane);
 			FXNotification notification = new FXNotification("Pedido Recebido,",
 					FXNotification.NotificationType.INFORMATION);
 			notification.show();
@@ -268,8 +272,10 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 
 	private boolean save() {
 		try {
-			mainErrorList = controlerMovement.SalvarMovimentoaoSalvarRecebimento();
-			if (mainErrorList.isEmpty()) {
+			for (ProductMovement productMovement : ListMovement) {
+				mainErrorList = controlerMovement.SalvarMovimentoaoSalvarRecebimento(productMovement);				
+			}
+			if (mainErrorList.isEmpty() && ListMovement.size() > 0) {
 				RequisicaoDAO pedido = new RequisicaoDAO();
 				pedido.save(controlerPedido.getRequisicao());
 				return true;

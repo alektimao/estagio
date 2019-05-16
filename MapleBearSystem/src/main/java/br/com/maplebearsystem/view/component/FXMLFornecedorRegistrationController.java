@@ -23,29 +23,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class FXMLSaidaRegistrationController implements Initializable, FXMLDefaultControllerInterface {
+public class FXMLFornecedorRegistrationController implements Initializable, FXMLDefaultControllerInterface {
 	@FXML
-	private VBox rootPane;
-
-	@FXML
-	private TableView<ProdutoAlterado> tviewSearch;
-
-	@FXML
-	private TableColumn<ProdutoAlterado, Long> tviewColID;
-
-	@FXML
-	private TableColumn<ProdutoAlterado, String> tviewColProductDescription;
-
-	@FXML
-	private TableColumn<ProdutoAlterado, String> tviewColPartUnitQuant;
-
-	@FXML
-	private TableColumn<ProdutoAlterado, String> tviewColPartUnitQuantM;
-	
-	@FXML
-	private TableColumn<ProdutoAlterado, String> tviewColPartUnitQuantMax;
+	private StackPane rootPane;
 
 	@FXML
 	private VBox pnButtons;
@@ -54,35 +37,31 @@ public class FXMLSaidaRegistrationController implements Initializable, FXMLDefau
 	private HBox pnEditorMode;
 
 	@FXML
-	private VBox pnSaidaForm;
+	private JFXButton btnNew;
+
 	@FXML
-	private FXMLProductSaidaFormController pnSaidaFormController;
+	private JFXButton btnGoBack;
+
+	@FXML
+	private StackPane pnFornecedorProdutoForm;
+
+	@FXML
+	private FXMLProductFornecedorFormController pnFornecedorProdutoFormController;
 
 	private FXMLDefaultControllerInterface sourceController;
 	private ProdutoAlterado tempproduct;
 	private List<ProdutoAlterado> lista;
 	ProductController modelController;
+
 	private void initUI() {
 		modelController = new ProductController();
-		initTableViews();
+		try {
+			pnFornecedorProdutoFormController.setSourceFXMLController(this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error: Failed to set pnProductFormController controller - " + e.getMessage());
+		}
 	}
-
-	private void initTableViews() {
-
-		tviewColID.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado, Long>("id"));
-		tviewColProductDescription.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado, String>("shortDescription"));
-		tviewColPartUnitQuant.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado, String>("qtd"));
-		tviewColPartUnitQuantM.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado, String>("max"));
-		tviewColPartUnitQuantMax.setCellValueFactory(new PropertyValueFactory<ProdutoAlterado, String>("min"));
-	}
-
-	@FXML
-	private JFXButton btnNew;
-
-	@FXML
-	private JFXButton btnGoBack;
-	@FXML
-	private JFXButton btnDeletar;
 
 	@FXML
 	void actGoBack(ActionEvent event) {
@@ -97,44 +76,7 @@ public class FXMLSaidaRegistrationController implements Initializable, FXMLDefau
 	@FXML
 	void actSPNew(ActionEvent event) {
 		List<Product> items = new ArrayList<Product>();
-		for (ProdutoAlterado p : tviewSearch.getItems()) {
-			items.add(p.getProduto());
-		}
-
 		new ProductDAO().save(items);
-	}
-	
-	@FXML
-	void actSPDelete(ActionEvent event) {
-//		List<Product> items = new ArrayList<Product>();
-//
-//		for (ProdutoAlterado p : tviewSearch.getItems()) {
-//			p.getProduto().setStockQuantity(new Integer(p.getProduto().getStockQuantity().intValue() - p.getQtd()));
-//			//items.add(p.getProduto());
-//			estoqueController.deleteEstoque();
-//		}
-
-	}
-
-	@FXML
-	void actTableviewSelectItem() {
-		try {
-
-			// checar se tem valor
-			if (tempproduct != null) {
-				int value = Integer.parseInt(pnSaidaFormController.getTfieldUnitQuant().getText());
-				tempproduct.getProduto().getEstoque().setQtd(value);
-			}
-
-			tempproduct = tviewSearch.getSelectionModel().getSelectedItem();
-
-			pnSaidaFormController.loadData(tempproduct);
-
-			tviewSearch.refresh();
-			// popular
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
@@ -179,27 +121,15 @@ public class FXMLSaidaRegistrationController implements Initializable, FXMLDefau
 		List<ProdutoAlterado> lista = new ArrayList<ProdutoAlterado>();
 
 		for (Product product : dado) {
-			lista.add(new ProdutoAlterado(product, 0,0));
+			lista.add(new ProdutoAlterado(product, 0, 0));
 		}
 
 		this.lista = lista;
-
-		recarregarTabela(lista);
 	}
 
-	public VBox getRootPane() {
+	public StackPane getRootPane() {
 		// TODO Auto-generated method stub
 		return this.rootPane;
-	}
-
-	private void recarregarTabela(List<ProdutoAlterado> dado) {
-
-		ObservableList<ProdutoAlterado> modelo;
-
-		modelo = FXCollections.observableArrayList(dado);
-
-		tviewSearch.setItems(null);
-		tviewSearch.setItems(modelo);
 	}
 
 }

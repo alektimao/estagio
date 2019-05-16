@@ -243,7 +243,7 @@ public class PedidoController {
 				saveRequisicao(requisicao);
 			} catch (Exception e) {
 				System.out.println("Error: Failed to save WorkOrder - " + e.getMessage());
-				errList.add(new Exception("Falha ao Salvar Ordem de Serviço"));
+				errList.add(new Exception("Falha ao Salvar"));
 			}
 		}
 		return errList;

@@ -1,4 +1,4 @@
-package br.com.maplebearsystem.view;
+package br.com.maplebearsystem.view.component;
 
 import java.net.URL;
 import java.util.List;
@@ -12,6 +12,7 @@ import br.com.maplebearsystem.model.PessoaFisica;
 import br.com.maplebearsystem.model.PessoaJuridica;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 

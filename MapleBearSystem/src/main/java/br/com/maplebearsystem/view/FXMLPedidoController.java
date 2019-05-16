@@ -26,7 +26,7 @@ import br.com.maplebearsystem.model.constants.PedidoConstants;
 import br.com.maplebearsystem.model.validators.FieldValidators;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.view.component.FXMLBuscaPedidoController;
-import br.com.maplebearsystem.view.component.FXMLProductSearchController;
+import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
 import br.com.maplebearsystem.view.util.FXUISetup;
 import javafx.beans.property.SimpleStringProperty;
@@ -107,16 +107,16 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 	private JFXButton btautorizar;
 
 	private PedidoController controlerPedido;
-	
+
 	private FXMLDefaultControllerInterface sourceController;
 	List<Exception> mainErrorList;
 
 	@FXML
 	void addproduto(ActionEvent event) {
 		try {
-			FXMLProductSearchController controler = FXUISetup.getInstance()
+			FXMLProductFornecedorSearchController controler = FXUISetup.getInstance()
 					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLE_PRODUTOFORNECEDOR_BUSCA, null, 0.0)
-					.<FXMLProductSearchController>getController();
+					.<FXMLProductFornecedorSearchController>getController();
 			controler.switchToSelectorMode();
 			controler.setSourceFXMLController(this);
 		} catch (IOException e) {
@@ -127,7 +127,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 			e.printStackTrace();
 		}
 	}
-	
+
 	public StackPane getRootPane() {
 		return rootPane;
 	}
@@ -156,16 +156,16 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 	@FXML
 	void salvarpedido(ActionEvent event) {
 		if (save()) {
-			tviewProducts.setDisable(true);
-			btsalvar.setDisable(true);
-			vboxprodutos.setDisable(true);
+//			tviewProducts.setDisable(true);
+//			btsalvar.setDisable(true);
+//			vboxprodutos.setDisable(true);
 			FXUISetup.getInstance().clearTextInputs(rootPane);
 			FXUISetup.getInstance().clearTableViews(rootPane);
-			
-			FXNotification notification = new FXNotification("Pedido Salvo,", FXNotification.NotificationType.INFORMATION);
+
+			FXNotification notification = new FXNotification("Pedido Salvo,",
+					FXNotification.NotificationType.INFORMATION);
 			notification.show();
-		}
-		else {
+		} else {
 			String text = "";
 
 			for (Exception e : mainErrorList) {
@@ -213,7 +213,6 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 		this.sourceController = controller;
 	}
 
-
 	@Override
 	public void setTargetFXMLController(FXMLDefaultControllerInterface controller) throws Exception {
 		// TODO Auto-generated method stub
@@ -227,7 +226,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 			throw new UnsupportedOperationException();
 
 		}
-		if (sender instanceof FXMLProductSearchController) {
+		if (sender instanceof FXMLProductFornecedorSearchController) {
 			if (data instanceof List<?>) {
 				List<FornecedorProduct> resultado = (List<FornecedorProduct>) data;
 				controlerPedido.validateListaProduto(resultado);
@@ -244,6 +243,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 		}
 
 	}
+
 	private void loadRequisicao(Requisicao requisicao) {
 		controlerPedido.editarRequisicao(requisicao);
 		controlerPedido.getRequisicao().setRequestedParts(controlerPedido.BuscaProdutosPedidos(requisicao.getId()));
@@ -251,7 +251,8 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 	}
 
 	private void carregarcampos(Requisicao resultado) {
-		tfieldnome.setText(resultado.getDescricao());;
+		tfieldnome.setText(resultado.getDescricao());
+		;
 		dtdiapedido.setValue(resultado.getRequestDate().toLocalDate());
 		dtdiaentrega.setValue(resultado.getExpectedDeliveryDate().toLocalDate());
 		txtfrete.setText(resultado.getFrete().toString());
@@ -276,12 +277,16 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 		if (sender == null) {
 			throw new UnsupportedOperationException();
 		}
-		if (sender instanceof FXMLProductSearchController) {
-			FXMLProductSearchController obj = (FXMLProductSearchController) sender;
+		if (sender instanceof FXMLProductFornecedorSearchController) {
+			FXMLProductFornecedorSearchController obj = (FXMLProductFornecedorSearchController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
 		}
 		if (sender instanceof FXMLBuscaPedidoController) {
 			FXMLBuscaPedidoController obj = (FXMLBuscaPedidoController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLRetirarProdutoController) {
+			FXMLRetirarProdutoController obj = (FXMLRetirarProdutoController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
 		}
 	}
@@ -390,8 +395,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 	private void initMascara() {
 		txtfrete.setTextFormatter(TextFieldFormatterHelper.getTextFieldDoubleFormatter(9, 2));
 		txtvalor.setTextFormatter(TextFieldFormatterHelper.getTextFieldDoubleFormatter(9, 2));
-		tfieldnome.setTextFormatter(TextFieldFormatterHelper.getTextFieldFormatter(
-				FieldValidators.RegexCharsets.CHARSET_DESCRIPTION.getValue(), PedidoConstants.MAXLEN_DESCRIPTION));
+		tfieldnome.setTextFormatter(TextFieldFormatterHelper.getTextFieldFormatter(FieldValidators.RegexCharsets.CHARSET_DESCRIPTION.getValue(), PedidoConstants.MAXLEN_DESCRIPTION));
 	}
 
 	@FXML
@@ -409,8 +413,8 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 			controller.setSourceFXMLController(this);
 
 		} catch (Exception e) {
-			Logger.getLogger(this.getClass().getName())
-					.log(Level.WARNING, "Error: failed to open FXMLEquipmentRegistration", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
+					"Error: failed to open FXMLEquipmentRegistration", e);
 		}
 
 	}

@@ -1,4 +1,4 @@
-package br.com.maplebearsystem.view;
+package br.com.maplebearsystem.view.component;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,7 +16,10 @@ import br.com.maplebearsystem.model.validators.FieldValidators;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.ui.util.FXUISetup;
 import br.com.maplebearsystem.ui.util.TextFieldFormatterHelper;
+import br.com.maplebearsystem.view.component.FXMLAddressFormController;
+import br.com.maplebearsystem.view.component.FXMLAddressManagerController;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
+
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
@@ -312,7 +315,7 @@ public class FXMLContactFormController implements Initializable, FXMLDefaultCont
 			FXMLAddressManagerController controller = FXUISetup.getInstance()
 					.loadFXMLIntoStackPane(
 							rootPane,
-							FXResourcePath.FXML_DWOR_ADDRESSMANAGER,
+							FXResourcePath.FXML_MAPLEBEARSYSTEM_ADDRESSMANAGER,
 							new DropShadow(70.0, Color.BLACK),
 							100.0)
 					.<FXMLAddressManagerController>getController();
@@ -329,7 +332,7 @@ public class FXMLContactFormController implements Initializable, FXMLDefaultCont
 
 	@Override
 	public void setSourceFXMLController(FXMLDefaultControllerInterface controller) throws Exception {
-		throw new UnsupportedOperationException();
+
 
 	}
 

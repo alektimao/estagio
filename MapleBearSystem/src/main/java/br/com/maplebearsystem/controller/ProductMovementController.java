@@ -110,14 +110,17 @@ public class ProductMovementController {
 		try {
 			ProductMovementDAO dao = new ProductMovementDAO();
 			dao.save(movimento);
+			EstoqueDAO prodestoque = new EstoqueDAO();
+			prodestoque.save(movimento.getProduto().getEstoque());
+			
 		} catch (Exception e) {
 			errorList.add(new Exception("Erro ao salvar verifique as informações e tente novamente"));
 		}
 		return errorList;
 	}
 	
-	public List<Exception> SalvarMovimentoaoSalvarRecebimento() {
-		return saveMovimento(this.movimento);
+	public List<Exception> SalvarMovimentoaoSalvarRecebimento(ProductMovement mov) {
+		return saveMovimento(mov);
 	}
 
 	public void setProductDescription(String description) throws Exception {
@@ -160,10 +163,10 @@ public class ProductMovementController {
 	}
 
 	public void setEstoque(Integer estoque) throws Exception {
-		EstoqueDAO prodestoque = new EstoqueDAO();
+		//EstoqueDAO prodestoque = new EstoqueDAO();
 		Integer quantidade = movimento.getProduto().getEstoque().getQtd();
 		movimento.getProduto().getEstoque().setQtd(estoque + quantidade);
-		prodestoque.save(movimento.getProduto().getEstoque());
+		//prodestoque.save(movimento.getProduto().getEstoque());
 	}
 
 // ENDSECTION Product Methods

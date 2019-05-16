@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="rootPane" prefHeight="269.0" prefWidth="500.0" spacing="30.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLProductSaidaFormController">
+<VBox fx:id="rootPane" prefHeight="269.0" prefWidth="500.0" spacing="30.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLProductFornecedorFormController">
    <children>
       <HBox spacing="15.0">
          <children>

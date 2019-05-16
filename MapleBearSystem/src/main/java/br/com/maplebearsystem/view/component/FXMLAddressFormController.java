@@ -1,5 +1,5 @@
 
-package br.com.maplebearsystem.view;
+package br.com.maplebearsystem.view.component;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,6 +17,7 @@ import br.com.maplebearsystem.model.constants.PessoaConstants;
 import br.com.maplebearsystem.model.validators.FieldValidators;
 import br.com.maplebearsystem.ui.util.TextFieldFormatterHelper;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
+
 
 import com.github.gilbertotorrezan.viacep.se.ViaCEPClient;
 import com.github.gilbertotorrezan.viacep.shared.ViaCEPEndereco;

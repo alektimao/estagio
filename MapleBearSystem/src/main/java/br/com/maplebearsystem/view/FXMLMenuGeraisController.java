@@ -7,7 +7,7 @@ import com.jfoenix.controls.JFXButton;
 
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
-import br.com.maplebearsystem.view.component.FXMLProductSearchController;
+import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,12 +42,12 @@ public class FXMLMenuGeraisController implements Initializable, FXMLDefaultContr
 
     @FXML
     void actCadastroFuncionario(ActionEvent event) {
-
+    	
     }
 
     @FXML
     void actCadastroInteressados(ActionEvent event) {
-
+    	sourceController.loadForm(FXResourcePath.FXML_INTERESSADOS_GERENCIAR);
     }
 
     @FXML

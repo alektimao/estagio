@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTabPane?>
-<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
@@ -19,7 +18,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <StackPane fx:id="rootMenuPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLRetirarProdutoController">
    <children>
@@ -58,16 +56,7 @@
                                           <Insets />
                                        </HBox.margin>
                                     </FlowPane>
-                                    <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="5.0" maxWidth="200.0" prefWidth="148.0" vgap="5.0">
-                                       <children>
-                                          <JFXButton fx:id="btbusca" buttonType="RAISED" minHeight="33.0" minWidth="53.0" onAction="#buscarpedido" prefHeight="33.0" prefWidth="53.0" ripplerFill="#282a2f" style="-fx-text-fill: white;" text="Buscar">
-                                             <styleClass>
-                                                <String fx:value="JFXButtonCompact" />
-                                                <String fx:value="JFXButtonDefault" />
-                                             </styleClass>
-                                          </JFXButton>
-                                       </children>
-                                    </FlowPane>
+                                    <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="5.0" maxWidth="200.0" prefWidth="148.0" vgap="5.0" />
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -90,8 +79,7 @@
                                                          <children>
                                                             <TableView fx:id="tviewProducts" editable="true" prefHeight="214.0" prefWidth="690.0">
                                                               <columns>
-                                                                <TableColumn fx:id="colproduto" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="238.0" text="Produto" />
-                                                                  <TableColumn fx:id="colfornecedor" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="187.0" text="Fornecedor" />
+                                                                <TableColumn fx:id="colproduto" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="300.0" text="Produto" />
                                                                   <TableColumn fx:id="colqtd" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="134.0" text="Qtde. Estoque" />
                                                                   <TableColumn fx:id="colqtdpedido" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="130.0" text="Qtde. Pedido" />
                                                               </columns>
@@ -137,33 +125,6 @@
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </padding>
-                                    </HBox>
-                                 </content>
-                              </Tab>
-                              <Tab closable="false" text="Obsevações">
-                                 <content>
-                                    <HBox alignment="CENTER">
-                                       <children>
-                                          <VBox minWidth="700.0" spacing="30.0" style="-fx-background-color: white;">
-                                             <children>
-                                                <VBox prefHeight="100.0" spacing="10.0" VBox.vgrow="SOMETIMES">
-                                                   <children>
-                                                      <Label text="Observações" />
-                                                      <JFXTextArea maxHeight="300.0" minHeight="40.0" prefHeight="40.0" text="&#10;" VBox.vgrow="ALWAYS" />
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                             <effect>
-                                                <DropShadow />
-                                             </effect>
-                                             <padding>
-                                                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
-                                             </padding>
-                                          </VBox>
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                                        </padding>
                                     </HBox>
                                  </content>

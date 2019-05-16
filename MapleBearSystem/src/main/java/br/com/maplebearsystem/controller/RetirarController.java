@@ -63,13 +63,13 @@ public class RetirarController {
 		produtostabela = new ArrayList<Product>();
 	}
 
-	public void validateListaProduto(List<FornecedorProduct> data) {
+	public void validateListaProduto(List<Product> data) {
 
 		List<Product> listaaux = new ArrayList<Product>();
 		// fazer dentro da controler
-		for (FornecedorProduct product : data) {
+		for (Product product : data) {
 			Product p = new Product();
-			p = (product.getProduct());
+			p = (product);
 			listaaux.add(p);
 		}
 
@@ -77,15 +77,9 @@ public class RetirarController {
 			produtostabela = listaaux;
 		} else {
 			for (Product produto : listaaux) {
-				Product query;
-				try {
-					query = listaaux.stream().filter((Product produtorequisitado) -> produtorequisitado.equals(produto))
-							.findFirst().get();
-				} catch (NoSuchElementException e) {
-					Product p = new Product();
-					p = produto;
-
-					((RetirarController) produtostabela).addProduto(p);
+				if (!produtostabela.contains(produto))
+				{
+					produtostabela.add(produto);
 				}
 			}
 		}

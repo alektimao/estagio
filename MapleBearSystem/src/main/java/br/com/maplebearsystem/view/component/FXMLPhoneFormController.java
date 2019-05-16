@@ -1,4 +1,4 @@
-package br.com.maplebearsystem.view;
+package br.com.maplebearsystem.view.component;
 
 import java.net.URL;
 import java.util.ResourceBundle;

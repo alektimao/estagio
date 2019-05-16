@@ -4,22 +4,27 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-
+import br.com.maplebearsystem.ui.util.FXResourcePath;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 
-
+import br.com.maplebearsystem.controller.ProgramParameterController;
+import br.com.maplebearsystem.view.component.FXMLContactFormController;
 import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
 import br.com.maplebearsystem.view.util.FXUISetup;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class FXMLInitSetupController implements Initializable {
@@ -46,68 +51,73 @@ public class FXMLInitSetupController implements Initializable {
 	private JFXButton btnAdministratorConfigNext;
 	@FXML
 	private JFXButton btnOrgInfoNext;
+
 	@FXML
-	private JFXButton btnSave;
+	private StackPane pnAdminInfoForm;
 	@FXML
-	private JFXButton actCancel;
+	private FXMLContactFormController pnAdminInfoFormController;
 	@FXML
-	private VBox pnAdminInfoForm;
+	private StackPane pnOrganizationInfoForm;
 	@FXML
-	private VBox pnOrganizationInfoForm;
-	@FXML
-	private ContactFormController pnOrganizationInfoFormController;
-	@FXML
-	private ContactFormController pnAdminInfoFormController;
+	private FXMLContactFormController pnOrganizationInfoFormController;
 
 // SECTION FXMLControler Main Attributes
 
-
-
 // ENDSECTION FXMLControler Main Attributes
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+		ProgramParameterController.getInstance().setupParameterizationMode();
+
+		pnOrganizationInfoFormController
+				.setModelController(ProgramParameterController.getInstance().getPessoaOrganizationController());
+
+		pnAdminInfoFormController
+				.setModelController(ProgramParameterController.getInstance().getPessoaAdminController());
+
 		initUI();
 
 	}
 
-	
 // SECTION UISetup FXMLController Methods
 
 	private void initUI() {
-		ProgramParameterController.getInstance().setupParameterizationMode();
-		
-		pnOrganizationInfoFormController.setController(
-				ProgramParameterController.getInstance().getPessoaOrganizationController());
-		pnOrganizationInfoFormController.setPessoaJuridicaMode();
-		
-		pnAdminInfoFormController.setController(
-				ProgramParameterController.getInstance().getPessoaAdminController());
-		pnAdminInfoFormController.setPessoaFisicaMode();
+
+		pnOrganizationInfoFormController.switchToPessoaJuridicaMode();
+
+		pnAdminInfoFormController.switchToPessoaFisicaMode();
 
 	}
-	
+
 // ENDSECTION UISetup FXMLController Methods
-	
+
 	private boolean save() {
 
 		ProgramParameterController modelController = ProgramParameterController.getInstance();
-		
-		List<Exception> errorList = modelController.save(
+
+		pnOrganizationInfoFormController.validateSetPrimaryPhoneAndAddress();
+
+		modelController.validateSetOrganization(
 				pnOrganizationInfoFormController.getTfieldName().getText(),
-				pnOrganizationInfoFormController.getTfieldCPFCNPJ().getText(),
-				pnOrganizationInfoFormController.getTfieldRGIE().getText(),
-				pnOrganizationInfoFormController.getTfieldEmail().getText(),
-				pnOrganizationInfoFormController.getTfieldIMunicipal().getText(),
 				pnOrganizationInfoFormController.getTfieldOtherName().getText(),
+				pnOrganizationInfoFormController.getTfieldRGIE().getText(),
+				pnOrganizationInfoFormController.getTfieldCPFCNPJ().getText(),
+				pnOrganizationInfoFormController.getTfieldIMunicipal().getText(),
+				pnOrganizationInfoFormController.getTfieldEmail().getText());
+
+		pnAdminInfoFormController.validateSetPrimaryPhoneAndAddress();
+
+		modelController.validateSetAdministrator(
 				pnAdminInfoFormController.getTfieldName().getText(),
-				pnAdminInfoFormController.getTfieldCPFCNPJ().getText(),
 				pnAdminInfoFormController.getTfieldRGIE().getText(),
+				pnAdminInfoFormController.getTfieldCPFCNPJ().getText(),
 				pnAdminInfoFormController.getTfieldEmail().getText(),
 				tfieldLoginUsername.getText(),
 				tfieldLoginPassword.getText(),
-				tfieldLoginPasswordRepeated.getText()
-				);
+				tfieldLoginPasswordRepeated.getText());
+
+		List<Exception> errorList = modelController.save();
 
 		if (errorList.isEmpty()) {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION, "Salvo", ButtonType.OK);
@@ -155,14 +165,25 @@ public class FXMLInitSetupController implements Initializable {
 	void actSave(ActionEvent event) {
 		if (save()) {
 			try {
-				FXUISetup.getInstance().changeSceneFromDWORMainStage(FXMLResourcePathsEnum.FXML_DWOR_HOME.getPath());
+				FXUISetup.getInstance().changeSceneFromDWORMainStage(FXResourcePath.FXML_MAPLEBEARSYSTEM_HOME);
 
 				ProgramParameterController.getInstance().setLoggedUser(
 						ProgramParameterController.getInstance().getProgramParameter().getAdministrator());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed change view after saving", e);
 			}
 		}
+	}
+
+	@FXML
+	void actCancel(ActionEvent event) {
+		Platform.exit();
+		System.exit(0);
+		//TODO Properly close InitSetup
+	}
+
+	public VBox getRootPane() {
+		return rootPane;
 	}
 
 	/*

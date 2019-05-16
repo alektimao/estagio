@@ -1,4 +1,4 @@
-package br.com.maplebearsystem.view;
+package br.com.maplebearsystem.view.component;
 
 import java.net.URL;
 import java.util.List;
@@ -8,10 +8,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import br.com.maplebearsystem.controller.PessoaController;
-import br.com.maplebearsystem.model.Phone;
+import br.com.maplebearsystem.model.Address;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXUISetup;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 
@@ -22,18 +23,16 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class FXMLPhoneManagerController implements Initializable, FXMLDefaultControllerInterface {
-
+public class FXMLAddressManagerController implements Initializable, FXMLDefaultControllerInterface {
 	@FXML
 	private StackPane rootPane;
 	@FXML
 	private VBox primaryPane;
 	@FXML
-	private JFXListView<Phone> listViewPhones;
+	private JFXListView<Address> listViewAddresses;
 	@FXML
 	private JFXButton btnEditItem;
 	@FXML
@@ -46,13 +45,13 @@ public class FXMLPhoneManagerController implements Initializable, FXMLDefaultCon
 	private JFXButton btnSave;
 
 	@FXML
-	private HBox pnPhoneForm;
+	private VBox pnAddressForm;
 	@FXML
-	private FXMLPhoneFormController pnPhoneFormController;
+	private FXMLAddressFormController pnAddressFormController;
 
 // SECTION Main FXMLController Attributes
 
-	PessoaController pessoaController;
+	private PessoaController pessoaController;
 	private FXMLDefaultControllerInterface sourceController;
 
 // ENDSECTION Main FXMLController Attributes
@@ -69,21 +68,23 @@ public class FXMLPhoneManagerController implements Initializable, FXMLDefaultCon
 		throw new UnsupportedOperationException();
 
 	}
-
 // ENDSECTION UISetup FXMLController Methods
 
 // SECTION Main FXMLController Methods
 
-	private Boolean savePhone() {
+	private boolean saveAddress() {
 
-		List<Exception> errorList = pessoaController.validateSavePhone(
-				pnPhoneFormController.getTfieldPhone().getText(),
-				pnPhoneFormController.getTfieldTelecomCompany().getText(),
-				pnPhoneFormController.getCmbboxPhoneType().getSelectionModel().getSelectedItem());
+		List<Exception> errorList = pessoaController.validateSaveAddress(
+				pnAddressFormController.getTfieldPostalCode().getText(),
+				pnAddressFormController.getTfieldAddress().getText(),
+				pnAddressFormController.getTfieldAddressNumber().getText(),
+				pnAddressFormController.getTfieldDistrict().getText(),
+				pnAddressFormController.getTfieldAddressComplement().getText(),
+				pnAddressFormController.getCmbboxCity().getSelectionModel().getSelectedItem());
 
 		if (errorList.isEmpty()) {
 
-			new FXNotification("Telefone salvo com sucesso!", FXNotification.NotificationType.INFORMATION).show();
+			new FXNotification("Endereço salvo com sucesso!", FXNotification.NotificationType.INFORMATION).show();
 
 			return true;
 		} else {
@@ -100,22 +101,28 @@ public class FXMLPhoneManagerController implements Initializable, FXMLDefaultCon
 		return false;
 	}
 
-	private void addNewPhone() {
-		pessoaController.setupNewPhone();
+	private void addNewAddress() {
+		pessoaController.setupNewAddress();
 
 		btnRemove.setDisable(true);
 		btnSave.setText("Adicionar");
-		pnPhoneFormController.reset();
+		pnAddressFormController.reset();
 		setEditPaneEnabled(true);
 	}
 
-	private void editPhone() {
-		Phone phone = listViewPhones.getSelectionModel().getSelectedItem();
+	private void editAddress() {
 
-		if (phone != null) {
-			pessoaController.setupEditPhone(phone);
-			pnPhoneFormController.reset();
-			pnPhoneFormController.setData(phone.getPhoneString(), phone.getTelcomCompany(), phone.getType());
+		Address address = listViewAddresses.getSelectionModel().getSelectedItem();
+
+		if (address != null) {
+			pessoaController.setupEditAddress(address);
+			pnAddressFormController.reset();
+			pnAddressFormController.loadData(
+					address.getPostalCode(),
+					address.getAddress(),
+					address.getDistrict(),
+					address.getAddressComplement(),
+					address.getCity());
 
 			setEditPaneEnabled(true);
 			btnRemove.setDisable(false);
@@ -128,41 +135,42 @@ public class FXMLPhoneManagerController implements Initializable, FXMLDefaultCon
 
 // SECTION Helper FXMLController Methods
 
-	private void loadListViewPhones() {
+	private void loadListViewAddresses() {
 
-		Task<ObservableList<Phone>> task = new Task<ObservableList<Phone>>() {
+		Task<ObservableList<Address>> task = new Task<ObservableList<Address>>() {
 
 			@Override
-			protected ObservableList<Phone> call() throws Exception {
-				return FXCollections.observableArrayList(pessoaController.getStagedPessoa().getPhones());
+			protected ObservableList<Address> call() throws Exception {
+				return FXCollections.observableArrayList(pessoaController.getStagedPessoa().getAddresses());
 			}
 
 		};
 
 		task.setOnSucceeded((event) -> {
 			Platform.runLater(() -> {
+
+				listViewAddresses.getItems().clear();
 				try {
-					listViewPhones.getItems().clear();
 					if (task.get() != null)
-						listViewPhones.setItems(task.get());
+						listViewAddresses.setItems(task.get());
 				} catch (InterruptedException | ExecutionException e) {
-					Logger.getLogger(this.getClass().getName())
-							.log(Level.WARNING, "Warning: failed to load listViewPhones items", e);
+					Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed to load addresses", e);
 				}
 			});
 		});
 
 		new Thread(task).run();
-
 	}
 
 	private void setEditPaneEnabled(boolean enable) {
+
 		if (enable) {
 			pnEdit.setDisable(false);
 		} else {
 			pnEdit.setDisable(true);
 			FXUISetup.getInstance().clearTextInputs(pnEdit);
 		}
+
 	}
 
 // ENDSECTION Helper FXMLController Methods
@@ -171,7 +179,7 @@ public class FXMLPhoneManagerController implements Initializable, FXMLDefaultCon
 
 	public void setPessoaController(PessoaController modelController) {
 		this.pessoaController = modelController;
-		loadListViewPhones();
+		loadListViewAddresses();
 		setEditPaneEnabled(false);
 	}
 
@@ -180,8 +188,8 @@ public class FXMLPhoneManagerController implements Initializable, FXMLDefaultCon
 // SECTION FXML Event Methods
 
 	@FXML
-	void actAdd(ActionEvent event) {
-		addNewPhone();
+	void actAddNew(ActionEvent event) {
+		addNewAddress();
 	}
 
 	@FXML
@@ -191,29 +199,27 @@ public class FXMLPhoneManagerController implements Initializable, FXMLDefaultCon
 
 	@FXML
 	void actEditItem(ActionEvent event) {
-		editPhone();
+		editAddress();
 	}
 
 	@FXML
 	void actRemove(ActionEvent event) {
 		try {
-			pessoaController.removePhone();
+			pessoaController.removeAddress();
 
 			setEditPaneEnabled(false);
-			loadListViewPhones();
+			loadListViewAddresses();
 		} catch (Exception e) {
-			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Warning: failed to remove", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed to remove Address", e);
 		}
-
 	}
 
 	@FXML
 	void actSave(ActionEvent event) {
-
-		boolean ok = savePhone();
+		boolean ok = saveAddress();
 
 		if (ok) {
-			loadListViewPhones();
+			loadListViewAddresses();
 			setEditPaneEnabled(false);
 		}
 	}
@@ -223,7 +229,7 @@ public class FXMLPhoneManagerController implements Initializable, FXMLDefaultCon
 		try {
 			sourceController.closeSenderNode(this);
 		} catch (Exception e) {
-			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Warning: failed to close", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed close AddressManager", e);
 		}
 	}
 
@@ -254,7 +260,6 @@ public class FXMLPhoneManagerController implements Initializable, FXMLDefaultCon
 		throw new UnsupportedOperationException();
 
 	}
-
 // ENDSECTION FXMLDefaultControllerInterface Implementation
 
 	public StackPane getRootPane() {

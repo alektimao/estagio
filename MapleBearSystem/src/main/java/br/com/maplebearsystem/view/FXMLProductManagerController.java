@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.view.component.FXMLProductRegistrationController;
-import br.com.maplebearsystem.view.component.FXMLProductSearchController;
+import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.component.FXMLProdutoSearchController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

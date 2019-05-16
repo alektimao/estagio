@@ -31,9 +31,8 @@ public class FXMLInteressadoRegistrationController implements Initializable, FXM
 	private JFXButton btnDelete;
 	@FXML
 	private JFXButton btnCancel;
-
 	@FXML
-	private VBox pnProductForm;
+	private VBox pnInteressadosForm;
 	@FXML
 	private FXMLInteressadosFormController pnInteressadosFormController;
 

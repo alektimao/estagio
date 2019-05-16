@@ -15,7 +15,7 @@ import br.com.maplebearsystem.model.Alocar_Produto;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
-import br.com.maplebearsystem.view.component.FXMLProductSearchController;
+import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.util.FXUISetup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -86,9 +86,9 @@ public class FXMLAlocarEquipamentoController implements Initializable, FXMLDefau
     @FXML
     void addproduto(ActionEvent event) {
     	try {
-			FXMLProductSearchController controler = FXUISetup.getInstance()
+			FXMLProductFornecedorSearchController controler = FXUISetup.getInstance()
 					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLE_PRODUTOFORNECEDOR_BUSCA, null, 0.0)
-					.<FXMLProductSearchController>getController();
+					.<FXMLProductFornecedorSearchController>getController();
 			controler.switchToSelectorMode();
 			controler.setSourceFXMLController(this);
 		} catch (IOException e) {

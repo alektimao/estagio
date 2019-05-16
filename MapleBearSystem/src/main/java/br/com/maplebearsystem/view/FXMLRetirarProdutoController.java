@@ -20,10 +20,12 @@ import br.com.maplebearsystem.dao.RequisicaoDAO;
 import br.com.maplebearsystem.main.MapleBearSystemDesktopClient;
 import br.com.maplebearsystem.model.FornecedorProduct;
 import br.com.maplebearsystem.model.Product;
+import br.com.maplebearsystem.model.ProductMovement;
 import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
-import br.com.maplebearsystem.view.component.FXMLProductSearchController;
+import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
+import br.com.maplebearsystem.view.component.FXMLProdutoSearchController;
 import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
 import br.com.maplebearsystem.view.util.FXUISetup;
 import br.com.maplebearsystem.view.viewmodel.ProdutoAlterado;
@@ -46,7 +48,7 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 
 	@FXML
 	private StackPane rootPane;
-	
+
 	@FXML
 	private StackPane rootMenuPane;
 
@@ -60,9 +62,6 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 	private JFXDatePicker dtdiapedido;
 
 	@FXML
-	private JFXButton btbusca;
-
-	@FXML
 	private VBox vboxprodutos;
 
 	@FXML
@@ -70,9 +69,6 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 
 	@FXML
 	private TableColumn<ProdutoAlterado, String> colproduto;
-
-	@FXML
-	private TableColumn<ProdutoAlterado, String> colfornecedor;
 
 	@FXML
 	private TableColumn<ProdutoAlterado, String> colqtd;
@@ -88,19 +84,21 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 
 	@FXML
 	private JFXButton btsalvar;
-	
+
+	private FXMLDefaultControllerInterface sourceController;
 	private ProductMovementController controlerMovement;
 	private RetirarController controlerRetirar;
 	private ProdutoAlterado produto;
 	private List<ProdutoAlterado> listproduto;
 	private List<Exception> mainErrorList;
+	private List<ProductMovement> listMovement;
 
 	@FXML
 	void addproduto(ActionEvent event) {
 		try {
-			FXMLProductSearchController controler = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLE_PRODUTOFORNECEDOR_BUSCA, null, 0.0)
-					.<FXMLProductSearchController>getController();
+			FXMLProdutoSearchController controler = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLE_PRODUTO_BUSCA, null, 0.0)
+					.<FXMLProdutoSearchController>getController();
 			controler.switchToSelectorMode();
 			controler.setSourceFXMLController(this);
 		} catch (IOException e) {
@@ -121,12 +119,13 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 	void removerproduto(ActionEvent event) {
 		ObservableList<ProdutoAlterado> modelo;
 		List<ProdutoAlterado> tabela = new ArrayList<ProdutoAlterado>();
+		controlerMovement.setupNewProductMovement();
 		for (ProdutoAlterado t : tviewProducts.getItems()) {
-			controlerMovement.setupNewProductMovement();
 			if (t.getProduto().getEstoque() != null && t.getRestante() - t.getRetirar() >= 0 && t.getQtd() > 0) {
 				t.setRestante(t.getRestante() - t.getRetirar());
-				controlerMovement.saveProductMovement("Retirada de Produto", null,
-						LocalDate.now(), t.getProduto(), t.getRetirar(), t.getRestante());
+				controlerMovement.saveProductMovement("Retirada de Produto", null, LocalDate.now(), t.getProduto(),
+						(-t.getRetirar()), t.getRestante());
+				listMovement.add(controlerMovement.getProductMovement());
 			}
 			t.setRetirar(0);
 
@@ -157,10 +156,13 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 			notification.show();
 		}
 	}
+
 	private boolean save() {
 		try {
-			mainErrorList = controlerMovement.SalvarMovimentoaoSalvarRecebimento();
-			if (mainErrorList.isEmpty()) {
+			for (ProductMovement productMovement : listMovement) {
+				mainErrorList = controlerMovement.SalvarMovimentoaoSalvarRecebimento(productMovement);
+			}
+			if (mainErrorList.isEmpty() && listMovement.size() > 0) {
 				return true;
 			}
 		} catch (Exception e) {
@@ -172,9 +174,14 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 
 	@FXML
 	void voltar(ActionEvent event) {
-
+		try {
+			sourceController.closeSenderNode(this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
+
 	public StackPane getRootPane() {
 		return rootMenuPane;
 	}
@@ -200,7 +207,7 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 
 	@Override
 	public void setSourceFXMLController(FXMLDefaultControllerInterface controller) throws Exception {
-		// TODO Auto-generated method stub
+		this.sourceController = controller;
 
 	}
 
@@ -217,11 +224,11 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 			throw new UnsupportedOperationException();
 
 		}
-		if (sender instanceof FXMLProductSearchController) {
+		if (sender instanceof FXMLProdutoSearchController) {
 			if (data instanceof List<?>) {
-				List<FornecedorProduct> resultado = (List<FornecedorProduct>) data;
+				List<Product> resultado = (List<Product>) data;
 				controlerRetirar.validateListaProduto(resultado);
-				listproduto = controlerRetirar.InserereProdutoAlterado();				
+				listproduto = controlerRetirar.InserereProdutoAlterado();
 				loadTableView();
 			}
 		}
@@ -235,8 +242,8 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 
 		}
 
-		if (sender instanceof FXMLProductSearchController) {
-			FXMLProductSearchController obj = (FXMLProductSearchController) sender;
+		if (sender instanceof FXMLProdutoSearchController) {
+			FXMLProdutoSearchController obj = (FXMLProdutoSearchController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
 		}
 	}
@@ -246,6 +253,7 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 		controlerRetirar = new RetirarController();
 		controlerMovement = new ProductMovementController();
 		controlerRetirar.setupNewRetirar();
+		listMovement = new ArrayList<ProductMovement>();
 		initTableViews();
 	}
 
@@ -253,14 +261,11 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 		colproduto.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getProduto().getShortDescription());
 		});
-//		colfornecedor.setCellValueFactory((data) -> {
-//			return new SimpleStringProperty("" + data.getValue().getProdFornecedor().getNomefantasia());
-//		});
 		colqtd.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getProduto().getEstoque().getQtd());
 		});
 		colqtdpedido.setCellValueFactory((data) -> {
-			return new SimpleStringProperty("" + data.getValue().getQtd());
+			return new SimpleStringProperty("" + data.getValue().getRetirar());
 		});
 		colqtdpedido.setCellFactory(TextFieldTableCell.<ProdutoAlterado>forTableColumn());
 
@@ -272,12 +277,12 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 			int row = pos.getRow();
 			ProdutoAlterado pedido = event.getTableView().getItems().get(row);
 
-			if (Integer.parseInt(newFullName) > 0
-					&& pedido.getQtd() >= Integer.parseInt(newFullName)) {
-				pedido.getProduto().getEstoque().setQtd(Integer.parseInt(newFullName));
-			}
-			else{
-				pedido.getProduto().getEstoque().setQtd(0);
+			if (Integer.parseInt(newFullName) > 0 && pedido.getQtd() >= Integer.parseInt(newFullName)) {
+
+				pedido.setRetirar(Integer.parseInt(newFullName));
+
+			} else {
+				pedido.setRetirar(0);
 			}
 			tviewProducts.getItems().set(row, pedido);
 		});

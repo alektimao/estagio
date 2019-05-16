@@ -7,10 +7,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox fx:id="rootPane" spacing="20.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="rootPane" spacing="20.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLInteressadosFormController">
    <children>
-      <HBox spacing="15.0">
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
          <children>
             <VBox spacing="10.0">
                <children>
@@ -21,27 +20,26 @@
             <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Nome do Responsável" />
-                  <JFXTextField fx:id="tfieldNome" maxWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
+                  <JFXTextField fx:id="tfieldNome" />
                </children>
             </VBox>
-            <VBox spacing="10.0">
+            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Data do Interesse" />
-                  <JFXDatePicker fx:id="dtdatainteresse" prefWidth="200.0" />
+                  <JFXDatePicker fx:id="dtdatainteresse" />
                </children>
             </VBox>
          </children>
       </HBox>
-      <HBox spacing="15.0" />
-      <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
+      <HBox layoutX="10.0" layoutY="10.0" spacing="15.0" VBox.vgrow="ALWAYS">
          <children>
-            <VBox>
+            <VBox HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Telefone 1" />
                   <JFXTextField fx:id="tftelefone1" prefWidth="240.0" />
                </children>
             </VBox>
-            <VBox>
+            <VBox HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Email 1" />
                   <JFXTextField fx:id="tfemail1" prefWidth="240.0" />
@@ -49,15 +47,15 @@
             </VBox>
          </children>
       </HBox>
-      <HBox spacing="15.0">
+      <HBox spacing="15.0" VBox.vgrow="ALWAYS">
          <children>
-            <VBox>
+            <VBox HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Telefone 2" />
                   <JFXTextField fx:id="tftelefone2" prefWidth="240.0" />
                </children>
             </VBox>
-            <VBox>
+            <VBox HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Email 2" />
                   <JFXTextField fx:id="tfemail2" prefWidth="240.0" />

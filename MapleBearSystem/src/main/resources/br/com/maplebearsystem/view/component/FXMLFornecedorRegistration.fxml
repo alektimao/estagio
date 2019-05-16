@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLFornecedorRegistrationController">
+   <children>
+      <VBox minHeight="400.0" minWidth="538.0" prefHeight="449.0" prefWidth="538.0" spacing="25.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css">
+         <children>
+            <Label styleClass="DWORScreenTitleII" text="Fornecedor Produtos" VBox.vgrow="ALWAYS" />
+            <fx:include fx:id="pnFornecedorProdutoForm" source="FXMLProductFornecedorForm.fxml" />
+            <VBox fx:id="pnButtons">
+               <children>
+                  <HBox fx:id="pnEditorMode" alignment="CENTER" spacing="14.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXButton fx:id="btnNew" buttonType="RAISED" layoutX="10.0" layoutY="10.0" onAction="#actSPNew" prefWidth="150.0" ripplerFill="#282a2f" text="Salvar">
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0" />
+                           </effect>
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="PLUS" size="20" />
+                           </graphic>
+                           <styleClass>
+                              <String fx:value="JFXButtonDefault" />
+                              <String fx:value="JFXButtonAccept" />
+                              <String fx:value="JFXButtonCompactII" />
+                           </styleClass>
+                        </JFXButton>
+                        <JFXButton fx:id="btnGoBack" buttonType="RAISED" onAction="#actGoBack" prefWidth="150.0" ripplerFill="#282a2f" text="Voltar">
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0" />
+                           </effect>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="REPLY" size="20" />
+                           </graphic>
+                           <styleClass>
+                              <String fx:value="JFXButtonDefault" />
+                              <String fx:value="JFXButtonCancel" />
+                              <String fx:value="JFXButtonCompactII" />
+                           </styleClass>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>

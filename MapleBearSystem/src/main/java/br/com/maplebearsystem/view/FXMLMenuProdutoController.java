@@ -7,7 +7,7 @@ import com.jfoenix.controls.JFXButton;
 
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
-import br.com.maplebearsystem.view.component.FXMLProductSearchController;
+import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,29 +18,26 @@ import javafx.scene.layout.VBox;
 
 public class FXMLMenuProdutoController implements Initializable, FXMLDefaultControllerInterface {
 
-	@FXML
-	private JFXButton btnCadastroProduto;
+    @FXML
+    private StackPane mainAreaContainer;
 
-	@FXML
-	private JFXButton btnPedirProduto;
+    @FXML
+    private HBox hbox;
 
-	@FXML
-	private JFXButton btnReceberProduto;
+    @FXML
+    private JFXButton btnCadastroProduto;
+    
+    @FXML
+    private JFXButton btnCadastroFornecedor;
 
-	@FXML
-	private JFXButton btnRetirarProdutos;
+    @FXML
+    private JFXButton btnPedirProduto;
 
-	@FXML
-	private StackPane mainAreaContainer;
+    @FXML
+    private JFXButton btnReceberProduto;
 
-	@FXML
-	private JFXButton btnSidebarExit;
-
-	@FXML
-	private JFXButton btnSidebarConfigs;
-
-	@FXML
-	private HBox hbox;
+    @FXML
+    private JFXButton btnRetirarProdutos;
 
 	private FXMLMenuHomeController sourceController;
 
@@ -65,6 +62,11 @@ public class FXMLMenuProdutoController implements Initializable, FXMLDefaultCont
 	void actCadastroProduto(ActionEvent event) {
 		sourceController.loadForm(FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_PRODUTOS);
 	}
+	
+	@FXML
+	void actCadastroFornecedor(ActionEvent event) {
+		sourceController.loadForm(FXResourcePath.FXML_MAPLE_FORNECEDOR_BUSCA);
+	}
 
 	@FXML
 	void actConfigure(ActionEvent event) {
@@ -73,7 +75,12 @@ public class FXMLMenuProdutoController implements Initializable, FXMLDefaultCont
 
 	@FXML
 	void actExit(ActionEvent event) {
-
+		try {
+			sourceController.closeSenderNodeMenu();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
