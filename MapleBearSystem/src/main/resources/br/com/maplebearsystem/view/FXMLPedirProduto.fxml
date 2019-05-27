@@ -126,7 +126,7 @@
                                                 <VBox alignment="CENTER_LEFT" spacing="5.0">
                                                    <children>
                                                       <Label text="Valor Total" />
-                                                      <JFXTextField fx:id="txtvalor" />
+                                                      <JFXTextField fx:id="txtvalor" editable="false" />
                                                    </children>
                                                 </VBox>
                                              </children>

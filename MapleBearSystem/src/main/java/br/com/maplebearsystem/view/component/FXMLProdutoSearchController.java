@@ -10,6 +10,7 @@ import br.com.maplebearsystem.controller.InteressadoController;
 import br.com.maplebearsystem.controller.ProductController;
 import br.com.maplebearsystem.model.Interessados;
 import br.com.maplebearsystem.model.Product;
+import br.com.maplebearsystem.view.FXMLAlocarEquipamentoController;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.FXMLPedidoController;
 import br.com.maplebearsystem.view.FXMLProductManagerController;
@@ -158,14 +159,6 @@ public class FXMLProdutoSearchController implements Initializable, FXMLDefaultCo
 
 	private void loadTableView(String filter) {
 
-//		ObservableList<Product> modelo;
-//
-//		if (filter.equals("")) {
-//			modelo = FXCollections.observableArrayList(modelController.getProducts());
-//		} else {
-//
-//			modelo = FXCollections.observableArrayList(modelController.getProducts(filter));
-//		}
 		ObservableList<Product> modelo;
 
 		if (filter.equals("")) {
@@ -297,6 +290,30 @@ public class FXMLProdutoSearchController implements Initializable, FXMLDefaultCo
 		if(sourceController instanceof FXMLRetirarProdutoController)
 		{
 			FXMLRetirarProdutoController controller = (FXMLRetirarProdutoController) sourceController;
+			try {
+				List<Product> resultado = tviewSearch.getSelectionModel().getSelectedItems();
+				controller.receiveData(resultado, this);
+				controller.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(sourceController instanceof FXMLAlocarEquipamentoController)
+		{
+			FXMLAlocarEquipamentoController controller = (FXMLAlocarEquipamentoController) sourceController;
+			try {
+				List<Product> resultado = tviewSearch.getSelectionModel().getSelectedItems();
+				controller.receiveData(resultado, this);
+				controller.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(sourceController instanceof FXMLProductFornecedorFormController)
+		{
+			FXMLProductFornecedorFormController controller = (FXMLProductFornecedorFormController) sourceController;
 			try {
 				List<Product> resultado = tviewSearch.getSelectionModel().getSelectedItems();
 				controller.receiveData(resultado, this);

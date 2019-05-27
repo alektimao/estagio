@@ -16,9 +16,11 @@ public class FXResourcePath {
 	public static final URL FXML_MAPLEBEARSYSTEM_RETIRAR_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLRetirarProduto.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_CADASTRAR_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLProductManager.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_CADASTRAR_FORNECEDOR = resURL("/br/com/maplebearsystem/view/component/FXMLFornecedorRegistration.fxml");
+	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_EMPRESTAR = resURL("/br/com/maplebearsystem/view/FXMLAlocarEquipamento.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_BUSCAR_PEDIDO = resURL("/br/com/maplebearsystem/view/component/FXMLPedidoBusca.fxml");
 	public static final URL FXML_MAPLE_PRODUTOFORNECEDOR_BUSCA = resURL("/br/com/maplebearsystem/view/component/FXMLProductFornecedorSearch.fxml");
 	public static final URL FXML_MAPLE_FORNECEDOR_BUSCA = resURL("/br/com/maplebearsystem/view/component/FXMLFornecedorSearch.fxml");
+	public static final URL FXML_MAPLE_ALUNO_CADASTRAR = resURL("/br/com/maplebearsystem/view/component/FXMLAlunoSearch.fxml");
 	public static final URL FXML_MAPLE_PRODUTO_BUSCA = resURL("/br/com/maplebearsystem/view/component/FXMLProdutoSearch.fxml");
 	public static final URL FXML_TELEFONE_GERENCIAR = resURL("/br/com/maplebearsystem/view/component/FXMLPhoneManager.fxml");
 	public static final URL FXML_PESSOA_GERENCIAR = resURL("/br/com/maplebearsystem/view/component/FXMLContactRegistration.fxml");

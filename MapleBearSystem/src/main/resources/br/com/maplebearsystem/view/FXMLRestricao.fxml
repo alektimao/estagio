@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootMenuPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLRestricaoController">
+   <children>
+      <BorderPane minHeight="600.0" minWidth="780.0" stylesheets="@FXMLStylesheet.css">
+         <center>
+            <StackPane fx:id="rootPane" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox fx:id="panelMain" spacing="15.0" style="-fx-background-color: white;">
+                     <children>
+                        <Label text="Restrição Alimentar/Remedios" textFill="#545454">
+                           <font>
+                              <Font name="System Bold Italic" size="18.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="TOP_CENTER" spacing="15.0">
+                           <children>
+                              <HBox alignment="CENTER" maxWidth="780.0" spacing="15.0" style="-fx-border-color: lightgrey;" HBox.hgrow="SOMETIMES">
+                                 <children>
+                                    <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="SOMETIMES">
+                                       <children>
+                                          <JFXTextField id="tfieldName" fx:id="tfieldnome" labelFloat="true" minWidth="275.0" prefHeight="26.0" promptText="Aluno">
+                                             <styleClass>
+                                                <String fx:value="jfxtextfieldform" />
+                                                <String fx:value="formMaxWidth" />
+                                             </styleClass>
+                                             <FlowPane.margin>
+                                                <Insets />
+                                             </FlowPane.margin>
+                                          </JFXTextField>
+                                          <JFXTextField id="tfieldName" fx:id="tfieldSala" labelFloat="true" minWidth="150.0" prefHeight="26.0" promptText="Sala">
+                                             <styleClass>
+                                                <String fx:value="jfxtextfieldform" />
+                                                <String fx:value="formMaxWidth" />
+                                             </styleClass>
+                                          </JFXTextField>
+                                          <JFXTextField id="tfieldName" fx:id="tfieldTurma" labelFloat="true" minWidth="150.0" prefHeight="26.0" promptText="Turma">
+                                             <styleClass>
+                                                <String fx:value="jfxtextfieldform" />
+                                                <String fx:value="formMaxWidth" />
+                                             </styleClass>
+                                          </JFXTextField>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
+                                       </padding>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </FlowPane>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <JFXTabPane style="-fx-background-color: FAFAFA;" stylesheets="@FXMLStylesheet.css" VBox.vgrow="ALWAYS">
+                           <tabs>
+                              <Tab closable="false" text="Alimentar">
+                                 <content>
+                                    <HBox alignment="CENTER" spacing="15.0">
+                                       <children>
+                                          <VBox alignment="CENTER" maxWidth="1000.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <VBox fx:id="vboxprodutos" minHeight="250.0" spacing="10.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                                                         <children>
+                                                            <HBox alignment="CENTER" spacing="15.0" style="-fx-border-color: lightgrey;" VBox.vgrow="ALWAYS">
+                                                               <children>
+                                                                  <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="ALWAYS">
+                                                                     <padding>
+                                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
+                                                                     </padding>
+                                                                     <HBox.margin>
+                                                                        <Insets />
+                                                                     </HBox.margin>
+                                                                     <children>
+                                                                        <JFXTextField id="tfieldName" fx:id="tfieldGravidade" labelFloat="true" minWidth="100.0" prefHeight="26.0" promptText="Gravidade">
+                                                                           <styleClass>
+                                                                              <String fx:value="jfxtextfieldform" />
+                                                                              <String fx:value="formMaxWidth" />
+                                                                           </styleClass>
+                                                                        </JFXTextField>
+                                                                        <JFXTextField id="tfieldName" fx:id="tfieldAlimento" labelFloat="true" minWidth="150.0" prefHeight="26.0" promptText="Alimento">
+                                                                           <styleClass>
+                                                                              <String fx:value="jfxtextfieldform" />
+                                                                              <String fx:value="formMaxWidth" />
+                                                                           </styleClass>
+                                                                        </JFXTextField>
+                                                                        <JFXDatePicker fx:id="dtperiodode" minWidth="60.0" prefHeight="25.0" prefWidth="121.0" promptText="De" />
+                                                                        <JFXDatePicker fx:id="dtperiodoate" minWidth="63.0" prefHeight="25.0" prefWidth="121.0" promptText="Ate" />
+                                                                        <JFXTextArea fx:id="txtinfo" prefHeight="45.0" promptText="Sintomas da restrição" />
+                                                                        <JFXTextArea fx:id="txtinfo1" prefHeight="45.0" promptText="Conduta da Restrição" />
+                                                                     </children>
+                                                                  </FlowPane>
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                               </padding>
+                                                            </HBox>
+                                                            <TableView fx:id="tviewAlimento" editable="true" minWidth="600.0" prefHeight="100.0">
+                                                              <columns>
+                                                                <TableColumn fx:id="colproduto" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="-1.0" text="Alimento" />
+                                                                  <TableColumn fx:id="colqtd" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Gravidade" />
+                                                                  <TableColumn fx:id="colqtdpedido" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Periodo" />
+                                                              </columns>
+                                                            </TableView>
+                                                            <HBox alignment="CENTER_RIGHT" spacing="15.0" />
+                                                            <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                                                               <children>
+                                                                  <JFXButton fx:id="btadd1" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#addalimento" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-background-color: green; -fx-text-fill: white;" text="Adicionar">
+                                                                     <graphic>
+                                                                        <FontAwesomeIconView fill="WHITE" glyphName="PLUS" size="16" />
+                                                                     </graphic>
+                                                                  </JFXButton>
+                                                                  <JFXButton fx:id="btremover1" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#removeralimento" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-text-fill: white;" styleClass="JFXButtonCancel" text="Retirar">
+                                                                     <graphic>
+                                                                        <FontAwesomeIconView fill="WHITE" glyphName="TRASH" size="16" />
+                                                                     </graphic>
+                                                                  </JFXButton>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                   <effect>
+                                                      <DropShadow />
+                                                   </effect>
+                                                   <padding>
+                                                      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                   </padding>
+                                                </VBox>
+                                                <VBox spacing="5.0" style="-fx-background-color: white;">
+                                                   <children>
+                                                      <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" vgap="25.0" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </padding>
+                                                   <effect>
+                                                      <DropShadow />
+                                                   </effect>
+                                                </VBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </content>
+                              </Tab>
+                              <Tab closable="false" text="Remedio">
+                                 <content>
+                                    <HBox alignment="CENTER" spacing="15.0">
+                                       <children>
+                                          <VBox alignment="CENTER" maxWidth="1000.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <VBox fx:id="vboxprodutos2" minHeight="250.0" spacing="10.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                      <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                                                         <children>
+                                                            <HBox alignment="CENTER" spacing="15.0" style="-fx-border-color: lightgrey;" VBox.vgrow="ALWAYS">
+                                                               <children>
+                                                                  <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="ALWAYS">
+                                                                     <padding>
+                                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                     </padding>
+                                                                     <HBox.margin>
+                                                                        <Insets />
+                                                                     </HBox.margin>
+                                                                     <children>
+                                                                        <JFXTextField id="tfieldName" fx:id="tfieldGravidade2" labelFloat="true" minWidth="100.0" prefHeight="26.0" promptText="Gravidade">
+                                                                           <styleClass>
+                                                                              <String fx:value="jfxtextfieldform" />
+                                                                              <String fx:value="formMaxWidth" />
+                                                                           </styleClass>
+                                                                        </JFXTextField>
+                                                                        <JFXTextField id="tfieldName" fx:id="tfieldRemedio" labelFloat="true" minWidth="150.0" prefHeight="26.0" promptText="Remedio">
+                                                                           <styleClass>
+                                                                              <String fx:value="jfxtextfieldform" />
+                                                                              <String fx:value="formMaxWidth" />
+                                                                           </styleClass>
+                                                                        </JFXTextField>
+                                                                        <JFXTextField id="tfieldName" fx:id="tfieldPosologia" labelFloat="true" minWidth="150.0" prefHeight="26.0" promptText="Posologia">
+                                                                           <styleClass>
+                                                                              <String fx:value="jfxtextfieldform" />
+                                                                              <String fx:value="formMaxWidth" />
+                                                                           </styleClass>
+                                                                        </JFXTextField>
+                                                                        <JFXTextField id="tfieldName" fx:id="tfieldDosagem" labelFloat="true" minWidth="150.0" prefHeight="26.0" promptText="Dosagem">
+                                                                           <styleClass>
+                                                                              <String fx:value="jfxtextfieldform" />
+                                                                              <String fx:value="formMaxWidth" />
+                                                                           </styleClass>
+                                                                        </JFXTextField>
+                                                                        <JFXTextField id="tfieldName" fx:id="tfieldPlano" labelFloat="true" minWidth="150.0" prefHeight="26.0" promptText="Plano de Saúde">
+                                                                           <styleClass>
+                                                                              <String fx:value="jfxtextfieldform" />
+                                                                              <String fx:value="formMaxWidth" />
+                                                                           </styleClass>
+                                                                        </JFXTextField>
+                                                                        <JFXDatePicker fx:id="dtperiodode2" minWidth="60.0" prefHeight="25.0" prefWidth="121.0" promptText="De" />
+                                                                        <JFXDatePicker fx:id="dtperiodoate2" minWidth="63.0" prefHeight="25.0" prefWidth="121.0" promptText="Ate" />
+                                                                        <JFXTextArea fx:id="txtSintomasRemedio" prefHeight="45.0" promptText="Sintomas da restrição/Alergias" />
+                                                                        <JFXTextArea fx:id="txtCondutaRemedio" prefHeight="45.0" promptText="Conduta da Restrição" />
+                                                                     </children>
+                                                                  </FlowPane>
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                               </padding>
+                                                            </HBox>
+                                                            <TableView fx:id="tviewRemedio" editable="true" minWidth="600.0" prefHeight="100.0">
+                                                               <columns>
+                                                                  <TableColumn fx:id="colRemedio" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="-1.0" text="Remedio" />
+                                                                  <TableColumn fx:id="colGravidadeRemedio" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Gravidade" />
+                                                                  <TableColumn fx:id="colPeriodoRemedio" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Periodo" />
+                                                               </columns>
+                                                            </TableView>
+                                                            <HBox alignment="CENTER_RIGHT" spacing="15.0" />
+                                                            <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                                                               <children>
+                                                                  <JFXButton fx:id="btaddRemedio" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#addremedio" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-background-color: green; -fx-text-fill: white;" text="Adicionar">
+                                                                     <graphic>
+                                                                        <FontAwesomeIconView fill="WHITE" glyphName="PLUS" size="16" />
+                                                                     </graphic>
+                                                                  </JFXButton>
+                                                                  <JFXButton fx:id="btremoverRemedio" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#removerremedio" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-text-fill: white;" styleClass="JFXButtonCancel" text="Retirar">
+                                                                     <graphic>
+                                                                        <FontAwesomeIconView fill="WHITE" glyphName="TRASH" size="16" />
+                                                                     </graphic>
+                                                                  </JFXButton>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                   <effect>
+                                                      <DropShadow />
+                                                   </effect>
+                                                   <padding>
+                                                      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                   </padding>
+                                                </VBox>
+                                                <VBox spacing="5.0" style="-fx-background-color: white;">
+                                                   <children>
+                                                      <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" vgap="25.0" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </padding>
+                                                   <effect>
+                                                      <DropShadow />
+                                                   </effect>
+                                                </VBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </content>
+                              </Tab>
+                           </tabs>
+                        </JFXTabPane>
+                        <HBox alignment="CENTER" spacing="15.0">
+                           <children>
+                              <JFXButton fx:id="btsalvar" buttonType="RAISED" minHeight="50.0" minWidth="80.0" onAction="#salvar" ripplerFill="#282a2f" style="-fx-text-fill: white;" styleClass="JFXButtonDefault" text="Salvar" />
+                              <JFXButton fx:id="btcancelar" buttonType="RAISED" minHeight="50.0" minWidth="80.0" onAction="#voltar" ripplerFill="#282a2f" style="-fx-background-color: orange; -fx-text-fill: white;" text="Cancelar" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </StackPane>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>

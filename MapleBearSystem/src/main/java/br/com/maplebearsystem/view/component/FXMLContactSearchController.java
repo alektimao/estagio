@@ -178,6 +178,35 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 		}
 
 	}
+	public void switchToSelectorMode2() {
+
+		try {
+			tviewPessoas.setRowFactory(tv -> {
+				TableRow<Pessoa> row = new TableRow<Pessoa>();
+				row.setOnMouseClicked(event -> {
+					if (event.getClickCount() == 2 && (!row.isEmpty())) {
+						selectItem();
+					}
+				});
+				return row;
+			});
+
+			if (pnButtons.getChildren().contains(pnEditorMode))
+				pnButtons.getChildren().remove(pnEditorMode);
+			if (!pnButtons.getChildren().contains(pnSelectorMode))
+				pnButtons.getChildren().add(pnSelectorMode);
+			 pnSelectorMode.getChildren().remove(btnEdit);
+			 pnSelectorMode.getChildren().remove(btnNew);
+			 btnEdit.setDisable(false);
+			 btnNew.setDisable(false);
+
+		} catch (Exception e) {
+			Logger.getLogger(this.getClass().getName())
+					.log(Level.WARNING, "Warning: failed to switch to SelectorMode", e);
+			this.actCancel(null);
+		}
+
+	}
 
 	public void switchToEditorMode() {
 		try {
@@ -336,7 +365,7 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 	void actSPNew(ActionEvent event) {
 		try {
 			FXMLContactRegistrationController controller = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_PESSOA_GERENCIAR, null, 0.0)
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_PESSOA_GERENCIAR, null)
 					.<FXMLContactRegistrationController>getController();
 
 			controller.setSourceFXMLController(this);
@@ -436,5 +465,10 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 
 	public void setJuridicaModeOnly(boolean juridicaModeOnly) {
 		JuridicaModeOnly = juridicaModeOnly;
+	}
+
+	public StackPane getRootPane() {
+		// TODO Auto-generated method stub
+		return rootPane;
 	}
 }

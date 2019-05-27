@@ -12,7 +12,7 @@
 
 <StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLFornecedorRegistrationController">
    <children>
-      <VBox minHeight="400.0" minWidth="538.0" prefHeight="449.0" prefWidth="538.0" spacing="25.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css">
+      <VBox spacing="25.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css">
          <children>
             <Label styleClass="DWORScreenTitleII" text="Fornecedor Produtos" VBox.vgrow="ALWAYS" />
             <fx:include fx:id="pnFornecedorProdutoForm" source="FXMLProductFornecedorForm.fxml" />
@@ -29,7 +29,6 @@
                            </graphic>
                            <styleClass>
                               <String fx:value="JFXButtonDefault" />
-                              <String fx:value="JFXButtonAccept" />
                               <String fx:value="JFXButtonCompactII" />
                            </styleClass>
                         </JFXButton>

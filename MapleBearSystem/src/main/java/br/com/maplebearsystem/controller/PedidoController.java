@@ -253,6 +253,11 @@ public class PedidoController {
 		if (produtos.isEmpty()) {
 			throw new Exception("Pedido Sem Produtos");
 		}
+		for (Requisicao_Produto requisicao_Produto : produtos) {
+			if (requisicao_Produto.getQuantity() == 0 || requisicao_Produto.getUnitPrice().intValue() == 0) {
+				throw new Exception("Pedido Com Quantidade ou Valor nao informado");
+			}
+		}
 		requisicao.setRequestedParts(produtos);
 	}
 

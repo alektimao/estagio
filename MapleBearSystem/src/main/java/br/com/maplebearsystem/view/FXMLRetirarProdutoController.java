@@ -145,6 +145,8 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 			FXNotification notification = new FXNotification("Produto(s) Retirado(s),",
 					FXNotification.NotificationType.INFORMATION);
 			notification.show();
+			FXUISetup.getInstance().clearTextInputs(rootPane);
+			FXUISetup.getInstance().clearTableViews(rootPane);
 		} else {
 			String text = "";
 
@@ -246,6 +248,7 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 			FXMLProdutoSearchController obj = (FXMLProdutoSearchController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
 		}
+
 	}
 
 	@Override

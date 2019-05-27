@@ -190,14 +190,9 @@ public class InteressadoController {
 		if (text == null) {
 			text = "";
 		}
-
-//		if (text == null || "".equals(text)) {
-//			throw new Exception("Campo Email deve ser preenchido");
-//		}
-
 		text = text.replaceAll("^\\s+|\\s+$", "");
 
-		if (!FieldValidators.validateEmail(text)) {
+		if (!FieldValidators.validateEmail(text) && !"".equals(text)) {
 			throw new Exception("Campo Email possui formato invalido");
 		}
 

@@ -3,7 +3,10 @@
 		<class>br.com.maplebearsystem.model.Address</class>
 		<class>br.com.maplebearsystem.model.Alocar</class>
         <class>br.com.maplebearsystem.model.Alocar_Produto</class>
+        <class>br.com.maplebearsystem.model.Aluno</class>
         <class>br.com.maplebearsystem.model.City</class>
+		<class>br.com.maplebearsystem.model.Contrato</class>
+		<class>br.com.maplebearsystem.model.Documento</class>
 		<class>br.com.maplebearsystem.model.Employee</class>
 		<class>br.com.maplebearsystem.model.Estoque</class>
         <class>br.com.maplebearsystem.model.Federation</class>
@@ -23,6 +26,8 @@
         <class>br.com.maplebearsystem.model.ProvinceState</class>
         <class>br.com.maplebearsystem.model.Requisicao</class>
         <class>br.com.maplebearsystem.model.Requisicao_Produto</class>
+        <class>br.com.maplebearsystem.model.SalaMultiUso</class>
+        <class>br.com.maplebearsystem.model.TurmaPersonalizada</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/maplebd"/>

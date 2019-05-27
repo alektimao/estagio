@@ -12,9 +12,11 @@ import javax.persistence.EntityExistsException;
 
 import br.com.maplebearsystem.dao.AlocarDAO;
 import br.com.maplebearsystem.dao.Alocar_ProductDAO;
+import br.com.maplebearsystem.dao.FuncionarioDAO;
 import br.com.maplebearsystem.model.Alocar;
 import br.com.maplebearsystem.model.Alocar_Produto;
 import br.com.maplebearsystem.model.FornecedorProduct;
+import br.com.maplebearsystem.model.Funcionario;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.view.util.MaskedTextField;
@@ -60,36 +62,6 @@ public class AlocarController {
 		setAlocar_produto(new Alocar_Produto());
 	}
 
-	public List<Exception> tratarinfoAlocar(Alocar requisicao) {
-		List<Exception> errorList = new ArrayList<Exception>();
-
-		if (requisicao == null) {
-			requisicao = new Alocar();
-		}
-		try {
-			setAlocarDataPedido(requisicao.getDia());
-		} catch (Exception e) {
-			// TODO log user input exception
-			errorList.add(e);
-			System.out.println("Info:" + e.getMessage());
-		}
-		
-		if (errorList.isEmpty()) {
-			try {
-				tratarinfoAlocar(this.alocar);
-			} catch (EntityExistsException e) {
-				errorList.add(new Exception("Emprestimo Já cadastrado"));
-				System.out.println(
-						"Info: Emprestimo \"" + requisicao.getId() + "\" already registered - " + e.getMessage());
-			} catch (Exception saveException) {
-				System.out.println("Error: failed to save " + saveException.getMessage());
-				errorList.add(new Exception("Erro desconhecido ao salvar: \n" + saveException.getLocalizedMessage()));
-			}
-		}
-
-		return errorList;
-	}
-
 	private void setAlocarDataPedido(Date requestDate) throws Exception {
 		LocalDate localDateTime = LocalDate.now();
 		if (requestDate == null || localDateTime == null) {
@@ -131,59 +103,50 @@ public class AlocarController {
 		return dao.listAlocar(filter);
 	}
 
-	public void validateListaProduto(List<FornecedorProduct> data) {
+	public void validateListaProduto(List<Product> data) {
 
 		List<Alocar_Produto> lrp = new ArrayList<Alocar_Produto>();
 		// fazer dentro da controler
-		for (FornecedorProduct product : data) {
+		for (Product product : data) {
 			Alocar_Produto p = new Alocar_Produto();
-			p.setProdAlocar(product.getProduct());
+			p.setProdAlocar(product);
 			p.setQuantity(0);
 			lrp.add(p);
 		}
 
 		if (alocar.getProdutos() == null) {
+			alocar.setProdutos(lrp);
+		} else {
 			for (Alocar_Produto requisicao_Produto : lrp) {
 				alocar.addProdutoAlocar(requisicao_Produto);
-			}
-		} else {
- 
-			for (FornecedorProduct produto : data) {
-				Alocar_Produto query;
-				try {
-					query = alocar.getProdutos().stream()
-							.filter((Alocar_Produto produtorequisitado) -> produtorequisitado.getProdAlocar()
-									.equals(produto.getProduct()))
-							.findFirst().get();
-				}catch (NoSuchElementException e) {
-					Alocar_Produto p = new Alocar_Produto();
-					p.setProdAlocar(produto.getProduct());
-					p.setQuantity(0);
-					alocar.addProdutoAlocar(p);
-				}
 			}
 		}
 		// controlerPedido.getAlocar().getRequestedParts().addAll(lrp);
 	}
 
-	public List<Exception> validateSalvar(String valor, String descricao, LocalDate datapedido,
-			LocalDate dataentrega, List<Alocar_Produto> produtos) {
+	public List<Exception> validateSalvar(String aula,String sala,String obs, LocalDate dtdevolver,LocalDate dtemprestimo, List<Alocar_Produto> produtos) {
 		List<Exception> errList = new ArrayList<Exception>();
 		
 		try {
-			validateDescricao(descricao);
+			validateAula(aula);
 		} catch (Exception e) {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
 		}
 		try {
-			validateData(datapedido);
+			validateSala(aula);
 		} catch (Exception e) {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
 		}
 		try {
-			validateDataEntrega(dataentrega);
+			validateData(dtemprestimo);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateDataEntrega(dtdevolver);
 		} catch (Exception e) {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
@@ -196,10 +159,13 @@ public class AlocarController {
 		}
 		if (errList.isEmpty()) {
 			try {
+				FuncionarioDAO dao = new FuncionarioDAO();
+				alocar.setFuncionario(dao.listFuncionario("teste").get(0));
+				alocar.setObs("");
 				saveAlocar(alocar);
 			} catch (Exception e) {
 				System.out.println("Error: Failed to save WorkOrder - " + e.getMessage());
-				errList.add(new Exception("Falha ao Salvar Ordem de Serviço"));
+				errList.add(new Exception("Falha ao Salvar"));
 			}
 		}
 		return errList;
@@ -213,6 +179,9 @@ public class AlocarController {
 	}
 
 	private void validateDataEntrega(LocalDate dataentrega) throws Exception {
+		if (dataentrega == null) {
+			throw new Exception("Data de devolução nao selecionada");
+		}
 		if (dataentrega != null) {
 			if (!alocar.getDia().before(Date.valueOf(dataentrega))) {
 				throw new Exception("Data de devolução deve ser apos a data do emprestimo");
@@ -231,13 +200,22 @@ public class AlocarController {
 		alocar.setDia(Date.valueOf(datapedido));
 	}
 
-	private void validateDescricao(String descricao) {
-		String text = descricao;
+	private void validateAula(String aula) {
+		String text = aula;
 
 		if (text == null) {
 			text = "";
 		}
-		alocar.setObs(text);
+		alocar.setAula(text);
+	}
+	
+	private void validateSala(String sala) {
+		String text = sala;
+
+		if (text == null) {
+			text = "";
+		}
+		alocar.setSala(text);
 	}
 
 	public void removeProduct(Alocar_Produto product) {

@@ -15,7 +15,7 @@
       <VBox fx:id="primaryPane" spacing="25.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css">
       	<children>
       		<Label styleClass="DWORScreenTitleII" text="Cadastro de Funcionarios" />
-            <fx:include source="FXMLFuncionariosForm.fxml" />
+            <fx:include source="FXMLFuncionariosForm.fxml" VBox.vgrow="ALWAYS" />
       		<VBox VBox.vgrow="ALWAYS" />
       		<HBox fx:id="pnButtons" alignment="CENTER" spacing="14.0">
       			<children>

@@ -9,12 +9,17 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.transaction.Transactional.TxType;
+
 import com.jfoenix.controls.JFXTextField;
 
 import br.com.maplebearsystem.controller.FornecedorController;
 import br.com.maplebearsystem.controller.FornecedorProductController;
 import br.com.maplebearsystem.model.FornecedorProduct;
+import br.com.maplebearsystem.model.Pessoa;
+import br.com.maplebearsystem.model.PessoaJuridica;
 import br.com.maplebearsystem.model.Product;
+import br.com.maplebearsystem.model.Requisicao;
 import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
@@ -70,7 +75,7 @@ public class FXMLProductFornecedorFormController implements FXMLDefaultControlle
 	void addprod(ActionEvent event) {
 		try {
 			FXMLProdutoSearchController controler = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLE_PRODUTO_BUSCA, null, 0.0)
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLE_PRODUTO_BUSCA, new DropShadow(70.0, Color.BLACK), 10.0)
 					.<FXMLProdutoSearchController>getController();
 			controler.switchToSelectorMode();
 			controler.setSourceFXMLController(this);
@@ -127,19 +132,18 @@ public class FXMLProductFornecedorFormController implements FXMLDefaultControlle
 	void buscarpessoa(MouseEvent event) {
 		loadtela(FXResourcePath.FXML_PESSOA_BUSCAR);
 	}
-	
-	public void loadtela(URL url)
-	{
+
+	public void loadtela(URL url) {
 		try {
 
 			FXMLDefaultControllerInterface controller = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, url,
-							new DropShadow(70.0, Color.BLACK),
-							300.0).<FXMLDefaultControllerInterface>getController();
+					.loadFXMLIntoStackPane(rootPane, url, new DropShadow(20.0, Color.BLACK), 10.0)
+					.<FXMLDefaultControllerInterface>getController();
 
 			controller.setSourceFXMLController(this);
 			if (controller instanceof FXMLContactSearchController) {
-				((FXMLContactSearchController) controller).switchToSelectorMode();
+				((FXMLContactSearchController) controller).setJuridicaModeOnly(true);
+				((FXMLContactSearchController) controller).switchToSelectorMode2();
 			}
 		} catch (Exception e) {
 			Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
@@ -173,14 +177,47 @@ public class FXMLProductFornecedorFormController implements FXMLDefaultControlle
 
 	@Override
 	public void receiveData(Object data, FXMLDefaultControllerInterface sender) throws Exception {
-		// TODO Auto-generated method stub
-
+		if (sender instanceof FXMLContactSearchController) {
+			if (data instanceof Pessoa) {
+				Pessoa resultado = (Pessoa) data;
+				loadPessoa(resultado);
+			}
+		}
+		if (sender instanceof FXMLProdutoSearchController) {
+			if (data instanceof List<?>) {
+				List<Product> resultado = (List<Product>) data;
+				fornproduct.validateListaProduto(resultado);
+				loadTableView();
+			}
+		}
 	}
 
 	@Override
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
+		if (sender instanceof FXMLContactSearchController) {
+			FXMLContactSearchController obj = (FXMLContactSearchController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLProdutoSearchController) {
+			FXMLProdutoSearchController obj = (FXMLProdutoSearchController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
 		// TODO Auto-generated method stub
 
+	}
+	
+	public StackPane getRootPane() {
+		return rootPane;
+	}
+	public FornecedorController getFornecedorController() {
+		return fornproduct;
+	}
+
+	private void loadPessoa(Pessoa resultado) {
+		fornproduct.getFornecedor().setPessoa((PessoaJuridica) resultado);
+		tfieldNome.setText(fornproduct.getFornecedor().getPessoa().getRazaoSocial());
+		tfieldEndereco.setText(fornproduct.getFornecedor().getPessoa().getPrimaryAddress().getAddress());
+		tfieldTelefone.setText(fornproduct.getFornecedor().getPessoa().getPrimaryPhone().getPhoneString());
 	}
 
 }

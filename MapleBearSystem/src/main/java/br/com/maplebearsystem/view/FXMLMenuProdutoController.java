@@ -29,6 +29,9 @@ public class FXMLMenuProdutoController implements Initializable, FXMLDefaultCont
     
     @FXML
     private JFXButton btnCadastroFornecedor;
+    
+    @FXML
+    private JFXButton btnCadastroEmprestar;
 
     @FXML
     private JFXButton btnPedirProduto;
@@ -66,6 +69,11 @@ public class FXMLMenuProdutoController implements Initializable, FXMLDefaultCont
 	@FXML
 	void actCadastroFornecedor(ActionEvent event) {
 		sourceController.loadForm(FXResourcePath.FXML_MAPLE_FORNECEDOR_BUSCA);
+	}
+	
+	@FXML
+	void actCadastroEmprestar(ActionEvent event) {
+		sourceController.loadForm(FXResourcePath.FXML_MAPLEBEARSYSTEM_GERENCIAR_EMPRESTAR);
 	}
 
 	@FXML

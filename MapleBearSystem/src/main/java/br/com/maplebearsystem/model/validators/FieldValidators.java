@@ -4,6 +4,8 @@
 package br.com.maplebearsystem.model.validators;
 
 import java.util.InputMismatchException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Gabriel L. P. Abreu
@@ -15,81 +17,93 @@ public class FieldValidators {
 		return cep.matches("\\d{5}-\\d{3}");
 	}
 
-	public static boolean validateBrazilianCNPJ(String cnpj) {
+	public static boolean validadeHoras(String horas) {
+		Pattern pattern;
+		Matcher matcher;
 		
-		String cnpjM = cnpj.replace(".","");
+		pattern = Pattern.compile("([01]?[0-9]|2[0-3]):[0-5][0-9]");
+
+		matcher = pattern.matcher(horas);
+		return matcher.matches();
+
+	}
+
+	public static boolean validateBrazilianCNPJ(String cnpj) {
+
+		String cnpjM = cnpj.replace(".", "");
 		cnpjM = cnpjM.replace("/", "");
 		cnpjM = cnpjM.replace("-", "");
-		
+
 		cnpjM = ("00000000000000" + cnpjM).substring(cnpjM.length());
-		
+
 		// considera-se erro CNPJ's formados por uma sequencia de numeros iguais
-		    if (cnpjM.equals("00000000000000") || cnpjM.equals("11111111111111") ||
-		        cnpjM.equals("22222222222222") || cnpjM.equals("33333333333333") ||
-		        cnpjM.equals("44444444444444") || cnpjM.equals("55555555555555") ||
-		        cnpjM.equals("66666666666666") || cnpjM.equals("77777777777777") ||
-		        cnpjM.equals("88888888888888") || cnpjM.equals("99999999999999") ||
-		       (cnpjM.length() != 14))
-		       return(false);
-		 
-		    char dig13, dig14;
-		    int sm, i, r, num, peso;
-		 
+		if (cnpjM.equals("00000000000000") || cnpjM.equals("11111111111111") || cnpjM.equals("22222222222222")
+				|| cnpjM.equals("33333333333333") || cnpjM.equals("44444444444444") || cnpjM.equals("55555555555555")
+				|| cnpjM.equals("66666666666666") || cnpjM.equals("77777777777777") || cnpjM.equals("88888888888888")
+				|| cnpjM.equals("99999999999999") || (cnpjM.length() != 14))
+			return (false);
+
+		char dig13, dig14;
+		int sm, i, r, num, peso;
+
 		// "try" - protege o código para eventuais erros de conversao de tipo (int)
-		    try {
-		// Calculo do 1o. Digito Verificador
-		      sm = 0;
-		      peso = 2;
-		      for (i=11; i>=0; i--) {
-		// converte o i-ésimo caractere do CNPJ em um número:
-		// por exemplo, transforma o caractere '0' no inteiro 0
-		// (48 eh a posição de '0' na tabela ASCII)
-		        num = (int)(cnpjM.charAt(i) - 48);
-		        sm = sm + (num * peso);
-		        peso = peso + 1;
-		        if (peso == 10)
-		           peso = 2;
-		      }
-		 
-		      r = sm % 11;
-		      if ((r == 0) || (r == 1))
-		         dig13 = '0';
-		      else dig13 = (char)((11-r) + 48);
-		 
-		// Calculo do 2o. Digito Verificador
-		      sm = 0;
-		      peso = 2;
-		      for (i=12; i>=0; i--) {
-		        num = (int)(cnpjM.charAt(i)- 48);
-		        sm = sm + (num * peso);
-		        peso = peso + 1;
-		        if (peso == 10)
-		           peso = 2;
-		      }
-		 
-		      r = sm % 11;
-		      if ((r == 0) || (r == 1))
-		         dig14 = '0';
-		      else dig14 = (char)((11-r) + 48);
-		 
-		// Verifica se os dígitos calculados conferem com os dígitos informados.
-		      if ((dig13 == cnpjM.charAt(12)) && (dig14 == cnpjM.charAt(13)))
-		         return(true);
-		      else return(false);
-		    } catch (InputMismatchException erro) {
-		        return(false);
-		    }
-		  }
-	
+		try {
+			// Calculo do 1o. Digito Verificador
+			sm = 0;
+			peso = 2;
+			for (i = 11; i >= 0; i--) {
+				// converte o i-ésimo caractere do CNPJ em um número:
+				// por exemplo, transforma o caractere '0' no inteiro 0
+				// (48 eh a posição de '0' na tabela ASCII)
+				num = (int) (cnpjM.charAt(i) - 48);
+				sm = sm + (num * peso);
+				peso = peso + 1;
+				if (peso == 10)
+					peso = 2;
+			}
+
+			r = sm % 11;
+			if ((r == 0) || (r == 1))
+				dig13 = '0';
+			else
+				dig13 = (char) ((11 - r) + 48);
+
+			// Calculo do 2o. Digito Verificador
+			sm = 0;
+			peso = 2;
+			for (i = 12; i >= 0; i--) {
+				num = (int) (cnpjM.charAt(i) - 48);
+				sm = sm + (num * peso);
+				peso = peso + 1;
+				if (peso == 10)
+					peso = 2;
+			}
+
+			r = sm % 11;
+			if ((r == 0) || (r == 1))
+				dig14 = '0';
+			else
+				dig14 = (char) ((11 - r) + 48);
+
+			// Verifica se os dígitos calculados conferem com os dígitos informados.
+			if ((dig13 == cnpjM.charAt(12)) && (dig14 == cnpjM.charAt(13)))
+				return (true);
+			else
+				return (false);
+		} catch (InputMismatchException erro) {
+			return (false);
+		}
+	}
+
 	public static boolean validateBrazilianCNPJFormat(String cpf) {
 		return cpf.matches("\\d{2}\\.\\d{3}\\.\\d{3}\\/\\d{4}\\-\\d{2}$");
 	}
-	
+
 	public static boolean validateBrazilianCPF(String cpfM) {
-		
+
 		String cpf = cpfM.replace(".", "");
 		cpf = cpf.replace("-", "");
-		
+
 		// considera-se erro CPF's formados por uma sequencia de numeros iguais
 		if (cpf.equals("00000000000") || cpf.equals("11111111111") || cpf.equals("22222222222")
 				|| cpf.equals("33333333333") || cpf.equals("44444444444") || cpf.equals("55555555555")
@@ -169,19 +183,15 @@ public class FieldValidators {
 	public enum RegexCharsets {
 
 		CHARSET_EQUIPMENT_BRANDNAME("[a-zA-ZÀ-ÿ0-9 \\(\\)\\.\\-\\ª\\º]*"),
-		CHARSET_EQUIPMENT_MODEL("[a-zA-Z0-9\\s\\.\\-\\ª\\º]*"), 
-		CHARSET_EQUIPMENT_PATNUMBER("[a-zA-Z0-9\\.\\-\\ª\\º]*"),
+		CHARSET_EQUIPMENT_MODEL("[a-zA-Z0-9\\s\\.\\-\\ª\\º]*"), CHARSET_EQUIPMENT_PATNUMBER("[a-zA-Z0-9\\.\\-\\ª\\º]*"),
 		CHARSET_EQUIPMENT_SERIALNUMBER("[a-zA-Z0-9\\.\\-\\ª\\º]*"),
 		CHARSET_EQUIPMENT_TYPETEXT("[a-zA-ZÀ-ÿ0-9 \\(\\)\\.\\-\\ª\\º]*"),
 		CHARSET_PARTPRODUCT_DESCRIPTION("[a-zA-ZÀ-ÿ0-9 \\(\\)\\.\\,\\-\\+\\ª\\º\\/\\'\\\"]*"),
 		CHARSET_PARTPRODUCT_EXTENDEDDESCRIPTION("[a-zA-ZÀ-ÿ0-9 \\(\\)\\.\\,\\-\\+\\ª\\º\\/\\'\\\"]*"),
 		CHARSET_PARTPRODUCT_OTHERNUMBERS("[A-Z0-9\\s\\,\\.\\-\\ª\\º]*"),
-		CHARSET_PARTPRODUCT_PARTNUMBER("[A-Z0-9\\.\\-\\ª\\º]*"),
-		CHARSET_PARTPRODUCT_STOCKQUANTITY("[0-9]*"),
-		CHARSET_PESSOA_NAME("[a-zA-ZÀ-ÿ0-9 \\(\\)\\.\\-\\ª\\º]*"),
-		CHARSET_PESSOAFISICA_RG("[A-Z0-9\\.\\-]*"),
-		CHARSET_PESSOAJURIDICA_IESTADUAL("[0-9\\-\\.]*"),
-		CHARSET_PESSOAJURIDICA_IMUNICIPAL("[0-9\\- ]*"),
+		CHARSET_PARTPRODUCT_PARTNUMBER("[A-Z0-9\\.\\-\\ª\\º]*"), CHARSET_PARTPRODUCT_STOCKQUANTITY("[0-9]*"),
+		CHARSET_PESSOA_NAME("[a-zA-ZÀ-ÿ0-9 \\(\\)\\.\\-\\ª\\º]*"), CHARSET_PESSOAFISICA_RG("[A-Z0-9\\.\\-]*"),
+		CHARSET_PESSOAJURIDICA_IESTADUAL("[0-9\\-\\.]*"), CHARSET_PESSOAJURIDICA_IMUNICIPAL("[0-9\\- ]*"),
 		CHARSET_PESSOAJURIDICA_RAZAOSOCIAL("[a-zA-ZÀ-ÿ0-9 \\(\\)\\.\\-\\ª\\º]*"),
 		CHARSET_SERVICE_DESCRIPTION("[a-zA-ZÀ-ÿ0-9 \\(\\)\\.\\,\\-\\+\\ª\\º\\/\\'\\\"]*"),
 		CHARSET_SERVICE_EXTENDEDDESCRIPTION("[a-zA-ZÀ-ÿ0-9 \\(\\)\\.\\,\\-\\+\\ª\\º\\/\\'\\\"]*"),

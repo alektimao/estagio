@@ -15,13 +15,13 @@
             <VBox spacing="10.0">
                <children>
                   <Label text="Matricula" />
-                  <JFXTextField fx:id="tfieldInternalCod" prefWidth="100.0" />
+                  <JFXTextField fx:id="tfieldInternalCod" />
                </children>
             </VBox>
-            <VBox maxWidth="300.0" prefHeight="52.0" prefWidth="250.0" spacing="10.0" HBox.hgrow="ALWAYS">
+            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Nome" />
-                  <JFXTextField fx:id="tfieldDescription" maxWidth="300.0" />
+                  <JFXTextField fx:id="tfieldDescription" />
                </children>
             </VBox>
             <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="58.0" text="Button">
@@ -33,27 +33,27 @@
       </HBox>
       <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
          <children>
-            <VBox layoutX="255.0" layoutY="10.0" spacing="10.0">
+            <VBox layoutX="255.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Função" />
-                  <JFXTextField fx:id="tfieldUnitQuant" prefWidth="150.0" />
+                  <JFXTextField fx:id="tfieldUnitQuant" />
                </children>
             </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" spacing="10.0">
-               <children>
-                  <Label text="Data de admissão" />
-                  <JFXDatePicker prefHeight="25.0" prefWidth="162.0" />
-               </children>
-            </VBox>
-            <VBox layoutX="175.0" layoutY="10.0" spacing="10.0">
+            <VBox layoutX="175.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Nivel" />
-                  <JFXTextField fx:id="tfieldMinQtd" prefWidth="150.0" />
+                  <JFXTextField fx:id="tfieldMinQtd" />
+               </children>
+            </VBox>
+            <VBox layoutX="10.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Data de admissão" />
+                  <JFXDatePicker VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
          </children>
       </HBox>
-      <HBox layoutX="10.0" layoutY="92.0" spacing="15.0">
+      <HBox layoutX="10.0" layoutY="92.0" spacing="15.0" VBox.vgrow="ALWAYS">
          <children>
             <VBox layoutX="255.0" layoutY="10.0" spacing="10.0">
                <children>
@@ -65,11 +65,10 @@
             <VBox layoutX="175.0" layoutY="10.0" spacing="10.0">
                <children>
                   <Label text="Senha" />
-                  <JFXTextField fx:id="tfieldMinQtd1" prefWidth="150.0" />
+                  <JFXTextField fx:id="tfieldMinQtd1" />
                </children>
             </VBox>
          </children>
       </HBox>
-      <HBox spacing="15.0" />
    </children>
 </VBox>

@@ -12,10 +12,14 @@ import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.notifications.FXNotificationFactory;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.ui.util.FXUISetup;
+import br.com.maplebearsystem.view.component.FXMLAlunoRegistrationController;
+import br.com.maplebearsystem.view.component.FXMLContactRegistrationController;
 import br.com.maplebearsystem.view.component.FXMLContactSearchController;
 import br.com.maplebearsystem.view.component.FXMLFornecedorRegistrationController;
 import br.com.maplebearsystem.view.component.FXMLFornecedorSearchController;
+import br.com.maplebearsystem.view.component.FXMLInteressadosSearchController;
 import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
+import br.com.maplebearsystem.view.component.FXMLProdutoSearchController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -192,12 +196,36 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 			FXMLProductFornecedorSearchController obj = (FXMLProductFornecedorSearchController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
 		}
+		if (sender instanceof FXMLProdutoSearchController) {
+			FXMLProdutoSearchController obj = (FXMLProdutoSearchController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
 		if (sender instanceof FXMLFornecedorSearchController) {
 			FXMLFornecedorSearchController obj = (FXMLFornecedorSearchController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
 		}
+		if (sender instanceof FXMLAlocarEquipamentoController) {
+			FXMLAlocarEquipamentoController obj = (FXMLAlocarEquipamentoController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
 		if (sender instanceof FXMLFornecedorRegistrationController) {
 			FXMLFornecedorRegistrationController obj = (FXMLFornecedorRegistrationController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLAlunoRegistrationController) {
+			FXMLAlunoRegistrationController obj = (FXMLAlunoRegistrationController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLInteressadosManagerController) {
+			FXMLInteressadosManagerController obj = (FXMLInteressadosManagerController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLContactSearchController) {
+			FXMLContactSearchController obj = (FXMLContactSearchController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLContactRegistrationController) {
+			FXMLContactRegistrationController obj = (FXMLContactRegistrationController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
 		}
 		//menu
@@ -205,10 +233,10 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 			FXMLMenuProdutoController obj = (FXMLMenuProdutoController) sender;
 			menuAreaContainer.getChildren().remove(obj.getRootPane());
 		}
-//		if (sender instanceof FXMLMenuAlunoController) {
-//			FXMLMenuAlunoController obj = (FXMLMenuAlunoController) sender;
-//			menuAreaContainer.getChildren().remove(obj.getRootPane());
-//		}
+		if (sender instanceof FXMLMenuAlunoController) {
+			FXMLMenuAlunoController obj = (FXMLMenuAlunoController) sender;
+			menuAreaContainer.getChildren().remove(obj.getRootPane());
+		}
 		
 
 	}

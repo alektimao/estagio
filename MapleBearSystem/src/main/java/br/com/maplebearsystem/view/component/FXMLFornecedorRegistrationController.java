@@ -6,9 +6,15 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import br.com.maplebearsystem.controller.EstoqueController;
+import br.com.maplebearsystem.controller.FornecedorController;
 import br.com.maplebearsystem.controller.ProductController;
+import br.com.maplebearsystem.dao.FornecedorDAO;
+import br.com.maplebearsystem.dao.FornecedorProductDAO;
 import br.com.maplebearsystem.dao.ProductDAO;
+import br.com.maplebearsystem.model.Fornecedor;
+import br.com.maplebearsystem.model.FornecedorProduct;
 import br.com.maplebearsystem.model.Product;
+import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.viewmodel.ProdutoAlterado;
 import javafx.fxml.Initializable;
@@ -49,13 +55,13 @@ public class FXMLFornecedorRegistrationController implements Initializable, FXML
 	private FXMLProductFornecedorFormController pnFornecedorProdutoFormController;
 
 	private FXMLDefaultControllerInterface sourceController;
-	private ProdutoAlterado tempproduct;
-	private List<ProdutoAlterado> lista;
-	ProductController modelController;
+	private List<Product> lista;
+	FornecedorController modelController;
 
 	private void initUI() {
-		modelController = new ProductController();
+		modelController = new FornecedorController();
 		try {
+			modelController.setupNewFornecedor();
 			pnFornecedorProdutoFormController.setSourceFXMLController(this);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -75,8 +81,25 @@ public class FXMLFornecedorRegistrationController implements Initializable, FXML
 
 	@FXML
 	void actSPNew(ActionEvent event) {
-		List<Product> items = new ArrayList<Product>();
-		new ProductDAO().save(items);
+		
+		modelController.setupNewFornecedor();
+		List<Exception> errList = new ArrayList<Exception>();
+		errList = modelController.salvar(pnFornecedorProdutoFormController.getFornecedorController().getFornecedor(), pnFornecedorProdutoFormController.getFornecedorController().getProduct());
+		if (errList.size() == 0) {
+			FXNotification notification = new FXNotification("Fornecedor Salvo",FXNotification.NotificationType.INFORMATION);
+			notification.show();
+		}
+		else
+		{
+			String text = "";
+
+			for (Exception e : errList) {
+				text = text + e.getMessage() + "\n";
+			}
+
+			FXNotification notification = new FXNotification(text, FXNotification.NotificationType.WARNING);
+			notification.show();
+		}
 	}
 
 	@Override
@@ -113,18 +136,6 @@ public class FXMLFornecedorRegistrationController implements Initializable, FXML
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		initUI();
-	}
-
-	public void setData(List<Product> dado) {
-		// TODO Auto-generated method stub
-
-		List<ProdutoAlterado> lista = new ArrayList<ProdutoAlterado>();
-
-		for (Product product : dado) {
-			lista.add(new ProdutoAlterado(product, 0, 0));
-		}
-
-		this.lista = lista;
 	}
 
 	public StackPane getRootPane() {

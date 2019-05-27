@@ -11,16 +11,16 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="rootPane" alignment="TOP_LEFT" prefHeight="464.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLProductFornecedorFormController">
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLProductFornecedorFormController">
    <children>
       <VBox spacing="15.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css">
          <children>
             <HBox spacing="10.0" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox maxWidth="-Infinity" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                  <VBox maxWidth="-Infinity" spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label text="Cod. Interno" />
-                        <JFXTextField fx:id="tfieldInternalCod" disable="true" maxWidth="-Infinity" prefWidth="100.0" />
+                        <JFXTextField fx:id="tfieldInternalCod" disable="true" />
                      </children>
                   </VBox>
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS">
@@ -36,22 +36,22 @@
                   <VBox layoutX="10.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label text="Telefone" />
-                        <JFXTextField fx:id="tfieldTelefone" disable="true" prefWidth="150.0" />
+                        <JFXTextField fx:id="tfieldTelefone" disable="true" />
                      </children>
                   </VBox>
                   <VBox layoutX="175.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label text="Endereço" />
-                        <JFXTextField fx:id="tfieldEndereco" disable="true" prefHeight="25.0" prefWidth="285.0" />
+                        <JFXTextField fx:id="tfieldEndereco" disable="true" />
                      </children>
                   </VBox>
                </children>
             </HBox>
             <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
                <children>
-                  <HBox spacing="15.0">
+                  <HBox spacing="15.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView fx:id="TbProdutos" prefHeight="269.0" prefWidth="402.0">
+                        <TableView fx:id="TbProdutos" HBox.hgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="colproduto" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="400.0" text="Produtos" />
                            </columns>
@@ -59,7 +59,7 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </TableView>
-                        <VBox HBox.hgrow="ALWAYS">
+                        <VBox HBox.hgrow="SOMETIMES">
                            <children>
                               <Button fx:id="btremove" mnemonicParsing="false" onAction="#remove" styleClass="JFXButtonCancel">
                                  <VBox.margin>
@@ -84,6 +84,9 @@
                </children>
             </VBox>
          </children>
+         <padding>
+            <Insets bottom="5.0" />
+         </padding>
       </VBox>
    </children>
 </StackPane>

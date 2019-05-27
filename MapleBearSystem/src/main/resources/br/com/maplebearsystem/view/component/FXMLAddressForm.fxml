@@ -17,7 +17,7 @@
                   <VBox>
                      <children>
                         <Label text="CEP" />
-                        <JFXTextField fx:id="tfieldPostalCode" minWidth="100.0" prefWidth="120.0" />
+                        <JFXTextField fx:id="tfieldPostalCode" />
                      </children>
                   </VBox>
                   <JFXButton fx:id="btnUpdateAddressByPostalCode" contentDisplay="CENTER" graphicTextGap="0.0" mnemonicParsing="false" onAction="#actUpdateAddressByPostalCode" style="-fx-min-width: 35; -fx-min-height: 35;" text=" ">
@@ -30,7 +30,7 @@
             <VBox HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Endereço" />
-                  <JFXTextField fx:id="tfieldAddress" minWidth="200.0" />
+                  <JFXTextField fx:id="tfieldAddress" />
                </children>
             </VBox>
             <VBox layoutX="144.0" layoutY="10.0">
@@ -46,13 +46,13 @@
             <VBox HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Bairro" />
-                  <JFXTextField fx:id="tfieldDistrict" minWidth="200.0" />
+                  <JFXTextField fx:id="tfieldDistrict" />
                </children>
             </VBox>
             <VBox HBox.hgrow="ALWAYS">
                <children>
                   <Label text="Complemento" />
-                  <JFXTextField fx:id="tfieldAddressComplement" minWidth="150.0" prefWidth="200.0" />
+                  <JFXTextField fx:id="tfieldAddressComplement" />
                </children>
             </VBox>
          </children>
@@ -60,8 +60,8 @@
       <HBox />
       <HBox spacing="14.0">
          <children>
-            <JFXComboBox fx:id="cmbboxProvinceState" labelFloat="true" maxWidth="1.7976931348623157E308" prefWidth="265.0" promptText="selecione o estado" HBox.hgrow="ALWAYS" />
-            <JFXComboBox fx:id="cmbboxCity" labelFloat="true" maxWidth="1.7976931348623157E308" prefWidth="265.0" promptText="selecione a cidade" HBox.hgrow="ALWAYS" />
+            <JFXComboBox fx:id="cmbboxProvinceState" labelFloat="true" maxWidth="1.7976931348623157E308" promptText="selecione o estado" HBox.hgrow="ALWAYS" />
+            <JFXComboBox fx:id="cmbboxCity" labelFloat="true" maxWidth="1.7976931348623157E308" promptText="selecione a cidade" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </children>

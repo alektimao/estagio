@@ -38,10 +38,13 @@ public class Alocar implements Serializable {
 	@JoinColumn(name = "funcionarioID", referencedColumnName = "id")
 	private Funcionario funcionario;
 	private int quantidade;
-	private boolean enabled;
+	private boolean atraso;
+	private boolean devolvido;
 	private Date dia;
 	private Date devolucao;
 	private String obs;
+	private String aula;
+	private String sala;
 
 	@OneToMany(mappedBy = "prodAlocar",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
@@ -50,16 +53,20 @@ public class Alocar implements Serializable {
 	public Alocar() {
 	}
 
-	public Alocar(Long id, Funcionario funcionario, int quantidade, boolean enabled, Date dia, Date devolucao,
-			String obs, List<Alocar_Produto> produtos) {
+
+
+	public Alocar(Funcionario funcionario, int quantidade, boolean atraso, boolean devolvido, Date dia,
+			Date devolucao, String obs, String aula, String sala, List<Alocar_Produto> produtos) {
 		super();
-		this.id = id;
 		this.funcionario = funcionario;
 		this.quantidade = quantidade;
-		this.enabled = enabled;
+		this.atraso = atraso;
+		this.devolvido = devolvido;
 		this.dia = dia;
 		this.devolucao = devolucao;
 		this.obs = obs;
+		this.aula = aula;
+		this.sala = sala;
 		this.produtos = produtos;
 	}
 
@@ -88,11 +95,11 @@ public class Alocar implements Serializable {
 	}
 
 	public boolean isEnabled() {
-		return enabled;
+		return atraso;
 	}
 
 	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
+		this.atraso = enabled;
 	}
 
 	public Date getDia() {
@@ -126,13 +133,47 @@ public class Alocar implements Serializable {
 	public void setObs(String obs) {
 		this.obs = obs;
 	}
+	
+	public boolean isAtraso() {
+		return atraso;
+	}
+
+	public boolean isDevolvido() {
+		return devolvido;
+	}
+
+	public String getAula() {
+		return aula;
+	}
+
+	public String getSala() {
+		return sala;
+	}
+
+	public void setAtraso(boolean atraso) {
+		this.atraso = atraso;
+	}
+
+	public void setDevolvido(boolean devolvido) {
+		this.devolvido = devolvido;
+	}
+
+	public void setAula(String aula) {
+		this.aula = aula;
+	}
+
+	public void setSala(String sala) {
+		this.sala = sala;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	public void addProdutoAlocar(Alocar_Produto requisicao_Produto) {
-		if (produtos.contains(requisicao_Produto))
-			return;
+		for (Alocar_Produto alocar_Produto : produtos) {
+			if (alocar_Produto.getProdAlocar().equals(requisicao_Produto.getProdAlocar()))
+				return;			
+		}
 		
 		produtos.add(requisicao_Produto);
 		requisicao_Produto.setAlocar(this);

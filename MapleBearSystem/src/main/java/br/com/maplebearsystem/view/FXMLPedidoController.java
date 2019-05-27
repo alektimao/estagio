@@ -344,17 +344,17 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 			Requisicao_Produto pedido = event.getTableView().getItems().get(row);
 			Requisicao_Produto item = tviewProducts.getItems().get(row);
 
-			BigDecimal valor = new BigDecimal(newFullName);
+			BigDecimal valor = new BigDecimal(newFullName.replace(',', '.'));
 			valor = valor.setScale(2, RoundingMode.HALF_UP);
 			// pra garantir arredondamento em escala de 2 algarismos
-
-			if (valor.toBigInteger().intValue() > 0) {
+		    Double valor2 = valor.doubleValue();
+			if (valor2 > 0) {
 				pedido.setUnitPrice(valor);
 			}
 			if (item.getQuantity() <= 0) {
 				pedido.setUnitPrice(BigDecimal.ZERO);
 			}
-			if (item.getQuantity() > 0 && valor.toBigInteger().intValue() > 0) {
+			if (item.getQuantity() > 0 && valor2 > 0) {
 				BigDecimal multiplicar = new BigDecimal(item.getQuantity());
 				pedido.setPriceTotal(valor.multiply(multiplicar));
 			}
@@ -376,7 +376,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 		List<Requisicao_Produto> produtos = tviewProducts.getItems();
 		for (Requisicao_Produto rp : produtos) {
 			if (rp.getPriceTotal() != null) {
-				int test = rp.getPriceTotal().toBigInteger().intValue();
+				//int test = rp.getPriceTotal().toBigInteger().intValue();
 				valor = valor.add(rp.getPriceTotal());
 			}
 		}

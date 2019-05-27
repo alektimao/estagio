@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLDocumentoController">
+   <children>
+      <VBox fx:id="panelMain" spacing="10.0" style="-fx-background-color: white;" stylesheets="@FXMLStylesheet.css">
+         <children>
+            <Label text="Guardar Documentos" textFill="#545454">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <VBox alignment="CENTER" spacing="20.0">
+               <children>
+                  <HBox alignment="CENTER" maxWidth="780.0" spacing="15.0" style="-fx-border-color: lightgrey;">
+                     <children>
+                        <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXTextField id="tfieldName" fx:id="txtaluno" disable="true" editable="false" labelFloat="true" minWidth="275.0" opacity="0.88" prefHeight="26.0" promptText="Aluno">
+                                 <styleClass>
+                                    <String fx:value="jfxtextfieldform" />
+                                    <String fx:value="formMaxWidth" />
+                                 </styleClass>
+                                 <FlowPane.margin>
+                                    <Insets />
+                                 </FlowPane.margin>
+                              </JFXTextField>
+                              <JFXTextField id="tfieldCPFCNPJ" fx:id="txtsala" disable="true" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Sala" styleClass="formMaxWidth" />
+                              <JFXTextField id="tfieldCPFCNPJ" fx:id="txtturma" disable="true" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Turma" styleClass="formMaxWidth" />
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
+                           </padding>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </FlowPane>
+                        <JFXButton fx:id="btBuscarAluno" accessibleText="Ver Cadastro" buttonType="RAISED" minHeight="50.0" minWidth="70.0" onAction="#buscar" ripplerFill="#282a2f" text="Buscar">
+                           <styleClass>
+                              <String fx:value="JFXButtonCompact" />
+                              <String fx:value="JFXButtonDefault" />
+                           </styleClass>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" minWidth="800.0" spacing="15.0" style="-fx-border-color: lightgrey; -fx-background-color: -fxtaboption;">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <children>
+                        <Label text="Documentos" textFill="#f5f3f3">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <VBox>
+                     <children>
+                        <VBox alignment="CENTER" minWidth="700.0" spacing="15.0">
+                           <children>
+                              <VBox spacing="10.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT">
+                                       <children>
+                                          <HBox alignment="CENTER_RIGHT" spacing="30.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <HBox alignment="CENTER" HBox.hgrow="NEVER" />
+                                                <HBox alignment="CENTER" HBox.hgrow="NEVER" />
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </HBox>
+                                    <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <TableView fx:id="tviewdoc" editable="true" prefHeight="200.0" prefWidth="200.0">
+                                             <columns>
+                                                <TableColumn fx:id="coldocumento" minWidth="250.0" prefWidth="-1.0" text="Documento" />
+                                                <TableColumn fx:id="colsala" minWidth="160.0" prefWidth="-1.0" text="Sala" />
+                                                <TableColumn fx:id="colturma" minWidth="140.0" prefWidth="-1.0" text="Turma" />
+                                                <TableColumn fx:id="colpasta" minWidth="120.0" prefWidth="-1.0" text="Pasta" />
+                                             </columns>
+                                          </TableView>
+                                          <HBox alignment="CENTER" spacing="15.0" style="-fx-border-color: lightgrey;" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <JFXTextField id="tfieldName" fx:id="txtdocumento" editable="false" labelFloat="true" minWidth="275.0" opacity="0.88" prefHeight="26.0" promptText="Documento">
+                                                         <styleClass>
+                                                            <String fx:value="jfxtextfieldform" />
+                                                            <String fx:value="formMaxWidth" />
+                                                         </styleClass>
+                                                         <FlowPane.margin>
+                                                            <Insets />
+                                                         </FlowPane.margin>
+                                                      </JFXTextField>
+                                                      <JFXTextField id="tfieldCPFCNPJ" fx:id="txtpasta" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Pasta" styleClass="formMaxWidth" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
+                                                   </padding>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </FlowPane>
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </HBox>
+                                          <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                                             <children>
+                                                <JFXButton fx:id="btguardar" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#guardar" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-background-color: green; -fx-text-fill: white;" text="Guardar">
+                                                   <graphic>
+                                                      <FontAwesomeIconView fill="WHITE" glyphName="CUBE" size="16" />
+                                                   </graphic>
+                                                </JFXButton>
+                                                <JFXButton fx:id="btremover1" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#remover" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-text-fill: white;" styleClass="JFXButtonCancel" text="Retirar">
+                                                   <graphic>
+                                                      <FontAwesomeIconView fill="WHITE" glyphName="TRASH" size="16" />
+                                                   </graphic>
+                                                </JFXButton>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                                 <padding>
+                                    <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-background-color: white;">
+                                 <padding>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                 </padding>
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets left="50.0" right="50.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" spacing="15.0">
+               <children>
+                  <JFXButton fx:id="btSalvar" buttonType="RAISED" layoutX="250.0" layoutY="10.0" minHeight="50.0" minWidth="80.0" onAction="#salvar" ripplerFill="#282a2f" style="-fx-background-color: #1C3E54; -fx-text-fill: white;" text="Salvar" />
+                  <JFXButton fx:id="btCancelar" buttonType="RAISED" minHeight="50.0" minWidth="80.0" onAction="#cancelar" ripplerFill="#282a2f" style="-fx-background-color: orange; -fx-text-fill: white;" text="Cancelar" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>

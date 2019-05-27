@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 
 import br.com.maplebearsystem.ui.notifications.FXNotification;
+import br.com.maplebearsystem.ui.util.FXResourcePath;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,9 @@ import javafx.scene.layout.StackPane;
 
 public class FXMLMenuAlunoController implements Initializable, FXMLDefaultControllerInterface{
 
+	@FXML
+    private StackPane mainAreaContainer;
+	
     @FXML
     private HBox hbox;
 
@@ -53,7 +57,7 @@ public class FXMLMenuAlunoController implements Initializable, FXMLDefaultContro
 
     @FXML
     void actCadastroProduto(ActionEvent event) {
-
+    	sourceController.loadForm(FXResourcePath.FXML_MAPLE_ALUNO_CADASTRAR);
     }
 
     @FXML
@@ -109,6 +113,10 @@ public class FXMLMenuAlunoController implements Initializable, FXMLDefaultContro
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public StackPane getRootPane() {
+		return mainAreaContainer;
 	}
 
 }

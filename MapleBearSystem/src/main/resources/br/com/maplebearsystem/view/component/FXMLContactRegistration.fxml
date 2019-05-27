@@ -12,14 +12,14 @@
 
 <StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLContactRegistrationController">
 	<children>
-		<VBox fx:id="primaryPane" alignment="TOP_CENTER" minWidth="0.0" spacing="5.0" styleClass="DWORDefaultFormBackground">
+		<VBox fx:id="primaryPane" alignment="TOP_CENTER" minWidth="0.0" spacing="5.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css">
 			<children>
-            <HBox maxWidth="600.0">
+            <HBox>
                <children>
       				<Label styleClass="DWORScreenTitleII" text="Cadastro do Contato" />
                </children>
             </HBox>
-				<HBox fx:id="pnRdbtLegal" alignment="CENTER" prefWidth="200.0" spacing="30.0" styleClass="formMaxWidth" VBox.vgrow="NEVER">
+				<HBox fx:id="pnRdbtLegal" alignment="CENTER" spacing="30.0" styleClass="formMaxWidth" VBox.vgrow="NEVER">
 					<children>
 						<JFXRadioButton id="rdbtnPessoaFisica" fx:id="rdbtPessoaFisica" lineSpacing="20.0" styleClass="radiobtn" text="Pessoa Fisica">
 							<toggleGroup>
@@ -33,22 +33,28 @@
 					</padding>
 				</HBox>
 				<fx:include fx:id="pnContactForm" source="FXMLContactForm.fxml" />
-				<HBox alignment="BOTTOM_CENTER" prefHeight="38.0" prefWidth="338.0" spacing="14.0" VBox.vgrow="ALWAYS">
+				<HBox alignment="BOTTOM_CENTER" spacing="14.0" VBox.vgrow="ALWAYS">
 					<VBox.margin>
 						<Insets />
 					</VBox.margin>
 					<children>
-						<JFXButton fx:id="btSave" buttonType="RAISED" disable="true" onAction="#actSave" prefHeight="45.0" ripplerFill="#282a2f" styleClass="JFXButtonDefault" text="Salvar" />
-						<JFXButton fx:id="btDelete" buttonType="RAISED" disable="true" onAction="#actDelete" prefHeight="45.0" ripplerFill="#282a2f" text="Deletar">
+						<JFXButton fx:id="btSave" buttonType="RAISED" disable="true" onAction="#actSave" ripplerFill="#282a2f" text="Salvar">
+                     <styleClass>
+                        <String fx:value="JFXButtonDefault" />
+                        <String fx:value="JFXButtonCompact" />
+                     </styleClass></JFXButton>
+						<JFXButton fx:id="btDelete" buttonType="RAISED" disable="true" onAction="#actDelete" ripplerFill="#282a2f" text="Deletar">
 							<styleClass>
 								<String fx:value="JFXButtonDefault" />
 								<String fx:value="JFXButtonDelete" />
+                        <String fx:value="JFXButtonCompact" />
 							</styleClass>
 						</JFXButton>
-						<JFXButton fx:id="btCancel" buttonType="RAISED" onAction="#actCancel" prefHeight="45.0" ripplerFill="#282a2f" text="Cancelar">
+						<JFXButton fx:id="btCancel" buttonType="RAISED" onAction="#actCancel" ripplerFill="#282a2f" text="Cancelar">
 							<styleClass>
 								<String fx:value="JFXButtonDefault" />
 								<String fx:value="JFXButtonCancel" />
+                        <String fx:value="JFXButtonCompact" />
 							</styleClass>
 						</JFXButton>
 					</children>

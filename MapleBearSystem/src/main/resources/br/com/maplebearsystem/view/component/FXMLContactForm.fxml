@@ -10,9 +10,9 @@
 
 <StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLContactFormController">
    <children>
-      <VBox fx:id="primaryPane" alignment="TOP_CENTER" maxWidth="800.0" minWidth="-Infinity" prefWidth="600.0" spacing="14.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css">
+      <VBox fx:id="primaryPane" alignment="TOP_CENTER" spacing="14.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css">
       	<children>
-      		<VBox fx:id="pnBasicForm" spacing="35.0">
+      		<VBox fx:id="pnBasicForm" spacing="20.0">
       			<children>
       				<JFXTextField id="tfieldName" fx:id="tfieldName" labelFloat="true" promptText="Nome / Razão">
       					<styleClass>
@@ -20,16 +20,16 @@
       						<String fx:value="formMaxWidth" />
       					</styleClass>
       				</JFXTextField>
-      				<HBox alignment="TOP_CENTER" spacing="14.0" styleClass="formMaxWidth">
+      				<HBox alignment="TOP_CENTER" spacing="7.0" styleClass="formMaxWidth">
       					<children>
-      						<JFXTextField id="tfieldCPFCNPJ" fx:id="tfieldCPFCNPJ" labelFloat="true" prefWidth="170.0" promptText="CPF / CNPJ" styleClass="jfxtextfieldform" HBox.hgrow="ALWAYS" />
-      						<JFXTextField id="tfieldRGIE" fx:id="tfieldRGIE" labelFloat="true" prefWidth="170.0" promptText="RG / Inscr. Estadual" styleClass="jfxtextfieldform" HBox.hgrow="ALWAYS" />
-      						<JFXTextField id="tfieldEmail" fx:id="tfieldEmail" labelFloat="true" prefWidth="200.0" promptText="E-mail" styleClass="jfxtextfieldform" HBox.hgrow="ALWAYS" />
+      						<JFXTextField id="tfieldCPFCNPJ" fx:id="tfieldCPFCNPJ" labelFloat="true" promptText="CPF / CNPJ" styleClass="jfxtextfieldform" HBox.hgrow="ALWAYS" />
+      						<JFXTextField id="tfieldRGIE" fx:id="tfieldRGIE" labelFloat="true" promptText="RG / Inscr. Estadual" styleClass="jfxtextfieldform" HBox.hgrow="ALWAYS" />
+      						<JFXTextField id="tfieldEmail" fx:id="tfieldEmail" labelFloat="true" promptText="E-mail" styleClass="jfxtextfieldform" HBox.hgrow="ALWAYS" />
       					</children>
       				</HBox>
-      				<HBox fx:id="pnJurExtras" alignment="TOP_CENTER" spacing="14.0" styleClass="formMaxWidth">
+      				<HBox fx:id="pnJurExtras" alignment="TOP_CENTER" spacing="7.0" styleClass="formMaxWidth">
       					<children>
-      						<JFXTextField fx:id="tfieldOtherName" labelFloat="true" prefWidth="300.0" promptText="Razão Social" HBox.hgrow="ALWAYS">
+      						<JFXTextField fx:id="tfieldOtherName" labelFloat="true" promptText="Razão Social" HBox.hgrow="ALWAYS">
       							<styleClass>
       								<String fx:value="jfxtextfieldform" />
       								<String fx:value="formMaxWidth" />

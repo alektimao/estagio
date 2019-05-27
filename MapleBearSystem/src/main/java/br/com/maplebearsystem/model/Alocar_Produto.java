@@ -29,19 +29,19 @@ public class Alocar_Produto implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "produtoAlocarID", referencedColumnName = "id")
 	private Product prodAlocar;
-	private Integer quantity;
-	private boolean atraso;
+	private Integer qtdemprestado;
+	private Integer qtddevolvido;
 
 	public Alocar_Produto() {
 	}
 
-	public Alocar_Produto(Long id, Alocar alocar, Product prodAlocar, Integer quantity, boolean atraso) {
+	public Alocar_Produto(Long id, Alocar alocar, Product prodAlocar, Integer quantity,Integer devolvido) {
 		super();
 		this.id = id;
 		this.alocar = alocar;
 		this.prodAlocar = prodAlocar;
-		this.quantity = quantity;
-		this.atraso = atraso;
+		this.qtdemprestado = quantity;
+		this.qtddevolvido = quantity;
 	}
 
 	public Long getId() {
@@ -57,17 +57,36 @@ public class Alocar_Produto implements Serializable {
 	}
 
 	public Integer getQuantity() {
-		return quantity;
+		return qtdemprestado;
 	}
-
-	public boolean isAtraso() {
-		return atraso;
-	}
-
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
 	
+	
+	public Integer getQtdemprestado() {
+		if (qtdemprestado == null) {
+			return 0;
+		}
+		return qtdemprestado;
+	}
+
+	public Integer getQtddevolvido() {
+		if (qtddevolvido == null) {
+			return 0;
+		}
+		return qtddevolvido;
+	}
+
+	public void setQtdemprestado(Integer qtdemprestado) {
+		this.qtdemprestado = qtdemprestado;
+	}
+
+	public void setQtddevolvido(Integer qtddevolvido) {
+		this.qtddevolvido = qtddevolvido;
+	}
+
 	private boolean sameAsFormer(Alocar novo) {
 		return this.alocar == null ? novo == null : this.alocar.equals(novo);
 	}
@@ -91,11 +110,22 @@ public class Alocar_Produto implements Serializable {
 	}
 
 	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
+		this.qtdemprestado = quantity;
 	}
-
-	public void setAtraso(boolean atraso) {
-		this.atraso = atraso;
-	}
+	
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (obj == null) {
+//			return false;
+//		}
+//		
+//		if (obj instanceof Alocar_Produto) {
+//			Alocar_Produto new_name = (Alocar_Produto) obj;
+//			if (this.id.equals(new_name.getId())) {
+//				return true;
+//			}
+//		}
+//		return super.equals(obj);
+//	}
 
 }

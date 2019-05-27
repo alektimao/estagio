@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="rootPane" stylesheets="@FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="rootPane" stylesheets="@FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLAlocarEquipamentoController">
    <children>
       <VBox fx:id="panelMain" spacing="7.0" style="-fx-background-color: white;">
          <children>
@@ -33,7 +33,7 @@
                <children>
                   <HBox alignment="CENTER" maxWidth="780.0" style="-fx-border-color: lightgrey;" HBox.hgrow="SOMETIMES">
                      <children>
-                        <Pane HBox.hgrow="ALWAYS">
+                        <Pane prefHeight="40.0" prefWidth="598.0" HBox.hgrow="ALWAYS">
                            <children>
                               <JFXTextField id="tfieldName" fx:id="tfieldFuncionario" labelFloat="true" layoutX="29.0" layoutY="5.0" minWidth="275.0" prefHeight="26.0" promptText="Funcionario">
                                  <styleClass>
@@ -73,6 +73,7 @@
                                                       <TableColumn fx:id="colproduto" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="216.0" text="Produto" />
                                                       <TableColumn fx:id="colqtd" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="128.0" text="Qtde. Estoque" />
                                                       <TableColumn fx:id="colqtdpedido" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="121.0" text="Emprestimo" />
+                                                      <TableColumn fx:id="coldevolver" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="121.0" text="Devolver" />
                                                    </columns>
                                                 </TableView>
                                                 <HBox alignment="CENTER_RIGHT" spacing="15.0" />
