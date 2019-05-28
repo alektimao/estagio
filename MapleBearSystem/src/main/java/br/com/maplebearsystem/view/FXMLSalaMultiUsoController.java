@@ -1,46 +1,19 @@
 package br.com.maplebearsystem.view;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
-import br.com.maplebearsystem.controller.PedidoController;
-import br.com.maplebearsystem.controller.ProductMovementController;
-import br.com.maplebearsystem.controller.ReceberController;
-import br.com.maplebearsystem.dao.ProductMovementDAO;
-import br.com.maplebearsystem.dao.RequisicaoDAO;
-import br.com.maplebearsystem.main.MapleBearSystemDesktopClient;
-import br.com.maplebearsystem.model.ProductMovement;
-import br.com.maplebearsystem.model.Requisicao;
-import br.com.maplebearsystem.model.Requisicao_Produto;
-import br.com.maplebearsystem.ui.notifications.FXNotification;
-import br.com.maplebearsystem.ui.util.FXResourcePath;
-import br.com.maplebearsystem.view.component.FXMLBuscaPedidoController;
-import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
-import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
-import br.com.maplebearsystem.view.util.FXUISetup;
+import br.com.maplebearsystem.model.TurmaPersonalizada;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn.CellEditEvent;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -59,13 +32,13 @@ public class FXMLSalaMultiUsoController implements Initializable, FXMLDefaultCon
 	private JFXTextField txtresponsavel;
 
 	@FXML
-	private TableView<?> tviewTurma;
+	private TableView<TurmaPersonalizada> tviewTurma;
 
 	@FXML
-	private TableColumn<?, ?> colAluno;
+	private TableColumn<TurmaPersonalizada,String> colResponsavel;
 
 	@FXML
-	private TableColumn<?, ?> colturma;
+	private TableColumn<TurmaPersonalizada,String> colTurma;
 
 	@FXML
 	private JFXButton btadd;
@@ -143,8 +116,15 @@ public class FXMLSalaMultiUsoController implements Initializable, FXMLDefaultCon
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		initTableViews();
 		
 	}
-
+	private void initTableViews() {
+		colTurma.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getNometurma());
+		});
+		colResponsavel.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getResponsavel());
+		});
+	}
 }

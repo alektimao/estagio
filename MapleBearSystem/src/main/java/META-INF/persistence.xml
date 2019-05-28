@@ -26,6 +26,9 @@
         <class>br.com.maplebearsystem.model.ProvinceState</class>
         <class>br.com.maplebearsystem.model.Requisicao</class>
         <class>br.com.maplebearsystem.model.Requisicao_Produto</class>
+        <class>br.com.maplebearsystem.model.Restricao</class>
+        <class>br.com.maplebearsystem.model.Restricao_Alimento</class>
+        <class>br.com.maplebearsystem.model.Restricao_Remedio</class>
         <class>br.com.maplebearsystem.model.SalaMultiUso</class>
         <class>br.com.maplebearsystem.model.TurmaPersonalizada</class>
 		<properties>

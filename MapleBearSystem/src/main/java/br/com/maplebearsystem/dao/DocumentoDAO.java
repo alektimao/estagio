@@ -117,4 +117,22 @@ public class DocumentoDAO extends GenericDAO<Documento> {
 		}
 	}
 
+	public List<Documento> listDocumento(Long id) {
+		List<Documento> list;
+
+		String jpqlQuery = "select r from Documento r where r.id = :pId";
+
+		EntityManager em = JPAUtil.getEntityManager();
+
+		em.getTransaction().begin();
+
+		TypedQuery<Documento> query = em.createQuery(jpqlQuery, Documento.class);
+		query.setParameter("pId",id);
+		list = query.getResultList();
+
+		em.getTransaction().commit();
+
+		return list;
+	}
+
 }

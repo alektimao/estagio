@@ -216,7 +216,7 @@ public class FXMLAlunoRegistrationController implements Initializable, FXMLDefau
 		if (alert.getResult() == ButtonType.NO)
 			return false;
 
-		modelController.deleteAluno();
+		//modelController.deleteAluno();
 
 		return true;
 	}

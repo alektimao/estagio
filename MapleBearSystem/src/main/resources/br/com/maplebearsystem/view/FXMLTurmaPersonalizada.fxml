@@ -92,7 +92,7 @@
                                           <TableView fx:id="tviewalu" editable="true" prefHeight="200.0" prefWidth="200.0">
                                              <columns>
                                                 <TableColumn fx:id="colAluno" minWidth="300.0" prefWidth="-1.0" text="Aluno" />
-                                                <TableColumn fx:id="colsala" minWidth="180.0" prefWidth="-1.0" text="Sala" />
+                                                <TableColumn fx:id="colMatricula" minWidth="180.0" prefWidth="-1.0" text="Matricula" />
                                                 <TableColumn fx:id="colturma" minWidth="160.0" prefWidth="-1.0" text="Turma" />
                                              </columns>
                                           </TableView>

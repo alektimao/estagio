@@ -26,6 +26,7 @@ public class Documento implements Serializable {
 	private Long id;
 	private String documento;
 	private String pasta;
+	private String sala;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Aluno aluno;
 
@@ -78,6 +79,14 @@ public class Documento implements Serializable {
 			}
 		}
 		return super.equals(obj);
+	}
+
+	public String getSala() {
+		return sala;
+	}
+
+	public void setSala(String sala) {
+		this.sala = sala;
 	}
 
 }

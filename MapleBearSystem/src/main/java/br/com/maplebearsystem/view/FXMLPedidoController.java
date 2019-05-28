@@ -252,7 +252,6 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 
 	private void carregarcampos(Requisicao resultado) {
 		tfieldnome.setText(resultado.getDescricao());
-		;
 		dtdiapedido.setValue(resultado.getRequestDate().toLocalDate());
 		dtdiaentrega.setValue(resultado.getExpectedDeliveryDate().toLocalDate());
 		txtfrete.setText(resultado.getFrete().toString());

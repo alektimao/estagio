@@ -39,7 +39,6 @@
                                     <Insets />
                                  </FlowPane.margin>
                               </JFXTextField>
-                              <JFXTextField id="tfieldCPFCNPJ" fx:id="txtsala" disable="true" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Sala" styleClass="formMaxWidth" />
                               <JFXTextField id="tfieldCPFCNPJ" fx:id="txtturma" disable="true" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Turma" styleClass="formMaxWidth" />
                            </children>
                            <padding>
@@ -116,6 +115,7 @@
                                                          </FlowPane.margin>
                                                       </JFXTextField>
                                                       <JFXTextField id="tfieldCPFCNPJ" fx:id="txtpasta" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Pasta" styleClass="formMaxWidth" />
+                                                      <JFXTextField id="tfieldCPFCNPJ" fx:id="txtsala" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Sala" styleClass="formMaxWidth" />
                                                    </children>
                                                    <padding>
                                                       <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />

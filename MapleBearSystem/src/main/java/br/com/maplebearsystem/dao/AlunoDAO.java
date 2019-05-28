@@ -1,5 +1,6 @@
 package br.com.maplebearsystem.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityExistsException;
@@ -7,7 +8,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
+import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.persistance.JPAUtil;
 
@@ -109,6 +115,48 @@ public class AlunoDAO extends GenericDAO<Aluno> {
 		em.getTransaction().commit();
 
 		return list;
+	}
+	public List<Aluno> listAlunosBusca(String cpf,String nometurma,String numeromatricula) {
+
+		Root<Aluno> AlunoRoot;
+
+		List<Aluno> result;
+
+		EntityManager em = JPAUtil.getEntityManager();
+
+		em.getTransaction().begin();
+
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+
+		CriteriaQuery<Aluno> criteriaQuery = criteriaBuilder.createQuery(Aluno.class);
+
+		AlunoRoot = criteriaQuery.from(Aluno.class);
+		
+		List<Predicate> filtros = new ArrayList<Predicate>();
+		
+		if (nometurma != null || !nometurma.equals("")) {
+			Predicate pEqualsTurma = criteriaBuilder.equal(AlunoRoot.get("nome"), nometurma);
+			filtros.add(pEqualsTurma);
+		}
+		if (cpf != null || !cpf.equals("")) {
+			Predicate pEqualscpf = criteriaBuilder.equal(AlunoRoot.get("cpf"), cpf);
+			filtros.add(pEqualscpf);
+		}
+		
+		if (numeromatricula != null || !numeromatricula.equals("")) {
+			Predicate pEqualsnumeromatricula = criteriaBuilder.equal(AlunoRoot.get("numeromatricula"), numeromatricula);			
+			filtros.add(pEqualsnumeromatricula);
+		}
+		
+		//Predicate filtros2 = criteriaBuilder.any(filtros.toArray());
+		
+	    criteriaQuery.select(AlunoRoot).where(filtros.toArray(new Predicate[] {})).orderBy(criteriaBuilder.asc(AlunoRoot.get("id")));
+
+		result = em.createQuery(criteriaQuery).getResultList();
+
+		em.getTransaction().commit();
+
+		return result;
 	}
 
 	@Override

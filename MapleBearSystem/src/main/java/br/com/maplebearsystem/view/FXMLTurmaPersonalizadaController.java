@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
 import br.com.maplebearsystem.model.Aluno;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,7 +41,7 @@ public class FXMLTurmaPersonalizadaController implements Initializable, FXMLDefa
     private TableColumn<Aluno, String> colAluno;
 
     @FXML
-    private TableColumn<Aluno, String> colsala;
+    private TableColumn<Aluno, String> colMatricula;
 
     @FXML
     private TableColumn<Aluno, String> colturma;
@@ -112,8 +113,18 @@ public class FXMLTurmaPersonalizadaController implements Initializable, FXMLDefa
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
+		initTableViews();
+	}
+	private void initTableViews() {
+		colAluno.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getNome());
+		});
+		colturma.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getTurmaAtual());
+		});
+		colMatricula.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getNumeromatricula());
+		});
 	}
 
 }

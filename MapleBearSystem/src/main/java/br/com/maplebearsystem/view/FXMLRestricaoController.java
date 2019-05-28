@@ -8,6 +8,10 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import br.com.maplebearsystem.model.Restricao;
+import br.com.maplebearsystem.model.Restricao_Alimento;
+import br.com.maplebearsystem.model.Restricao_Remedio;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -58,16 +62,16 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
     private JFXTextArea txtinfo1;
 
     @FXML
-    private TableView<?> tviewAlimento;
+    private TableView<Restricao_Alimento> tviewAlimento;
 
     @FXML
-    private TableColumn<?, ?> colproduto;
+    private TableColumn<Restricao_Alimento,String> colAlimento;
 
     @FXML
-    private TableColumn<?, ?> colqtd;
+    private TableColumn<Restricao_Alimento,String> colGravidadeAlimento;
 
     @FXML
-    private TableColumn<?, ?> colqtdpedido;
+    private TableColumn<Restricao_Alimento,String> colperiodoalimento;
 
     @FXML
     private JFXButton btadd1;
@@ -106,16 +110,16 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
     private JFXTextArea txtCondutaRemedio;
 
     @FXML
-    private TableView<?> tviewRemedio;
+    private TableView<Restricao_Remedio> tviewRemedio;
 
     @FXML
-    private TableColumn<?, ?> colRemedio;
+    private TableColumn<Restricao_Remedio,String> colRemedio;
 
     @FXML
-    private TableColumn<?, ?> colGravidadeRemedio;
+    private TableColumn<Restricao_Remedio,String> colGravidadeRemedio;
 
     @FXML
-    private TableColumn<?, ?> colPeriodoRemedio;
+    private TableColumn<Restricao_Remedio,String> colPeriodoRemedio;
 
     @FXML
     private JFXButton btaddRemedio;
@@ -191,7 +195,26 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
+		initTableViews();
+	}
+	private void initTableViews() {
+		colAlimento.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getAlimento());
+		});
+		colGravidadeAlimento.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getGravidade());
+		});
+		colperiodoalimento.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getDe() + "até" + data.getValue().getAte());
+		});
+		colRemedio.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getRemedio());
+		});
+		colGravidadeRemedio.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getGravidade());
+		});
+		colPeriodoRemedio.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getDe() + "até" + data.getValue().getAte());
+		});
 	}
 }

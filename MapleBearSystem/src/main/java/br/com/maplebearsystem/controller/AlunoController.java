@@ -127,10 +127,9 @@ public class AlunoController {
 		dao.save(partAluno);
 	}
 
-	public void deleteAluno() {
+	public void deleteAluno(Aluno partAluno) {
 		AlunoDAO dao = new AlunoDAO();
 		dao.delete(partAluno);
-
 	}
 	
 	private void setAlunoTurma(String TurmaAtual) throws Exception {
@@ -209,10 +208,10 @@ public class AlunoController {
 		return dao.listAllAluno();
 	}
 
-	public List<Aluno> getAlunos(String filter) {
+	public List<Aluno> getAlunos(String cpf, String nome, String numero) {
 		AlunoDAO dao = new AlunoDAO();
 
-		return dao.listAluno(filter);
+		return dao.listAlunosBusca(cpf,nome,numero);
 	}
 	public Aluno getAlunoId(Integer filter) {
 		AlunoDAO dao = new AlunoDAO();

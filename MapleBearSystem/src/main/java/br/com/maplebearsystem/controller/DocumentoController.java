@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.maplebearsystem.dao.DocumentoDAO;
+import br.com.maplebearsystem.dao.Requisicao_ProductDAO;
 import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.model.Documento;
 
 public class DocumentoController {
 
 	private Documento documento;
-
+	private List<Documento> listadocumentos;
 	public DocumentoController() {
 		// TODO Auto-generated constructor stub
 	}
@@ -27,6 +28,12 @@ public class DocumentoController {
 	public Documento getDocumento() {
 		return documento;
 	}
+	public Aluno getaluno() {
+		return documento.getAluno();
+	}
+	public void setAluno(Aluno aluno) {
+		this.documento.setAluno(aluno);
+	}
 
 	public void setDocumento(Documento documento) {
 		this.documento = documento;
@@ -34,9 +41,10 @@ public class DocumentoController {
 
 	public void setupNewDocumento() {
 		documento = new Documento();
+		listadocumentos = new ArrayList<Documento>();
 	}
 
-	public void validar(Aluno aluno, String documento, String pasta) {
+	public List<Exception> validar(Aluno aluno, String documento, String pasta, String sala) {
 		List<Exception> errList = new ArrayList<Exception>();
 
 		try {
@@ -59,16 +67,17 @@ public class DocumentoController {
 		}
 		if (errList.isEmpty()) {
 			try {
-				saveDocumento(this.documento);
+				listadocumentos.add(this.documento);
+				//saveDocumento(this.documento);
 			} catch (Exception e) {
 				System.out.println("Error: Failed to save Documento - " + e.getMessage());
 				errList.add(new Exception("Falha ao Salvar"));
 			}
 		}
-
+		return errList;
 	}
 
-	private void saveDocumento(Documento documento) {
+	public void saveDocumento(Documento documento) {
 		
 		DocumentoDAO dao = new DocumentoDAO();
 		dao.save(documento);
@@ -99,5 +108,23 @@ public class DocumentoController {
 			throw new Exception("Defina o Nome da Pasta!");
 		}
 		
+	}
+
+	public List<Documento> getListadocumentos() {
+		return listadocumentos;
+	}
+
+	public void setListadocumentos(List<Documento> listadocumentos) {
+		this.listadocumentos = listadocumentos;
+	}
+
+	public void removeDocumento(Documento doc) {
+		listadocumentos.remove(doc);
+	}
+
+	public void getDocAluno(Long id) {
+		DocumentoDAO dao = new DocumentoDAO();
+
+		this.listadocumentos = dao.listDocumento(id);
 	}
 }
