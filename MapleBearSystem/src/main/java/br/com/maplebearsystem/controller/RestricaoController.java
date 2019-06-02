@@ -1,9 +1,12 @@
 package br.com.maplebearsystem.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.maplebearsystem.dao.AlunoDAO;
+import br.com.maplebearsystem.dao.DocumentoDAO;
 import br.com.maplebearsystem.dao.RestricaoDAO;
 import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.model.Documento;
@@ -55,9 +58,12 @@ public class RestricaoController {
 		this.restricao.setAluno(resultado);
 	}
 
-	public List<Restricao> getRestricaos(Long id) {
+	public Restricao getRestricaos(Long id) {
 		RestricaoDAO r = new RestricaoDAO();
-		return r.listRestricao(id);
+		this.restricao = r.listRestricao(id);
+		this.restricao.setRequisicao_Remedio(r.listRestricaoRem(this.restricao.getId()));
+		this.restricao.setRequisicao_Alimento(r.listRestricaoAli(this.restricao.getId()));
+		return this.restricao;
 	}
 
 	public Aluno getaluno() {
@@ -70,7 +76,8 @@ public class RestricaoController {
 		restricao.setRequisicao_Remedio(new ArrayList<Restricao_Remedio>());
 	}
 
-	public List<Exception> validar(Aluno aluno, String gravidade, String alimento, String sintomas, String conduta) {
+	public List<Exception> validar(Aluno aluno, String gravidade, String alimento, String sintomas, String conduta,LocalDate de,
+			LocalDate ate) {
 		List<Exception> errList = new ArrayList<Exception>();
 		this.requisicao_alimento = new Restricao_Alimento();
 		try {
@@ -99,6 +106,18 @@ public class RestricaoController {
 		}
 		try {
 			validateConduta(conduta);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateDataDe(de);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateDataAte(ate);
 		} catch (Exception e) {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
@@ -140,7 +159,28 @@ public class RestricaoController {
 		if (gravidade == null || gravidade.equals("")) {
 			throw new Exception("Defina a gravidade!");
 		}
-		requisicao_alimento.setAlimento(gravidade);
+		requisicao_alimento.setGravidade(gravidade);
+	}
+	private void validateDataAte(LocalDate ate) throws Exception {
+		if (ate == null) {
+			throw new Exception("Data Fim não selecionada");
+		}
+		if (ate != null) {
+			if (!requisicao_alimento.getDe().before(Date.valueOf(ate))) {
+				throw new Exception("Data Fim deve ser depois da Data Início");
+			}
+		}
+		requisicao_alimento.setAte(Date.valueOf(ate));
+	}
+
+	private void validateDataDe(LocalDate de) throws Exception {
+		if (de == null) {
+			throw new Exception("Data Início não selecionada");
+		}
+		if (de.getDayOfYear() < 19) {
+			throw new Exception("Data inválida");
+		}
+		requisicao_alimento.setDe(Date.valueOf(de));
 	}
 
 	private void validateAluno(Aluno aluno) throws Exception {
@@ -150,6 +190,17 @@ public class RestricaoController {
 		if (restricao.getAluno() == null) {
 			restricao.setAluno(aluno);
 		}
+	}
+	public void saveRestricao() {	
+		RestricaoDAO dao = new RestricaoDAO();
+		dao.save(restricao);
+	}
+
+	public void removeAlimento(Restricao_Alimento ali) {
+		RestricaoDAO dao = new RestricaoDAO();
+		dao.delete(restricao);
+		restricao.removeRestricaoAlimento(ali);
+		saveRestricao();
 	}
 
 }

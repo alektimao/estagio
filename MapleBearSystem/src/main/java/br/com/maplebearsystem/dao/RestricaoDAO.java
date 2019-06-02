@@ -10,6 +10,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.com.maplebearsystem.model.Restricao;
+import br.com.maplebearsystem.model.Restricao_Alimento;
+import br.com.maplebearsystem.model.Restricao_Remedio;
 import br.com.maplebearsystem.persistance.JPAUtil;
 
 public class RestricaoDAO extends GenericDAO<Restricao> {
@@ -113,8 +115,8 @@ public class RestricaoDAO extends GenericDAO<Restricao> {
 		}
 	}
 
-	public List<Restricao> listRestricao(Long id) {
-		List<Restricao> list;
+	public Restricao listRestricao(Long id) {
+		Restricao list;
 
 		String jpqlQuery = "select r from Restricao r where r.aluno.id = :pId";
 
@@ -123,6 +125,40 @@ public class RestricaoDAO extends GenericDAO<Restricao> {
 		em.getTransaction().begin();
 
 		TypedQuery<Restricao> query = em.createQuery(jpqlQuery, Restricao.class);
+		query.setParameter("pId",id);
+		list = query.getSingleResult();
+
+		em.getTransaction().commit();
+
+		return list;
+	}
+	public List<Restricao_Remedio> listRestricaoRem(Long id) {
+		List<Restricao_Remedio> list;
+
+		String jpqlQuery = "select r from Restricao_Remedio r where r.remRest.id = :pId";
+
+		EntityManager em = JPAUtil.getEntityManager();
+
+		em.getTransaction().begin();
+
+		TypedQuery<Restricao_Remedio> query = em.createQuery(jpqlQuery, Restricao_Remedio.class);
+		query.setParameter("pId",id);
+		list = query.getResultList();
+
+		em.getTransaction().commit();
+
+		return list;
+	}
+	public List<Restricao_Alimento> listRestricaoAli(Long id) {
+		List<Restricao_Alimento> list;
+
+		String jpqlQuery = "select r from Restricao_Alimento r where r.aliRest.id = :pId";
+
+		EntityManager em = JPAUtil.getEntityManager();
+
+		em.getTransaction().begin();
+
+		TypedQuery<Restricao_Alimento> query = em.createQuery(jpqlQuery, Restricao_Alimento.class);
 		query.setParameter("pId",id);
 		list = query.getResultList();
 

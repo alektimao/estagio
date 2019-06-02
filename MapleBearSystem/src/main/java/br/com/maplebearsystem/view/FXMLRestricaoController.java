@@ -27,8 +27,11 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -174,7 +177,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 
     @FXML
     void addalimento(ActionEvent event) {
-    	mainErrorList = modelcontroller.validar(modelcontroller.getaluno(),tfieldGravidade.getText(),tfieldAlimento.getText(),txtinfo.getText(),txtinfo1.getText());
+    	mainErrorList = modelcontroller.validar(modelcontroller.getaluno(),tfieldGravidade.getText(),tfieldAlimento.getText(),txtinfo.getText(),txtinfo1.getText(),dtperiodode.getValue(),dtperiodoate.getValue());
     	if (mainErrorList.size()>0) {
     		//podesalvar = false;
     		String text = "";
@@ -206,7 +209,23 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 
     @FXML
     void removeralimento(ActionEvent event) {
+    	try {
+			Restricao_Alimento ali = tviewAlimento.getSelectionModel().getSelectedItem();
 
+			Alert alert = new Alert(AlertType.CONFIRMATION, "Deseja remover o seguinte alimento:\n"
+					+ ali.getAlimento() + "?", ButtonType.YES, ButtonType.NO);
+
+			alert.showAndWait();
+
+			if (alert.getResult() == ButtonType.YES) {
+				modelcontroller.removeAlimento(ali);
+				loadTableView();
+				// calculateValues();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @FXML
@@ -216,7 +235,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 
     @FXML
     void salvar(ActionEvent event) {
-
+    	modelcontroller.saveRestricao();
     }
 
     @FXML

@@ -164,9 +164,17 @@ public class FXMLDocumentoController implements Initializable, FXMLDefaultContro
 
     @FXML
     void salvar(ActionEvent event) {
-    	for (Documento doc : tviewdoc.getItems()) {
-			docController.saveDocumento(doc);
+    	if (tviewdoc.getItems().size()>0) {
+    		for (Documento doc : tviewdoc.getItems()) {
+    			docController.saveDocumento(doc);
+    		}			
 		}
+    	else
+    	{
+    		FXNotification notification = new FXNotification("Não e possivel salvar sem Documentos,",
+					FXNotification.NotificationType.INFORMATION);
+			notification.show();
+    	}
     }
 
 	@Override
