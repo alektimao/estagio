@@ -5,9 +5,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import br.com.maplebearsystem.dao.AlunoDAO;
 import br.com.maplebearsystem.dao.DocumentoDAO;
 import br.com.maplebearsystem.dao.RestricaoDAO;
+import br.com.maplebearsystem.dao.Restricao_AlimentoDAO;
+import br.com.maplebearsystem.dao.Restricao_RemedioDAO;
 import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.model.Documento;
 import br.com.maplebearsystem.model.Restricao;
@@ -60,7 +64,14 @@ public class RestricaoController {
 
 	public Restricao getRestricaos(Long id) {
 		RestricaoDAO r = new RestricaoDAO();
-		this.restricao = r.listRestricao(id);
+		try {
+			this.restricao = r.listRestricao(id);			
+		} catch (NoResultException e) {
+			setupNewRestricao();
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
 		this.restricao.setRequisicao_Remedio(r.listRestricaoRem(this.restricao.getId()));
 		this.restricao.setRequisicao_Alimento(r.listRestricaoAli(this.restricao.getId()));
 		return this.restricao;
@@ -76,8 +87,8 @@ public class RestricaoController {
 		restricao.setRequisicao_Remedio(new ArrayList<Restricao_Remedio>());
 	}
 
-	public List<Exception> validar(Aluno aluno, String gravidade, String alimento, String sintomas, String conduta,LocalDate de,
-			LocalDate ate) {
+	public List<Exception> validar(Aluno aluno, String gravidade, String alimento, String sintomas, String conduta,
+			LocalDate de, LocalDate ate) {
 		List<Exception> errList = new ArrayList<Exception>();
 		this.requisicao_alimento = new Restricao_Alimento();
 		try {
@@ -125,13 +136,163 @@ public class RestricaoController {
 		if (errList.isEmpty()) {
 			try {
 				restricao.addRestricaoAlimento(requisicao_alimento);
-				//saveDocumento(this.documento);
+				// saveDocumento(this.documento);
 			} catch (Exception e) {
 				System.out.println("Error: Failed to save Documento - " + e.getMessage());
 				errList.add(new Exception("Falha ao Salvar"));
 			}
 		}
 		return errList;
+	}
+
+	public List<Exception> validar(Aluno aluno, String gravidade, String dosagem, String remedio, String posologia,
+			String plano, String sintomas, String conduta, LocalDate de, LocalDate ate) {
+		List<Exception> errList = new ArrayList<Exception>();
+		this.requisicao_remedio = new Restricao_Remedio();
+		try {
+			validateAluno(aluno);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateGravidade2(gravidade);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateDosagem(dosagem);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateRemedio(remedio);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validatePosologia(gravidade);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validatePlano(plano);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateSintomas2(sintomas);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateConduta2(conduta);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateDataDe2(de);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateDataAte2(ate);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		if (errList.isEmpty()) {
+			try {
+				restricao.addRestricaoRemedio(requisicao_remedio);
+				// saveDocumento(this.documento);
+			} catch (Exception e) {
+				System.out.println("Error: Failed to save Documento - " + e.getMessage());
+				errList.add(new Exception("Falha ao Salvar"));
+			}
+		}
+		return errList;
+	}
+
+	private void validateDataAte2(LocalDate ate) throws Exception {
+		if (ate == null) {
+			throw new Exception("Data Fim não selecionada");
+		}
+		if (ate != null) {
+			if (!requisicao_alimento.getDe().before(Date.valueOf(ate))) {
+				throw new Exception("Data Fim deve ser depois da Data Início");
+			}
+		}
+		requisicao_remedio.setAte(Date.valueOf(ate));
+	}
+
+	private void validateDataDe2(LocalDate de) throws Exception {
+		if (de == null) {
+			throw new Exception("Data Início não selecionada");
+		}
+		if (de.getDayOfYear() < 19) {
+			throw new Exception("Data inválida");
+		}
+		requisicao_remedio.setDe(Date.valueOf(de));
+	}
+
+	private void validateConduta2(String conduta) throws Exception {
+		if (conduta == null || conduta.equals("")) {
+			throw new Exception("Defina a Conduta a ser tomada!");
+		}
+		requisicao_remedio.setCondutas(conduta);
+
+	}
+
+	private void validateSintomas2(String sintomas) throws Exception {
+		if (sintomas == null || sintomas.equals("")) {
+			throw new Exception("Defina o(s) Sintoma(s)!");
+		}
+		requisicao_remedio.setSintomas(sintomas);
+
+	}
+
+	private void validatePlano(String plano) throws Exception {
+		if (plano == null || plano.equals("")) {
+			throw new Exception("Defina o Plano de Saúde!");
+		}
+		requisicao_remedio.setPlano(plano);
+	}
+
+	private void validatePosologia(String posologia) throws Exception {
+		if (posologia == null || posologia.equals("")) {
+			throw new Exception("Defina a Posologia!");
+		}
+		requisicao_remedio.setPosologia(posologia);
+
+	}
+
+	private void validateRemedio(String remedio) throws Exception {
+		if (remedio == null || remedio.equals("")) {
+			throw new Exception("Defina o Remédio!");
+		}
+		requisicao_remedio.setRemedio(remedio);
+	}
+
+	private void validateDosagem(String dosagem) throws Exception {
+		if (dosagem == null || dosagem.equals("")) {
+			throw new Exception("Defina a Conduta a ser tomada!");
+		}
+		requisicao_remedio.setDosagem(dosagem);
+
+	}
+	private void validateGravidade2(String gravidade) throws Exception {
+		if (gravidade == null || gravidade.equals("")) {
+			throw new Exception("Defina a gravidade!");
+		}
+		requisicao_remedio.setGravidade(gravidade);
 	}
 
 	private void validateConduta(String conduta) throws Exception {
@@ -161,6 +322,7 @@ public class RestricaoController {
 		}
 		requisicao_alimento.setGravidade(gravidade);
 	}
+
 	private void validateDataAte(LocalDate ate) throws Exception {
 		if (ate == null) {
 			throw new Exception("Data Fim não selecionada");
@@ -185,22 +347,43 @@ public class RestricaoController {
 
 	private void validateAluno(Aluno aluno) throws Exception {
 		if (aluno == null) {
-			throw new Exception("Defina o Aluno do Documento!");
+			throw new Exception("Defina o Aluno da Restrição!");
 		}
 		if (restricao.getAluno() == null) {
 			restricao.setAluno(aluno);
 		}
 	}
-	public void saveRestricao() {	
+
+	public void saveRestricao() {
 		RestricaoDAO dao = new RestricaoDAO();
 		dao.save(restricao);
 	}
 
 	public void removeAlimento(Restricao_Alimento ali) {
-		RestricaoDAO dao = new RestricaoDAO();
-		dao.delete(restricao);
-		restricao.removeRestricaoAlimento(ali);
-		saveRestricao();
+		for (Restricao_Alimento restricao_Alimento : restricao.getRequisicao_Alimento()) {
+			if (ali.getId() == restricao_Alimento.getId()) {
+				Restricao_AlimentoDAO dao = new Restricao_AlimentoDAO();
+				dao.delete2(restricao_Alimento.getId());
+			}
+		}
+		restricao.removeRestricaoAlimento(ali);				
+//		if (restricao.getRequisicao_Alimento().size()>0 || restricao.getRequisicao_Remedio().size()>0) {
+//			saveRestricao();			
+//		}
+	}
+
+	public void removeRemedio(Restricao_Remedio rem) {
+		
+		for (Restricao_Remedio restricao_Remedio : restricao.getRequisicao_Remedio()) {
+			if (rem.getId() == restricao_Remedio.getId()) {
+				Restricao_RemedioDAO dao = new Restricao_RemedioDAO();
+				dao.delete2(restricao_Remedio.getId());
+			}
+		}
+		restricao.removeRestricaoRemedio(rem);
+//		if (restricao.getRequisicao_Alimento().size()>0 || restricao.getRequisicao_Remedio().size()>0) {
+//			saveRestricao();			
+//		}
 	}
 
 }

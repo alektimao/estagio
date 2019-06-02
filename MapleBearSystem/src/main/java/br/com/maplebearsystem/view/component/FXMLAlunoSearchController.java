@@ -286,7 +286,7 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 			return new SimpleStringProperty("" + data.getValue().getCpf());
 		});
 		tviewColName.setCellValueFactory((data) -> {
-			return new SimpleStringProperty("" + data.getValue().getTurmaAtual());
+			return new SimpleStringProperty("" + data.getValue().getNome());
 		});
 		tviewColNumero.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getNumeromatricula());
