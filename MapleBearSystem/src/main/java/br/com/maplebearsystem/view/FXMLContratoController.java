@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
 import br.com.maplebearsystem.controller.ContratoController;
+import br.com.maplebearsystem.model.Contrato;
 import br.com.maplebearsystem.model.constants.PessoaConstants;
 import br.com.maplebearsystem.model.validators.FieldValidators;
 import br.com.maplebearsystem.ui.util.TextFieldFormatterHelper;
@@ -244,8 +245,8 @@ public class FXMLContratoController implements Initializable, FXMLDefaultControl
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		initTextFieldMasks();
+		ContratoController = new ContratoController();
 		ContratoController.setupNewContrato();
-
 	}
 
 }

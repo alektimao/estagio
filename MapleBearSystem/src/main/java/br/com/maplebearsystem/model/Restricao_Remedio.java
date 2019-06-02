@@ -46,17 +46,51 @@ public class Restricao_Remedio implements Serializable {
 	public Restricao_Remedio() {
 		super();
 	}
+	
+	private boolean sameAsFormer(Restricao novo) {
+		return this.remRest == null ? novo == null : this.remRest.equals(novo);
+	}
+
+	public void setRequisicao(Restricao requisicao) {
+		if (sameAsFormer(requisicao))
+			return;
+		// set new work
+		Restricao old = this.remRest;
+		this.remRest = requisicao;
+		// remove from the old work
+		if (old != null)
+			old.removeRestricaoRemedio(this);
+		// set myself into new work
+		if (requisicao != null)
+			requisicao.addRestricaoRemedio(this);
+	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public Restricao getAliRest() {
+	public Restricao getRemRest() {
 		return remRest;
 	}
 
 	public String getGravidade() {
 		return Gravidade;
+	}
+
+	public String getPosologia() {
+		return Posologia;
+	}
+
+	public String getRemedio() {
+		return Remedio;
+	}
+
+	public String getDosagem() {
+		return Dosagem;
+	}
+
+	public String getPlano() {
+		return Plano;
 	}
 
 	public String getSintomas() {
@@ -79,12 +113,28 @@ public class Restricao_Remedio implements Serializable {
 		this.id = id;
 	}
 
-	public void setAliRest(Restricao aliRest) {
-		this.remRest = aliRest;
+	public void setRemRest(Restricao remRest) {
+		this.remRest = remRest;
 	}
 
 	public void setGravidade(String gravidade) {
 		Gravidade = gravidade;
+	}
+
+	public void setPosologia(String posologia) {
+		Posologia = posologia;
+	}
+
+	public void setRemedio(String remedio) {
+		Remedio = remedio;
+	}
+
+	public void setDosagem(String dosagem) {
+		Dosagem = dosagem;
+	}
+
+	public void setPlano(String plano) {
+		Plano = plano;
 	}
 
 	public void setSintomas(String sintomas) {
@@ -102,37 +152,6 @@ public class Restricao_Remedio implements Serializable {
 	public void setAte(Date ate) {
 		this.ate = ate;
 	}
-
-	public String getPosologia() {
-		return Posologia;
-	}
-
-	public void setPosologia(String posologia) {
-		Posologia = posologia;
-	}
-
-	public String getRemedio() {
-		return Remedio;
-	}
-
-	public void setRemedio(String remedio) {
-		Remedio = remedio;
-	}
-
-	public String getDosagem() {
-		return Dosagem;
-	}
-
-	public void setDosagem(String dosagem) {
-		Dosagem = dosagem;
-	}
-
-	public String getPlano() {
-		return Plano;
-	}
-
-	public void setPlano(String plano) {
-		Plano = plano;
-	}
+	
 	
 }

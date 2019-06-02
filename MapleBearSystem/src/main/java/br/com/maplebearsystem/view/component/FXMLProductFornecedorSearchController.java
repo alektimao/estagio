@@ -206,7 +206,7 @@ public class FXMLProductFornecedorSearchController implements Initializable, FXM
 	private void initTableViews() {
 		
 		tviewColID.setCellValueFactory((data)->{
-			return new SimpleStringProperty(""+data.getValue().getFornecedor().getNomefantasia());
+			return new SimpleStringProperty(""+data.getValue().getFornecedor().getPessoa().getRazaoSocial());
 			});
 		tviewColProductDescription.setCellValueFactory((data)->{
 			return new SimpleStringProperty(""+data.getValue().getProduct().getShortDescription());
@@ -264,9 +264,8 @@ public class FXMLProductFornecedorSearchController implements Initializable, FXM
 
 	@FXML
 	void actSPEdit(ActionEvent event) {
-
+		editItem();
 	}
-
 	@FXML
 	void actSPNew(ActionEvent event) {
 		if (sourceController instanceof FXMLProductManagerController) {

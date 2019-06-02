@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="700.0" minWidth="950.0" prefHeight="700.0" spacing="5.0" stylesheets="@FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLMenuHomeController">
+<VBox minHeight="784.0" minWidth="1280.0" prefHeight="800.0" spacing="5.0" stylesheets="@FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLMenuHomeController">
 	<children>
       <StackPane fx:id="menuAreaContainer">
          <VBox.margin>
             <Insets bottom="5.0" />
          </VBox.margin>
          <children>
-      		<HBox maxHeight="92.0">
+      		<HBox maxHeight="92.0" prefHeight="39.0">
       			<styleClass>
       				<String fx:value="DWORStatusBar" />
       				<String fx:value="DWORDefaultPaneBackground" />
@@ -79,12 +79,12 @@
       		</HBox>
          </children>
       </StackPane>
-		<StackPane fx:id="mainAreaContainer" VBox.vgrow="ALWAYS">
+		<StackPane fx:id="mainAreaContainer" minHeight="707.0" VBox.vgrow="ALWAYS">
 			<VBox.margin>
 				<Insets />
 			</VBox.margin>
 		</StackPane>
-		<HBox maxHeight="92.0">
+		<HBox maxHeight="92.0" prefHeight="39.0">
 		<styleClass>
 		<String fx:value="DWORStatusBar" />
 		<String fx:value="DWORDefaultPaneBackground" />

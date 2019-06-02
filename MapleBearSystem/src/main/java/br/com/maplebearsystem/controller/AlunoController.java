@@ -134,9 +134,9 @@ public class AlunoController {
 	
 	private void setAlunoTurma(String TurmaAtual) throws Exception {
 
-		if (TurmaAtual == null || TurmaAtual.equals("")) {
-			throw new Exception("Nome Inválido");
-		}
+//		if (TurmaAtual == null || TurmaAtual.equals("")) {
+//			throw new Exception("Turma Atual Inválido");
+//		}
 
 		partAluno.setTurmaAtual(TurmaAtual);
 

@@ -32,9 +32,9 @@ public class Restricao implements Serializable {
 	private Long id;
 	@OneToOne
 	private Aluno aluno;
-	@OneToMany(mappedBy = "aliRest",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "aliRest",fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Restricao_Alimento> requisicao_Alimento;
-	@OneToMany(mappedBy = "remRest",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "remRest",fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Restricao_Remedio> requisicao_Remedio;
 
 	public Restricao() {
@@ -73,6 +73,41 @@ public class Restricao implements Serializable {
 
 	public void setRequisicao_Remedio(List<Restricao_Remedio> requisicao_Remedio) {
 		this.requisicao_Remedio = requisicao_Remedio;
+	}
+
+	public void addRestricaoAlimento(Restricao_Alimento restricao_Alimento) {
+		if (requisicao_Alimento.contains(restricao_Alimento))
+			return;
+		
+		requisicao_Alimento.add(restricao_Alimento);
+		restricao_Alimento.setRequisicao(this);
+		
+	}
+
+	public void removeRestricaoAlimento(Restricao_Alimento restricao_Alimento) {
+		if (!requisicao_Alimento.contains(restricao_Alimento))
+			return;
+
+		requisicao_Alimento.remove(restricao_Alimento);
+		restricao_Alimento.setRequisicao(null);
+		
+	}
+	public void addRestricaoRemedio(Restricao_Remedio requisicao_remedio) {
+		if (requisicao_Remedio.contains(requisicao_remedio))
+			return;
+		
+		requisicao_Remedio.add(requisicao_remedio);
+		requisicao_remedio.setRequisicao(this);
+		
+	}
+
+	public void removeRestricaoRemedio(Restricao_Remedio requisicao_remedio) {
+		if (!requisicao_Remedio.contains(requisicao_remedio))
+			return;
+
+		requisicao_Remedio.remove(requisicao_remedio);
+		requisicao_remedio.setRequisicao(null);
+		
 	}
 	
 }

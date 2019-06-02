@@ -12,13 +12,9 @@ import com.jfoenix.controls.JFXTextField;
 import br.com.maplebearsystem.controller.DocumentoController;
 import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.model.Documento;
-import br.com.maplebearsystem.model.Requisicao;
-import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.view.component.FXMLAlunoSearchController;
-import br.com.maplebearsystem.view.component.FXMLBuscaPedidoController;
-import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.util.FXUISetup;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -27,10 +23,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -41,6 +38,9 @@ public class FXMLDocumentoController implements Initializable, FXMLDefaultContro
 
     @FXML
     private VBox panelMain;
+    
+    @FXML
+    private HBox Hdoc;
 
     @FXML
     private JFXTextField txtaluno;
@@ -95,7 +95,7 @@ public class FXMLDocumentoController implements Initializable, FXMLDefaultContro
     void buscar(ActionEvent event) {
     	try {
 			FXMLAlunoSearchController controller = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_BUSCAR_PEDIDO, null, 0.0)
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_ALUNO_BUSCAR, null, 0.0)
 					.<FXMLAlunoSearchController>getController();
 			controller.setSourceFXMLController(this);
 
@@ -132,6 +132,8 @@ public class FXMLDocumentoController implements Initializable, FXMLDefaultContro
     	else
     	{
     		//podesalvar = true;
+    		FXUISetup.getInstance().clearTextInputs(Hdoc);
+			FXUISetup.getInstance().clearTableViews(Hdoc);
     		loadTableView();
     		FXNotification notification = new FXNotification("Documento Inserido na Tabela,",
 					FXNotification.NotificationType.INFORMATION);

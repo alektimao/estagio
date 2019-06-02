@@ -43,6 +43,24 @@ public class Restricao_Alimento implements Serializable {
 	public Restricao_Alimento() {
 		super();
 	}
+	
+	private boolean sameAsFormer(Restricao novo) {
+		return this.aliRest == null ? novo == null : this.aliRest.equals(novo);
+	}
+
+	public void setRequisicao(Restricao requisicao) {
+		if (sameAsFormer(requisicao))
+			return;
+		// set new work
+		Restricao old = this.aliRest;
+		this.aliRest = requisicao;
+		// remove from the old work
+		if (old != null)
+			old.removeRestricaoAlimento(this);
+		// set myself into new work
+		if (requisicao != null)
+			requisicao.addRestricaoAlimento(this);
+	}
 
 	public Long getId() {
 		return id;

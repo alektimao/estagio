@@ -54,11 +54,11 @@ public class MapleBearSystemDesktopClient extends Application {
 
 			mainStage.setScene(scene);
 
-			mainStage.show();
 
 			// mainStage.setMaximized(true);
 			mainStage.setMinWidth(scene.getWidth());
 			mainStage.setMinHeight(scene.getHeight());
+			mainStage.show();
 
 			mainStage.setOnCloseRequest((ae) -> {
 				Platform.exit();

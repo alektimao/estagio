@@ -312,12 +312,13 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 
 			int row = pos.getRow();
 			Requisicao_Produto pedido = event.getTableView().getItems().get(row);
-
-			if (Integer.parseInt(newFullName) > 0) {
-				pedido.setQuantity(Integer.parseInt(newFullName));
+			
+			Double valor = Double.parseDouble(newFullName);
+			if (valor > 0) {
+				pedido.setQuantity(valor.intValue());
 			}
-			if (Integer.parseInt(newFullName) > 0 && pedido.getUnitPrice().intValue() > 0) {
-				pedido.setQuantity(Integer.parseInt(newFullName));
+			if (valor > 0 && pedido.getUnitPrice().intValue() > 0) {
+				pedido.setQuantity(valor.intValue());
 				BigDecimal multiplicar = new BigDecimal(pedido.getQuantity());
 				pedido.setPriceTotal(pedido.getUnitPrice().multiply(multiplicar));
 			}

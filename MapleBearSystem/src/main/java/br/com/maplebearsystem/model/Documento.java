@@ -27,7 +27,7 @@ public class Documento implements Serializable {
 	private String documento;
 	private String pasta;
 	private String sala;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne//(cascade = CascadeType.ALL)
 	private Aluno aluno;
 
 	public Documento() {
@@ -35,7 +35,7 @@ public class Documento implements Serializable {
 	}
 	
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public String getDocumento() {
@@ -66,20 +66,20 @@ public class Documento implements Serializable {
 		this.aluno = aluno;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		
-		if (obj instanceof Documento) {
-			Documento new_name = (Documento) obj;
-			if (this.id.equals(new_name.getId())) {
-				return true;
-			}
-		}
-		return super.equals(obj);
-	}
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (obj == null) {
+//			return false;
+//		}
+//		
+//		if (obj instanceof Documento) {
+//			Documento new_name = (Documento) obj;
+//			if (this.id.equals(new_name.getId())) {
+//				return true;
+//			}
+//		}
+//		return super.equals(obj);
+//	}
 
 	public String getSala() {
 		return sala;

@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane fx:id="mainAreaContainer" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLMenuAlunoController">
    <children>
       <HBox fx:id="hbox" maxHeight="92.0" stylesheets="@FXMLStylesheet.css">
@@ -24,7 +23,7 @@
       						<String fx:value="DWORNavigationMenuButton" />
       					</styleClass>
       				</JFXButton>
-      				<JFXButton id="NavigationMenuButton" fx:id="btnRestAlimentar" maxWidth="1.7976931348623157E308" onAction="#actRestAlimentar" text="Restr.Alimentar" HBox.hgrow="ALWAYS">
+      				<JFXButton id="NavigationMenuButton" fx:id="btnRest" maxWidth="1.7976931348623157E308" onAction="#actRest" text="Restrição" HBox.hgrow="ALWAYS">
       					<font>
       						<Font name="System Bold" size="13.0" />
       					</font>
@@ -33,7 +32,7 @@
       						<String fx:value="DWORNavigationMenuButton" />
       					</styleClass>
       				</JFXButton>
-      				<JFXButton id="NavigationMenuButton" fx:id="btnRestMedicamento" maxWidth="1.7976931348623157E308" onAction="#actRestMedicamento" text="Restr.Medicamento" HBox.hgrow="ALWAYS">
+      				<JFXButton id="NavigationMenuButton" fx:id="btnTurma" maxWidth="1.7976931348623157E308" onAction="#actTurma" text="Turma Especializada" HBox.hgrow="ALWAYS">
       					<font>
       						<Font name="System Bold" size="13.0" />
       					</font>
@@ -42,6 +41,15 @@
       						<String fx:value="DWORNavigationMenuButton" />
       					</styleClass>
       				</JFXButton>
+            <JFXButton id="NavigationMenuButton" fx:id="btnSala" maxWidth="1.7976931348623157E308" onAction="#actSala" text="Sala Multi-uso">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="DWORNavigationMenu" />
+                  <String fx:value="DWORNavigationMenuButton" />
+               </styleClass>
+            </JFXButton>
       				<JFXButton id="NavigationMenuButton" fx:id="btnContrato" maxWidth="1.7976931348623157E308" onAction="#actContrato" text="Contrato" HBox.hgrow="ALWAYS">
       					<font>
       						<Font name="System Bold" size="13.0" />

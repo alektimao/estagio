@@ -120,7 +120,7 @@ public class DocumentoDAO extends GenericDAO<Documento> {
 	public List<Documento> listDocumento(Long id) {
 		List<Documento> list;
 
-		String jpqlQuery = "select r from Documento r where r.id = :pId";
+		String jpqlQuery = "select r from Documento r where r.aluno.id = :pId";
 
 		EntityManager em = JPAUtil.getEntityManager();
 

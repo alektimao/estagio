@@ -3,6 +3,9 @@ package br.com.maplebearsystem.view.component;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
@@ -11,6 +14,7 @@ import br.com.maplebearsystem.controller.ProductController;
 import br.com.maplebearsystem.model.Fornecedor;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
+import br.com.maplebearsystem.ui.util.FXUISetup;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.FXMLMenuHomeController;
 import br.com.maplebearsystem.view.FXMLPedidoController;
@@ -30,11 +34,12 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class FXMLFornecedorSearchController implements Initializable, FXMLDefaultControllerInterface {
 	@FXML
-	private VBox rootPane;
+	private StackPane rootPane;
 	@FXML
 	private JFXTextField tfieldSearch;
 	@FXML
@@ -90,19 +95,21 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 	}
 
 	private boolean editItem() {
+		
+		try {
+			FXMLFornecedorRegistrationController controller = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_FORNECEDOR, null, 0.0)
+					.<FXMLFornecedorRegistrationController>getController();
+			controller.setSourceFXMLController(this);
+			controller.receiveData(tviewSearch.getSelectionModel().getSelectedItem(), this);
 
-//		if (sourceController instanceof FXMLProductManagerController) {
-//			try {
-//				((FXMLProductManagerController) sourceController)
-//						.editProduct(tviewSearch.getSelectionModel().getSelectedItem().getProduct());
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//
-//			return true;
-//		}
+			return true;
+		} catch (Exception e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed to edit contact", e);
+		}
+
 		return false;
+
 	}
 
 	public void switchToSelectorMode() {
@@ -155,14 +162,6 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 
 	private void loadTableView(String filter) {
 
-//		ObservableList<Product> modelo;
-//
-//		if (filter.equals("")) {
-//			modelo = FXCollections.observableArrayList(modelController.getProducts());
-//		} else {
-//
-//			modelo = FXCollections.observableArrayList(modelController.getProducts(filter));
-//		}
 		ObservableList<Fornecedor> modelo;
 
 		if (filter.equals("")) {
@@ -256,13 +255,18 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 
 	@FXML
 	void actSPEdit(ActionEvent event) {
-
+		editItem();
 	}
 
 	@FXML
 	void actSPNew(ActionEvent event) {
-		if (sourceController instanceof FXMLMenuHomeController) {
-			((FXMLMenuHomeController) sourceController).loadForm(FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_FORNECEDOR);
+		try {
+			FXMLFornecedorRegistrationController controller = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_FORNECEDOR, null, 0.0)
+					.<FXMLFornecedorRegistrationController>getController();
+			controller.setSourceFXMLController(this);
+		} catch (Exception e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed to edit contact", e);
 		}
 	}
 
@@ -330,8 +334,14 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 
 	@Override
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
-		// TODO Auto-generated method stub
-
+		if (sender instanceof FXMLFornecedorRegistrationController) {
+			FXMLFornecedorRegistrationController obj = (FXMLFornecedorRegistrationController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLFornecedorSearchController) {
+			FXMLFornecedorSearchController obj = (FXMLFornecedorSearchController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
 	}
 
 	@Override
@@ -340,7 +350,7 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 		
 	}
 
-	public  VBox getRootPane() {
+	public StackPane getRootPane() {
 		// TODO Auto-generated method stub
 		return rootPane;
 	}

@@ -39,7 +39,6 @@ public class ProductController {
 
 	public void setupNewProduct() {
 		partProduct = new Product();
-
 	}
 
 	public List<Exception> saveProduct(String description, String extendedDescription,

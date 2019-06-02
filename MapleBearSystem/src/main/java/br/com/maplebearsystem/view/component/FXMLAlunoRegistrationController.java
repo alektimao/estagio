@@ -100,10 +100,13 @@ public class FXMLAlunoRegistrationController implements Initializable, FXMLDefau
 	private AlunoController modelController;
 
 	private String parametro;
+	
+	List<Exception> errorList;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		modelController = new AlunoController();
+		errorList = new ArrayList<Exception>();
 		parametro = "";
 		initUI();
 	}
@@ -332,6 +335,7 @@ public class FXMLAlunoRegistrationController implements Initializable, FXMLDefau
 		List<WsAluno> Wsalunosexistente = new ArrayList<WsAluno>();
 		// receiveData(resultado, this);
 		for (WsAluno wsAluno : resultado) {
+			modelController.setupNewAluno();
 			try {
 				result = modelController.getAlunoId(wsAluno.getAlunoID());
 
@@ -339,7 +343,9 @@ public class FXMLAlunoRegistrationController implements Initializable, FXMLDefau
 				result = null;
 			}
 			catch (Exception e) {
-				//result = null;
+				FXNotification notification = new FXNotification("Erro ao Buscar Aluno",
+						FXNotification.NotificationType.WARNING);
+				notification.show();
 			}
 			if (result != null) {
 				alunosexistente.add(result);
@@ -356,8 +362,8 @@ public class FXMLAlunoRegistrationController implements Initializable, FXMLDefau
 			alert.showAndWait();
 			if (alert.getResult() == ButtonType.YES)
 			{
-				Aluno[] info = (Aluno[]) alunosexistente.toArray();
-				WsAluno[] atualiza = (WsAluno[]) Wsalunosexistente.toArray();
+				Aluno[] info = alunosexistente.toArray(new Aluno[0]);
+				WsAluno[] atualiza = Wsalunosexistente.toArray(new WsAluno[0]);
 				for (int i = 0; i < info.length; i++) {
 					modelController.setupEditAluno(info[i]);
 					modelController.saveinfoAluno(atualiza[i].getNome(), atualiza[i].getAlunoID(), atualiza[i].getCPF(),

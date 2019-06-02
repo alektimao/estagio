@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.view.component.FXMLProductRegistrationController;
+import br.com.maplebearsystem.view.component.FXMLFornecedorRegistrationController;
 import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.component.FXMLProdutoSearchController;
 import javafx.fxml.FXML;
@@ -140,6 +141,10 @@ public class FXMLProductManagerController implements Initializable, FXMLDefaultC
 		// TODO Auto-generated method stub
 
 	}
+	public StackPane getRootPane()
+	{
+		return rootPane;
+	}
 
 	@Override
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
@@ -155,6 +160,11 @@ public class FXMLProductManagerController implements Initializable, FXMLDefaultC
 		if (sender.equals(pnProductSearchController)) {
 			closeAndGoBack();
 			return;
+		}
+		
+		if (sender instanceof FXMLProdutoSearchController) {
+			FXMLProdutoSearchController obj = (FXMLProdutoSearchController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
 		}
 	}
 

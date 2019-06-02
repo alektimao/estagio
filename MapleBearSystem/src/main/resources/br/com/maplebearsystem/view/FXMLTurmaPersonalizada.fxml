@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
@@ -31,7 +32,7 @@
                      <children>
                         <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXTextField id="tfieldName" fx:id="txtnome" editable="false" labelFloat="true" minWidth="275.0" opacity="0.88" prefHeight="26.0" promptText="Nome Turma Personalizada">
+                              <JFXTextField id="tfieldName" fx:id="txtnome" editable="false" labelFloat="true" minWidth="300.0" opacity="0.88" prefHeight="26.0" promptText="Nome Turma Personalizada">
                                  <styleClass>
                                     <String fx:value="jfxtextfieldform" />
                                     <String fx:value="formMaxWidth" />
@@ -40,8 +41,7 @@
                                     <Insets />
                                  </FlowPane.margin>
                               </JFXTextField>
-                              <JFXTextField id="tfieldCPFCNPJ" fx:id="txtresponsavel" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Responsavel pela turma" styleClass="formMaxWidth" />
-                              <JFXTextField id="tfieldCPFCNPJ" fx:id="txtperiodo" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Período da Semana" styleClass="formMaxWidth" />
+                              <JFXTextField id="tfieldCPFCNPJ" fx:id="txtresponsavel" editable="false" labelFloat="true" minWidth="320.0" opacity="0.88" prefHeight="25.0" promptText="Responsavel pela turma" styleClass="formMaxWidth" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
@@ -98,7 +98,7 @@
                                           </TableView>
                                           <HBox alignment="CENTER_RIGHT" spacing="15.0">
                                              <children>
-                                                <JFXButton fx:id="btadd" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#addAluno" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-background-color: green; -fx-text-fill: white;" text="Adcionar">
+                                                <JFXButton fx:id="btadd" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#addAluno" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-background-color: green; -fx-text-fill: white;" text="Adicionar">
                                                    <graphic>
                                                       <FontAwesomeIconView fill="WHITE" glyphName="CUBE" size="16" />
                                                    </graphic>
@@ -120,6 +120,12 @@
                                                       <Insets />
                                                    </HBox.margin>
                                                    <children>
+                                                      <JFXCheckBox fx:id="ckseg" text="Segunda" />
+                                                      <JFXCheckBox fx:id="ckTer" text="Terça" />
+                                                      <JFXCheckBox fx:id="ckQua" text="Quarta" />
+                                                      <JFXCheckBox fx:id="ckQui" text="Quinta" />
+                                                      <JFXCheckBox fx:id="cksex" text="Sexta" />
+                                                      <JFXCheckBox fx:id="cksab" text="Sabado" />
                                                       <JFXTextArea fx:id="txtinfo" minWidth="648.0" prefHeight="97.0" promptText="Informaçoes sobre a turma" />
                                                    </children>
                                                 </FlowPane>

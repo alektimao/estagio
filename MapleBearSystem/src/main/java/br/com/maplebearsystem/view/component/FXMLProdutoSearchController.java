@@ -356,7 +356,6 @@ public class FXMLProdutoSearchController implements Initializable, FXMLDefaultCo
 
 	@Override
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
-		// TODO Auto-generated method stub
 
 	}
 

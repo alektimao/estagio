@@ -228,6 +228,10 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 			FXMLContactRegistrationController obj = (FXMLContactRegistrationController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
 		}
+		if (sender instanceof FXMLProductManagerController) {
+			FXMLProductManagerController obj = (FXMLProductManagerController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
 		//menu
 		if (sender instanceof FXMLMenuProdutoController) {
 			FXMLMenuProdutoController obj = (FXMLMenuProdutoController) sender;

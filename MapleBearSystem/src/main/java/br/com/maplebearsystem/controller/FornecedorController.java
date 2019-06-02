@@ -36,8 +36,18 @@ public class FornecedorController {
 		return fornecedor;
 	}
 
-	public List<Product> getProduct() {
+	public List<Product> getProdutos() {
 		return produtos;
+	}
+
+	public void setProdutos(List<Product> produtos) {
+		this.produtos = produtos;
+	}
+
+	public void setFornProdutos(List<FornecedorProduct> produtos) {
+		for (FornecedorProduct fornecedorProduct : produtos) {
+			this.produtos.add(fornecedorProduct.getProduct());
+		}
 	}
 
 	public void setupEditFornecedor(Fornecedor Fornecedor) {
@@ -56,6 +66,10 @@ public class FornecedorController {
 	}
 
 	public void deleteFornecedor() {
+		for (FornecedorProduct fornecedorProduct : getlistProdFornecedor(fornecedor.getId())) {
+			FornecedorProductDAO d = new FornecedorProductDAO();
+			d.delete(fornecedorProduct);
+		}
 		FornecedorDAO dao = new FornecedorDAO();
 		dao.delete(fornecedor);
 
@@ -113,6 +127,12 @@ public class FornecedorController {
 		return dao.listFornecedor(filter);
 	}
 
+	public List<FornecedorProduct> getlistProdFornecedor(Long filter) {
+		FornecedorProductDAO dao = new FornecedorProductDAO();
+
+		return dao.listProdutosForn(filter);
+	}
+
 	public List<Product> getProducts() {
 		ProductDAO dao = new ProductDAO();
 
@@ -153,27 +173,36 @@ public class FornecedorController {
 
 	public List<Exception> salvar(Fornecedor forne, List<Product> produtos) {
 		List<Exception> errList = new ArrayList<Exception>();
-
-		try {
-			if (forne.getPessoa() != null) {
-				FornecedorDAO fornecedor = new FornecedorDAO();
-				fornecedor.save(forne);
-			}
-		} catch (Exception e) {
-			errList.add(new Exception("Falha ao Salvar Fornecedor"));
-		}
-		try {
-			if (produtos.size() > 0) {
-				for (Product product : produtos) {
-					FornecedorProduct fornecedor = new FornecedorProduct();
-					fornecedor.setFornecedor(forne);
-					fornecedor.setProduct(product);
-					FornecedorProductDAO fornecedorprod = new FornecedorProductDAO();
-					fornecedorprod.save(fornecedor);
+		if (forne.getId() == null) {
+			try {
+				if (forne.getPessoa() != null) {
+					FornecedorDAO fornecedor = new FornecedorDAO();
+					forne.setNomefantasia(forne.getPessoa().getRazaoSocial());
+					fornecedor.save(forne);
 				}
+			} catch (Exception e) {
+				errList.add(new Exception("Falha ao Salvar Fornecedor"));
 			}
-		} catch (Exception e) {
-			errList.add(new Exception("Falha ao Salvar os Produtos do Fornecedor"));
+		}
+		else
+		{
+			try {
+				for (FornecedorProduct fornecedorProduct : getlistProdFornecedor(forne.getId())) {
+					FornecedorProductDAO d = new FornecedorProductDAO();
+					d.delete(fornecedorProduct);
+				}
+				if (produtos.size() > 0) {
+					for (Product product : produtos) {
+						FornecedorProduct fornecedor = new FornecedorProduct();
+						fornecedor.setFornecedor(forne);
+						fornecedor.setProduct(product);
+						FornecedorProductDAO fornecedorprod = new FornecedorProductDAO();
+						fornecedorprod.save(fornecedor);
+					}
+				}
+			} catch (Exception e) {
+				errList.add(new Exception("Falha ao Salvar os Produtos do Fornecedor"));
+			}
 		}
 		return errList;
 	}

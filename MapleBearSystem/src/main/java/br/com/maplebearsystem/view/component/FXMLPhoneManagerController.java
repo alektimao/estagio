@@ -102,7 +102,7 @@ public class FXMLPhoneManagerController implements Initializable, FXMLDefaultCon
 	}
 
 	private void addNewPhone() {
-		pessoaController.setupNewPhone();
+		pessoaController.setupNewStagedPhone();
 
 		btnRemove.setDisable(true);
 		btnSave.setText("Adicionar");

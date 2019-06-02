@@ -26,10 +26,13 @@ public class FXMLMenuAlunoController implements Initializable, FXMLDefaultContro
     private JFXButton btnCadastroAluno;
 
     @FXML
-    private JFXButton btnRestAlimentar;
+    private JFXButton btnRest;
 
     @FXML
-    private JFXButton btnRestMedicamento;
+    private JFXButton btnTurma;
+
+    @FXML
+    private JFXButton btnSala;
 
     @FXML
     private JFXButton btnContrato;
@@ -62,12 +65,12 @@ public class FXMLMenuAlunoController implements Initializable, FXMLDefaultContro
 
     @FXML
     void actContrato(ActionEvent event) {
-
+    	sourceController.loadForm(FXResourcePath.FXML_MAPLE_CONTRATO);
     }
 
     @FXML
     void actDocumento(ActionEvent event) {
-
+    	sourceController.loadForm(FXResourcePath.FXML_MAPLE_DOCUMENTO);
     }
 
     @FXML
@@ -76,13 +79,18 @@ public class FXMLMenuAlunoController implements Initializable, FXMLDefaultContro
     }
 
     @FXML
-    void actRestAlimentar(ActionEvent event) {
-
+    void actRest(ActionEvent event) {
+    	sourceController.loadForm(FXResourcePath.FXML_MAPLE_RESTRICAO);
     }
 
     @FXML
-    void actRestMedicamento(ActionEvent event) {
+    void actSala(ActionEvent event) {
+    	sourceController.loadForm(FXResourcePath.FXML_MAPLE_SALA_MULTI);
+    }
 
+    @FXML
+    void actTurma(ActionEvent event) {
+    	sourceController.loadForm(FXResourcePath.FXML_MAPLE_TURMA);
     }
 
 	@Override

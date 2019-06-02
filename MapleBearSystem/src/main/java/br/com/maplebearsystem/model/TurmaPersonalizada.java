@@ -5,11 +5,16 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -33,6 +38,10 @@ public class TurmaPersonalizada implements Serializable {
 	private String info;
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Aluno> alunos;
+	@ElementCollection(fetch = FetchType.LAZY, targetClass = WeekDays.class) 
+	@Enumerated(EnumType.STRING) 
+	@Column(name = "WeekDays", length = 30) 
+	private	List<WeekDays> diasDaSemana;
 
 	public TurmaPersonalizada() {
 		super();
@@ -83,6 +92,12 @@ public class TurmaPersonalizada implements Serializable {
 
 	public void setAlunos(List<Aluno> alunos) {
 		this.alunos = alunos;
+	}
+	public void removeAlunos(Aluno aluno) {
+		if (!alunos.contains(aluno))
+			return;
+
+		alunos.remove(aluno);
 	}
 
 	@Override

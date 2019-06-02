@@ -1,22 +1,35 @@
 package br.com.maplebearsystem.view;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 
+import br.com.maplebearsystem.controller.RestricaoController;
+import br.com.maplebearsystem.model.Aluno;
+import br.com.maplebearsystem.model.Documento;
 import br.com.maplebearsystem.model.Restricao;
 import br.com.maplebearsystem.model.Restricao_Alimento;
 import br.com.maplebearsystem.model.Restricao_Remedio;
+import br.com.maplebearsystem.ui.notifications.FXNotification;
+import br.com.maplebearsystem.ui.util.FXResourcePath;
+import br.com.maplebearsystem.view.component.FXMLAlunoSearchController;
+import br.com.maplebearsystem.view.util.FXUISetup;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -30,12 +43,18 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 
     @FXML
     private VBox panelMain;
+    
+    @FXML
+    private HBox Hali;
+    
+    @FXML
+    private JFXButton btBuscarAluno;
 
     @FXML
     private JFXTextField tfieldnome;
 
     @FXML
-    private JFXTextField tfieldSala;
+    private JFXTextField tfieldMatricula;
 
     @FXML
     private JFXTextField tfieldTurma;
@@ -132,9 +151,51 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 
     @FXML
     private JFXButton btcancelar;
+    
+    private FXMLDefaultControllerInterface sourceController;
+    
+    private RestricaoController modelcontroller;
+    
+    List<Exception> mainErrorList;
+    
+    @FXML
+    void buscar(ActionEvent event) {
+    	try {
+			FXMLAlunoSearchController controller = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_ALUNO_BUSCAR, null, 0.0)
+					.<FXMLAlunoSearchController>getController();
+			controller.setSourceFXMLController(this);
+
+		} catch (Exception e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
+					"Error: failed to open FXMLEquipmentRegistration", e);
+		}
+    }
 
     @FXML
     void addalimento(ActionEvent event) {
+    	mainErrorList = modelcontroller.validar(modelcontroller.getaluno(),tfieldGravidade.getText(),tfieldAlimento.getText(),txtinfo.getText(),txtinfo1.getText());
+    	if (mainErrorList.size()>0) {
+    		//podesalvar = false;
+    		String text = "";
+
+			for (Exception e : mainErrorList) {
+				text = text + e.getMessage() + "\n";
+			}
+
+			FXNotification notification = new FXNotification(text, FXNotification.NotificationType.WARNING);
+			notification.show();
+		}
+    	else
+    	{
+    		//podesalvar = true;
+    		FXUISetup.getInstance().clearTextInputs(Hali);
+			FXUISetup.getInstance().clearTableViews(Hali);
+    		loadTableView();
+    		FXNotification notification = new FXNotification("Documento Inserido na Tabela,",
+					FXNotification.NotificationType.INFORMATION);
+			notification.show();
+    	}
 
     }
 
@@ -160,8 +221,20 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 
     @FXML
     void voltar(ActionEvent event) {
-
+    	try {
+			sourceController.closeSenderNode(this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
+	private void carregarcampos(Aluno resultado) {
+		modelcontroller.setAluno(resultado);
+		modelcontroller.getRestricaos(resultado.getId());
+		tfieldnome.setText(resultado.getNome());
+		tfieldTurma.setText(resultado.getTurmaAtual());
+		tfieldMatricula.setText(resultado.getNumeromatricula());
+	}
 
 	@Override
 	public void reset() {
@@ -171,8 +244,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 
 	@Override
 	public void setSourceFXMLController(FXMLDefaultControllerInterface controller) throws Exception {
-		// TODO Auto-generated method stub
-		
+		sourceController = controller;		
 	}
 
 	@Override
@@ -183,18 +255,51 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 
 	@Override
 	public void receiveData(Object data, FXMLDefaultControllerInterface sender) throws Exception {
-		// TODO Auto-generated method stub
-		
+		if (sender == null) {
+			throw new UnsupportedOperationException();
+
+		}
+		if (sender instanceof FXMLAlunoSearchController) {
+			if (data instanceof Aluno) {
+				Aluno resultado = (Aluno) data;
+				carregarcampos(resultado);
+				loadTableView();
+			}
+		}
+	}
+	private void loadTableView() {
+		try {
+			ObservableList<Restricao_Alimento> modelo;
+			modelo = FXCollections.observableArrayList(modelcontroller.getRestricao().getRequisicao_Alimento());
+			if (tviewAlimento.getItems() != null)
+				tviewAlimento.getItems().clear();
+			tviewAlimento.setItems(modelo);
+		} catch (Exception e) {
+			System.out.println("Error: failed to load OrderPartProductTableview - " + e.getMessage());
+		}
+		try {
+			ObservableList<Restricao_Remedio> modelo;
+			modelo = FXCollections.observableArrayList(modelcontroller.getRestricao().getRequisicao_Remedio());
+			if (tviewRemedio.getItems() != null)
+				tviewRemedio.getItems().clear();
+			tviewRemedio.setItems(modelo);
+		} catch (Exception e) {
+			System.out.println("Error: failed to load OrderPartProductTableview - " + e.getMessage());
+		}
 	}
 
 	@Override
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
-		// TODO Auto-generated method stub
-		
+		if (sender instanceof FXMLAlunoSearchController) {
+			FXMLAlunoSearchController obj = (FXMLAlunoSearchController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		modelcontroller = new RestricaoController();
+		modelcontroller.setupNewRestricao();
 		initTableViews();
 	}
 	private void initTableViews() {
@@ -205,7 +310,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 			return new SimpleStringProperty("" + data.getValue().getGravidade());
 		});
 		colperiodoalimento.setCellValueFactory((data) -> {
-			return new SimpleStringProperty("" + data.getValue().getDe() + "até" + data.getValue().getAte());
+			return new SimpleStringProperty("" + data.getValue().getDe() + " até " + data.getValue().getAte());
 		});
 		colRemedio.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getRemedio());
@@ -214,7 +319,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 			return new SimpleStringProperty("" + data.getValue().getGravidade());
 		});
 		colPeriodoRemedio.setCellValueFactory((data) -> {
-			return new SimpleStringProperty("" + data.getValue().getDe() + "até" + data.getValue().getAte());
+			return new SimpleStringProperty("" + data.getValue().getDe() + " até " + data.getValue().getAte());
 		});
 	}
 }

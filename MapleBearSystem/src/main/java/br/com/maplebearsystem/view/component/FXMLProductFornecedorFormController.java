@@ -113,7 +113,7 @@ public class FXMLProductFornecedorFormController implements FXMLDefaultControlle
 	private void loadTableView() {
 		try {
 			ObservableList<Product> modelo;
-			modelo = FXCollections.observableArrayList(fornproduct.getProduct());
+			modelo = FXCollections.observableArrayList(fornproduct.getProdutos());
 			if (TbProdutos.getItems() != null)
 				TbProdutos.getItems().clear();
 			TbProdutos.setItems(modelo);
@@ -218,6 +218,12 @@ public class FXMLProductFornecedorFormController implements FXMLDefaultControlle
 		tfieldNome.setText(fornproduct.getFornecedor().getPessoa().getRazaoSocial());
 		tfieldEndereco.setText(fornproduct.getFornecedor().getPessoa().getPrimaryAddress().getAddress());
 		tfieldTelefone.setText(fornproduct.getFornecedor().getPessoa().getPrimaryPhone().getPhoneString());
+	}
+
+	public void CarregaCampos(FornecedorController modelController) {
+		loadPessoa(modelController.getFornecedor().getPessoa());
+		fornproduct = modelController;
+		loadTableView();
 	}
 
 }

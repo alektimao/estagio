@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.maplebearsystem.dao.DocumentoDAO;
+import br.com.maplebearsystem.dao.FornecedorDAO;
+import br.com.maplebearsystem.dao.FornecedorProductDAO;
 import br.com.maplebearsystem.dao.Requisicao_ProductDAO;
 import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.model.Documento;
+import br.com.maplebearsystem.model.FornecedorProduct;
 
 public class DocumentoController {
 
@@ -46,7 +49,8 @@ public class DocumentoController {
 
 	public List<Exception> validar(Aluno aluno, String documento, String pasta, String sala) {
 		List<Exception> errList = new ArrayList<Exception>();
-
+		this.documento = new Documento();
+		
 		try {
 			validateAluno(aluno);
 		} catch (Exception e) {
@@ -61,6 +65,12 @@ public class DocumentoController {
 		}
 		try {
 			validatePasta(pasta);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			validateSala(sala);
 		} catch (Exception e) {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
@@ -107,7 +117,15 @@ public class DocumentoController {
 			//nome2 = "";
 			throw new Exception("Defina o Nome da Pasta!");
 		}
-		
+		this.documento.setPasta(pasta);
+	}
+	
+	private void validateSala(String sala) throws Exception{
+		if (sala == null || sala.equals("")) {
+			//nome2 = "";
+			throw new Exception("Defina o Nome da Sala!");
+		}
+		this.documento.setSala(sala);
 	}
 
 	public List<Documento> getListadocumentos() {
@@ -120,6 +138,8 @@ public class DocumentoController {
 
 	public void removeDocumento(Documento doc) {
 		listadocumentos.remove(doc);
+		DocumentoDAO dao = new DocumentoDAO();
+		dao.delete(doc);
 	}
 
 	public void getDocAluno(Long id) {

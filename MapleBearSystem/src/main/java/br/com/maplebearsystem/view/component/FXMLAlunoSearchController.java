@@ -16,6 +16,7 @@ import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.ui.util.FXUISetup;
+import br.com.maplebearsystem.ui.util.TextFieldFormatterHelper;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
@@ -44,9 +45,7 @@ import javafx.util.Callback;
 public class FXMLAlunoSearchController implements Initializable, FXMLDefaultControllerInterface {
 
 	@FXML
-	private StackPane rootPane;
-	@FXML
-	private VBox pnSearch;
+	private VBox rootPane;
 
 	@FXML
 	private JFXTextField tfieldNome;
@@ -92,7 +91,6 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 
 // SECTION Main FXMLController Attributes
 	private FXMLDefaultControllerInterface sourceController;
-	private boolean JuridicaModeOnly;
 	private AlunoController modelController;
 	private FXMLContactRegistrationController contactRegistrationController;
 // ENDSECTION Main FXMLController Attributes
@@ -100,6 +98,7 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		setModelController(new AlunoController());
+		tfieldcpf.setTextFormatter(TextFieldFormatterHelper.getTextFieldMaskFormatter("[0-9]*", "###.###.###-##"));
 		initTableViews();
 	}
 
@@ -294,7 +293,7 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 		});
 	}
 
-	public StackPane getRootPane() {
+	public VBox getRootPane() {
 		// TODO Auto-generated method stub
 		return rootPane;
 	}

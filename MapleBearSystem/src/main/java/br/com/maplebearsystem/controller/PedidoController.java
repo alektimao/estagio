@@ -315,7 +315,15 @@ public class PedidoController {
 	}
 
 	public void removeProduct(Requisicao_Produto product) {
-		requisicao.getRequestedParts().remove(product);
+		if (product.getRestante() == product.getQuantity()) {
+			requisicao.removeProdutoRequisicao(product);
+			Requisicao_ProductDAO r = new Requisicao_ProductDAO();
+			r.delete(product);
+			if (requisicao.getRequestedParts().size() == 0) {
+				RequisicaoDAO del = new RequisicaoDAO();
+				del.delete(requisicao);
+			}
+		}
 	}
 
 	public void editarRequisicao(Requisicao requisicao2) {

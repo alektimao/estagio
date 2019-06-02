@@ -13,9 +13,12 @@ import br.com.maplebearsystem.dao.FornecedorProductDAO;
 import br.com.maplebearsystem.dao.ProductDAO;
 import br.com.maplebearsystem.model.Fornecedor;
 import br.com.maplebearsystem.model.FornecedorProduct;
+import br.com.maplebearsystem.model.Pessoa;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
+import br.com.maplebearsystem.view.FXMLPedidoController;
+import br.com.maplebearsystem.view.util.FXUISetup;
 import br.com.maplebearsystem.view.viewmodel.ProdutoAlterado;
 import javafx.fxml.Initializable;
 
@@ -55,7 +58,6 @@ public class FXMLFornecedorRegistrationController implements Initializable, FXML
 	private FXMLProductFornecedorFormController pnFornecedorProdutoFormController;
 
 	private FXMLDefaultControllerInterface sourceController;
-	private List<Product> lista;
 	FornecedorController modelController;
 
 	private void initUI() {
@@ -81,11 +83,14 @@ public class FXMLFornecedorRegistrationController implements Initializable, FXML
 
 	@FXML
 	void actSPNew(ActionEvent event) {
-		
-		modelController.setupNewFornecedor();
+		if (modelController == null) {
+			modelController.setupNewFornecedor();			
+		}
 		List<Exception> errList = new ArrayList<Exception>();
-		errList = modelController.salvar(pnFornecedorProdutoFormController.getFornecedorController().getFornecedor(), pnFornecedorProdutoFormController.getFornecedorController().getProduct());
+		errList = modelController.salvar(pnFornecedorProdutoFormController.getFornecedorController().getFornecedor(), pnFornecedorProdutoFormController.getFornecedorController().getProdutos());
 		if (errList.size() == 0) {
+			FXUISetup.getInstance().clearTextInputs(rootPane);
+			FXUISetup.getInstance().clearTableViews(rootPane);
 			FXNotification notification = new FXNotification("Fornecedor Salvo",FXNotification.NotificationType.INFORMATION);
 			notification.show();
 		}
@@ -122,14 +127,32 @@ public class FXMLFornecedorRegistrationController implements Initializable, FXML
 
 	@Override
 	public void receiveData(Object data, FXMLDefaultControllerInterface sender) throws Exception {
-		// TODO Auto-generated method stub
+		if(sourceController instanceof FXMLFornecedorSearchController)
+		{
+			if (data instanceof Fornecedor) {
+			    modelController.setupEditFornecedor((Fornecedor)data);
+			    List<FornecedorProduct> prodforn = modelController.getlistProdFornecedor(modelController.getFornecedor().getId());
+			    modelController.setFornProdutos(prodforn);
+			    CarregarCampos();
+			}
+		}
 
+	}
+
+	private void CarregarCampos() {
+		pnFornecedorProdutoFormController.CarregaCampos(modelController);
+		
 	}
 
 	@Override
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
-		// TODO Auto-generated method stub
-
+		if (sender == null) {
+			throw new UnsupportedOperationException();
+		}
+		if (sender instanceof FXMLFornecedorRegistrationController) {
+			FXMLFornecedorRegistrationController obj = (FXMLFornecedorRegistrationController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
 	}
 
 	@Override
