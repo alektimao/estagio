@@ -234,6 +234,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 		tfieldnome.setText(resultado.getNome());
 		tfieldTurma.setText(resultado.getTurmaAtual());
 		tfieldMatricula.setText(resultado.getNumeromatricula());
+		//
 	}
 
 	@Override
