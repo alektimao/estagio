@@ -3,6 +3,8 @@ package br.com.maplebearsystem.model;
 import java.io.Serializable;
 import java.lang.Long;
 import java.lang.String;
+import java.sql.Date;
+
 import javax.persistence.*;
 
 /**
@@ -23,7 +25,37 @@ public class Funcionario implements Serializable {
 	@Column(unique = true)
 	private String login;
 	private String senha;
-	private NivelFuncionario nivel;
+	private Nivel nivel;
+	private Date admissao;
+	private Ativo ativo;
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public Nivel getNivel() {
+		return nivel;
+	}
+
+	public Date getAdmissao() {
+		return admissao;
+	}
+
+	public Ativo getAtivo() {
+		return ativo;
+	}
+
+	public void setNivel(Nivel nivel) {
+		this.nivel = nivel;
+	}
+
+	public void setAdmissao(Date admissao) {
+		this.admissao = admissao;
+	}
+
+	public void setAtivo(Ativo ativo) {
+		this.ativo = ativo;
+	}
 
 	public Funcionario() {
 		super();
@@ -49,7 +81,7 @@ public class Funcionario implements Serializable {
 		return senha;
 	}
 
-	public NivelFuncionario getLevel() {
+	public Nivel getLevel() {
 		return nivel;
 	}
 
@@ -73,7 +105,7 @@ public class Funcionario implements Serializable {
 		this.senha = senha;
 	}
 
-	public void setLevel(NivelFuncionario level) {
+	public void setLevel(Nivel level) {
 		this.nivel = level;
 	}
 

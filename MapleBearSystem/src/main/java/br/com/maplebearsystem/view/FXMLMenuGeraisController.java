@@ -42,7 +42,7 @@ public class FXMLMenuGeraisController implements Initializable, FXMLDefaultContr
 
     @FXML
     void actCadastroFuncionario(ActionEvent event) {
-    	
+    	sourceController.loadForm(FXResourcePath.FXML_MAPLE_FUNCIONARIO_BUSCA);
     }
 
     @FXML

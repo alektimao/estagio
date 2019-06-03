@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLFornecedorSearchController">
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLFuncionarioSearchController">
    <children>
       <VBox minWidth="690.0" spacing="14.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css">
          <children>
@@ -42,7 +41,9 @@
             </HBox>
             <TableView fx:id="tviewSearch" prefHeight="200.0" VBox.vgrow="ALWAYS">
                <columns>
-                  <TableColumn fx:id="tviewColID" editable="false" maxWidth="661.0" minWidth="200.0" prefWidth="661.0" text="Forrnecedor" />
+                  <TableColumn fx:id="tviewColID" editable="false" maxWidth="-1.0" minWidth="200.0" prefWidth="-1.0" text="Nome" />
+                  <TableColumn fx:id="tviewFunc" editable="false" maxWidth="-1.0" minWidth="200.0" prefWidth="-1.0" text="Função" />
+                  <TableColumn fx:id="tviewNivel" editable="false" maxWidth="-1.0" minWidth="200.0" prefWidth="-1.0" text="Nível" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -1,74 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="rootPane" prefHeight="269.0" prefWidth="500.0" spacing="30.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLProductFornecedorFormController">
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLFuncionarioFormController">
    <children>
-      <HBox spacing="15.0">
+      <VBox prefHeight="269.0" prefWidth="500.0" spacing="30.0" styleClass="DWORDefaultFormBackground" stylesheets="@../FXMLStylesheet.css">
          <children>
-            <VBox spacing="10.0">
+            <HBox spacing="15.0">
                <children>
-                  <Label text="Matricula" />
-                  <JFXTextField fx:id="tfieldInternalCod" />
+                  <VBox spacing="10.0">
+                     <children>
+                        <Label text="Matricula" />
+                        <JFXTextField fx:id="tfieldMatricula" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Nome" />
+                        <JFXTextField fx:id="tfieldNome" onMouseClicked="#actbuscar" />
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
-            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+            </HBox>
+            <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
                <children>
-                  <Label text="Nome" />
-                  <JFXTextField fx:id="tfieldDescription" />
+                  <VBox layoutX="255.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Função" />
+                        <JFXTextField fx:id="tfieldFuncao" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="175.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Nivel" />
+                        <JFXComboBox fx:id="cbNivel" minWidth="150.0" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Data de admissão" />
+                        <JFXDatePicker fx:id="dtadmissão" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="58.0" text="Button">
-               <HBox.margin>
-                  <Insets right="5.0" top="5.0" />
-               </HBox.margin>
-            </Button>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="92.0" spacing="15.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox layoutX="255.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Login" />
+                        <JFXTextField fx:id="tfieldLogin" prefWidth="150.0" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="175.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Senha" />
+                        <JFXTextField fx:id="tfieldSenha" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Ativo" />
+                        <JFXComboBox fx:id="cbativo" minWidth="150.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
          </children>
-      </HBox>
-      <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
-         <children>
-            <VBox layoutX="255.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label text="Função" />
-                  <JFXTextField fx:id="tfieldUnitQuant" />
-               </children>
-            </VBox>
-            <VBox layoutX="175.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label text="Nivel" />
-                  <JFXTextField fx:id="tfieldMinQtd" />
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label text="Data de admissão" />
-                  <JFXDatePicker VBox.vgrow="ALWAYS" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-      <HBox layoutX="10.0" layoutY="92.0" spacing="15.0" VBox.vgrow="ALWAYS">
-         <children>
-            <VBox layoutX="255.0" layoutY="10.0" spacing="10.0">
-               <children>
-                  <Label text="Login" />
-                  <JFXTextField fx:id="tfieldUnitQuant1" prefWidth="150.0" />
-               </children>
-            </VBox>
-            <VBox layoutX="10.0" layoutY="10.0" spacing="10.0" />
-            <VBox layoutX="175.0" layoutY="10.0" spacing="10.0">
-               <children>
-                  <Label text="Senha" />
-                  <JFXTextField fx:id="tfieldMinQtd1" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
+      </VBox>
    </children>
-</VBox>
+</StackPane>

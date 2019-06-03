@@ -84,6 +84,7 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 // SECTION Main FXMLController Attributes
 	private FXMLDefaultControllerInterface sourceController;
 	private boolean JuridicaModeOnly;
+	private boolean fisicaModeOnly;
 	private PessoaController modelController;
 	private FXMLContactRegistrationController contactRegistrationController;
 // ENDSECTION Main FXMLController Attributes
@@ -255,13 +256,20 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 
 					if (isJuridicaModeOnly()) {
 						modelo = FXCollections.observableArrayList(getModelController().getJuridicas());
-					} else {
+					}
+					else if (isFisicaModeOnly()) {
+						modelo = FXCollections.observableArrayList(getModelController().getPessoasFisica());
+					}
+					else{
 						modelo = FXCollections.observableArrayList(getModelController().getPessoas());
 					}
 				} else {
 					if (isJuridicaModeOnly()) {
 						modelo = FXCollections.observableArrayList(getModelController().getJuridicas(filter));
-					} else {
+					}else if (isFisicaModeOnly()) {
+						modelo = FXCollections.observableArrayList(getModelController().getPessoasFisica(filter));
+					} 
+					else {
 						modelo = FXCollections.observableList(getModelController().getPessoas(filter));
 					}
 				}
@@ -465,6 +473,14 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 
 	public void setJuridicaModeOnly(boolean juridicaModeOnly) {
 		JuridicaModeOnly = juridicaModeOnly;
+	}
+	
+	public boolean isFisicaModeOnly() {
+		return fisicaModeOnly;
+	}
+
+	public void setfisicaModeOnly(boolean juridicaModeOnly) {
+		fisicaModeOnly = juridicaModeOnly;
 	}
 
 	public StackPane getRootPane() {

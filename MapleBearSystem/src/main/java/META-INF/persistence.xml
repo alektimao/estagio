@@ -16,6 +16,8 @@
         <class>br.com.maplebearsystem.model.Interessados</class>
         <class>br.com.maplebearsystem.model.Parametrizacao</class>
         <class>br.com.maplebearsystem.model.Payment</class>
+        <class>br.com.maplebearsystem.model.PedidoFunc</class>
+        <class>br.com.maplebearsystem.model.PedidoFunc_Produto</class>
         <class>br.com.maplebearsystem.model.Pessoa</class>
         <class>br.com.maplebearsystem.model.PessoaFisica</class>
         <class>br.com.maplebearsystem.model.PessoaJuridica</class>
