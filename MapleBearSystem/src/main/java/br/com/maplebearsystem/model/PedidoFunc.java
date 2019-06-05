@@ -31,7 +31,7 @@ public class PedidoFunc implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date requestDate;
-	@OneToMany(mappedBy = "prodPedidoFunc", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "prodPedidoFunc", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<PedidoFunc_Produto> requisicao_Produtos;
 	private String descricao;
 	@OneToOne

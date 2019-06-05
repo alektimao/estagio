@@ -11,8 +11,8 @@ public class JPAUtil {
 
 	private static final EntityManagerFactory entityManagerFactory = Persistence
 //			.createEntityManagerFactory("MapleBSystemPostgreSQLPU");
-			.createEntityManagerFactory("MapleBSystemHyperSQLDBPU");
-//			.createEntityManagerFactory("MapleBSystemHyperSQLDBStandAlonePU");
+//			.createEntityManagerFactory("MapleBSystemHyperSQLDBPU");
+			.createEntityManagerFactory("MapleBSystemHyperSQLDBStandAlonePU");
 
 	public static EntityManager getEntityManager() {
 

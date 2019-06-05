@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.common.io.Closer;
 import com.jfoenix.controls.JFXButton;
 
 import br.com.maplebearsystem.ui.notifications.FXNotification;
@@ -17,10 +16,8 @@ import br.com.maplebearsystem.view.component.FXMLContactRegistrationController;
 import br.com.maplebearsystem.view.component.FXMLContactSearchController;
 import br.com.maplebearsystem.view.component.FXMLFornecedorRegistrationController;
 import br.com.maplebearsystem.view.component.FXMLFornecedorSearchController;
-import br.com.maplebearsystem.view.component.FXMLInteressadosSearchController;
 import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.component.FXMLProdutoSearchController;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -241,7 +238,10 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 			FXMLMenuAlunoController obj = (FXMLMenuAlunoController) sender;
 			menuAreaContainer.getChildren().remove(obj.getRootPane());
 		}
-		
+		if (sender instanceof FXMLMenuGeraisController) {
+			FXMLMenuGeraisController obj = (FXMLMenuGeraisController) sender;
+			menuAreaContainer.getChildren().remove(obj.getRootPane());
+		}
 
 	}
 

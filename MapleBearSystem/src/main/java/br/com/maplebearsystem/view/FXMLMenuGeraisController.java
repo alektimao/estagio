@@ -102,4 +102,8 @@ public class FXMLMenuGeraisController implements Initializable, FXMLDefaultContr
 		// Platform.runLater(() -> hbox = (HBox) primaryPane.getParent());
 
 	}
+
+	public HBox getRootPane() {
+		return hbox;
+	}
 }
