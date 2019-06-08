@@ -86,7 +86,7 @@ public class FornecedorProductController {
 			try {
 				saveProduct(this.partProduct);
 			} catch (EntityExistsException e) {
-				errorList.add(new Exception("Parte / Produto Já cadastrado"));
+				errorList.add(new Exception("Produto Já cadastrado"));
 				System.out.println("Info: Product \"" + partProduct.getShortDescription()
 						+ "\" already registered - " + e.getMessage());
 			} catch (Exception saveException) {

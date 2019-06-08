@@ -73,6 +73,7 @@ public class FXMLInteressadosFormController implements FXMLDefaultControllerInte
 			tftelefone1.setText(interessado.getTelefone1());
 			tftelefone2.setText(interessado.getTelefone2());
 			tareaMotivo.setText(interessado.getMotivo());
+			dtdatainteresse.setValue(interessado.getData().toLocalDate());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

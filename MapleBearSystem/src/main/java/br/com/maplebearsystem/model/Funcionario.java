@@ -108,20 +108,4 @@ public class Funcionario implements Serializable {
 	public void setLevel(Nivel level) {
 		this.nivel = level;
 	}
-
-	public enum NivelFuncionario {
-
-		ADMINISTRATOR("Administrador"), PROFESSOR("Professor"), ATTENDANT("Atendente");
-
-		String level;
-
-		NivelFuncionario(String level) {
-			this.level = level;
-		}
-
-		@Override
-		public String toString() {
-			return level;
-		}
-	}
 }

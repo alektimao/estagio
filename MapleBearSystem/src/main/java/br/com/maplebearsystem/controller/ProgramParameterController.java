@@ -4,37 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.maplebearsystem.dao.ProgramParameterDAO;
-import br.com.maplebearsystem.model.Employee;
+import br.com.maplebearsystem.model.Funcionario;
 import br.com.maplebearsystem.model.PessoaFisica;
 import br.com.maplebearsystem.model.PessoaJuridica;
 import br.com.maplebearsystem.model.ProgramParameter;
-import br.com.maplebearsystem.model.Employee.SoftwareOperatorLevel;
+
 
 public class ProgramParameterController {
 
 	private static ProgramParameterController _instance;
 	private List<Exception> administratorErrorList;
-	private Employee loggedUser;
 
 	private List<Exception> organizationErrorList;
-	private PessoaController pessoaAdminController;
-	private PessoaController pessoaOrganizationController;
 	private ProgramParameter programParameter;
 
 	private ProgramParameterController() {
 
-	}
-
-	public Employee getLoggedUser() {
-		return loggedUser;
-	}
-
-	public PessoaController getPessoaAdminController() {
-		return pessoaAdminController;
-	}
-
-	public PessoaController getPessoaOrganizationController() {
-		return pessoaOrganizationController;
 	}
 
 	public ProgramParameter getProgramParameter() {
@@ -51,9 +36,6 @@ public class ProgramParameterController {
 				return true;
 			else {
 				programParameter = aux;
-				if (aux.getAdministrator() == null || aux.getOrganization() == null) {
-					return true;
-				}
 				return false;
 			}
 		} catch (Exception e) {
@@ -66,17 +48,9 @@ public class ProgramParameterController {
 
 		List<Exception> errorList = new ArrayList<Exception>();
 
-		if (!organizationErrorList.isEmpty())
-			errorList.addAll(organizationErrorList);
-		if (!administratorErrorList.isEmpty())
-			errorList.addAll(administratorErrorList);
-
 		if (errorList.isEmpty()) {
 			try {
-				this.programParameter.getAdministrator()
-						.setPessoa((PessoaFisica) pessoaAdminController.getStagedPessoa());
-				this.programParameter.setOrganization((PessoaJuridica) pessoaOrganizationController.getStagedPessoa());
-
+				
 				save(this.programParameter);
 			} catch (Exception saveException) {
 				errorList.add(new Exception("Erro desconhecido ao salvar: \n" + saveException.getLocalizedMessage()));
@@ -94,51 +68,22 @@ public class ProgramParameterController {
 
 	}
 
-	public void setLoggedUser(Employee loggedUser) {
-		this.loggedUser = loggedUser;
-	}
-
-	public void setPessoaAdminController(PessoaController pessoaAdminController) {
-		this.pessoaAdminController = pessoaAdminController;
-	}
-
-	public void setPessoaOrganizationController(PessoaController pessoaOrganizationController) {
-		this.pessoaOrganizationController = pessoaOrganizationController;
-	}
-
 	public void setProgramParameter(ProgramParameter programParameter) {
 		this.programParameter = programParameter;
 	}
 
 	public void setupParameterizationMode() {
-		this.pessoaAdminController = new PessoaController();
-		this.pessoaOrganizationController = new PessoaController();
 
 		if (programParameter == null) {
 			this.setupNewProgramParameter();
 			return;
 		}
-
-		if (programParameter.getAdministrator() != null) {
-			pessoaAdminController.setupEditPessoa(programParameter.getAdministrator().getPessoa());
-		} else {
-			pessoaAdminController.setupNewPessoaFisica();
-		}
-
-		if (programParameter.getOrganization() != null) {
-			pessoaOrganizationController.setupEditPessoa(programParameter.getOrganization());
-		} else {
-			pessoaOrganizationController.setupNewPessoaJuridica();
-		}
 	}
 
-	public List<Exception> validateSetAdministrator(String adminName,
-			String adminRG,
-			String adminCPF,
-			String adminEmail,
+	public List<Exception> validateSetAdministrator(String adminToken,
+			String adminChave,
 			String adminUsername,
-			String adminPassword,
-			String adminPasswordRepeated) {
+			String adminPassword) {
 
 		List<Exception> errorList = new ArrayList<Exception>();
 		this.administratorErrorList = errorList;
@@ -146,47 +91,28 @@ public class ProgramParameterController {
 		if (programParameter == null) {
 			programParameter = new ProgramParameter();
 		}
-
 		try {
-			pessoaAdminController.setName(adminName);
+			_instance.validateToken(adminToken);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			errorList.add(e);
 		}
 
 		try {
-			pessoaAdminController.validateSetPessoaFisicaCPF(adminCPF);
+			_instance.validateChave(adminChave);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			errorList.add(e);
 		}
 
 		try {
-			pessoaAdminController.validateSetPessoaFisicaRG(adminRG);
+			_instance.ValidateMasterlogin(adminUsername);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			errorList.add(e);
 		}
-
 		try {
-			pessoaAdminController.validateSetPessoaEmail(adminEmail);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			errorList.add(e);
-		}
-
-		try {
-			this.programParameter.getAdministrator().setLogin(adminUsername);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			errorList.add(e);
-		}
-
-		try {
-			if (adminPassword.equals(adminPasswordRepeated))
-				this.programParameter.getAdministrator().setPsswdHash(adminPassword);
-			else
-				throw new Exception("Os campos de password digitados não coincidem entre-si");
+			_instance.ValidateMastersenha(adminPassword);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			errorList.add(e);
@@ -194,60 +120,25 @@ public class ProgramParameterController {
 
 		return errorList;
 	}
+	
+	private void ValidateMastersenha(String adminPassword) {
+		this.programParameter.setMastersenha(adminPassword);
+		
+	}
 
-	public List<Exception> validateSetOrganization(String orgName,
-			String orgRazaoSocial,
-			String orgIE,
-			String orgCNPJ,
-			String orgIMunicipal,
-			String orgEmail) {
+	private void ValidateMasterlogin(String adminUsername) {
+		this.programParameter.setMasterlogin(adminUsername);
+		
+	}
 
-		List<Exception> errorList = new ArrayList<Exception>();
-		this.organizationErrorList = errorList;
+	private void validateChave(String adminChave) {
+		this.programParameter.setMasterchave(adminChave);
+		
+	}
 
-		try {
-			pessoaOrganizationController.setName(orgName);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			errorList.add(e);
-		}
-
-		try {
-			pessoaOrganizationController.validateSetPessoaJuridicaCNPJ(orgCNPJ);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			errorList.add(e);
-		}
-
-		try {
-			pessoaOrganizationController.validateSetPessoaJuridicaIEstadual(orgIE);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			errorList.add(e);
-		}
-
-		try {
-			pessoaOrganizationController.validateSetPessoaEmail(orgEmail);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			errorList.add(e);
-		}
-
-		try {
-			pessoaOrganizationController.validateSetPessoaJuridicaIMunicipal(orgIMunicipal);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			errorList.add(e);
-		}
-
-		try {
-			pessoaOrganizationController.setRazaoSocial(orgRazaoSocial);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			errorList.add(e);
-		}
-
-		return errorList;
+	private void validateToken(String adminToken) {
+		this.programParameter.setMasterToken(adminToken);
+		
 	}
 
 	public static synchronized ProgramParameterController getInstance() {
@@ -264,20 +155,6 @@ public class ProgramParameterController {
 
 	public void setupNewProgramParameter() {
 		programParameter = new ProgramParameter();
-		pessoaAdminController = new PessoaController();
-		pessoaOrganizationController = new PessoaController();
-
-		pessoaAdminController.setupNewPessoaFisica();
-		pessoaOrganizationController.setupNewPessoaJuridica();
-
-		Employee administrator = new Employee();
-		administrator.setPessoa((PessoaFisica) pessoaAdminController.getStagedPessoa());
-		administrator.setLevel(SoftwareOperatorLevel.ADMINISTRATOR);
-
-		programParameter.setAdministrator(administrator);
-
-		programParameter.setOrganization((PessoaJuridica) pessoaOrganizationController.getStagedPessoa());
-
 	}
 
 }

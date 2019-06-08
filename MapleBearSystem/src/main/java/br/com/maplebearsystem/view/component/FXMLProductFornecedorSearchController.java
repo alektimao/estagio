@@ -73,6 +73,8 @@ public class FXMLProductFornecedorSearchController implements Initializable, FXM
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		modelController = new ProductController();
+		btnDelete.setDisable(false);
+		btnEdit.setDisable(false);
 		initUI();
 	}
 
@@ -95,8 +97,10 @@ public class FXMLProductFornecedorSearchController implements Initializable, FXM
 
 		if (sourceController instanceof FXMLProductManagerController) {
 			try {
+				if (tviewSearch.getSelectionModel().getSelectedItem() != null) {
 				((FXMLProductManagerController) sourceController)
 						.editProduct(tviewSearch.getSelectionModel().getSelectedItem().getProduct());
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -157,14 +161,6 @@ public class FXMLProductFornecedorSearchController implements Initializable, FXM
 
 	private void loadTableView(String filter) {
 
-//		ObservableList<Product> modelo;
-//
-//		if (filter.equals("")) {
-//			modelo = FXCollections.observableArrayList(modelController.getProducts());
-//		} else {
-//
-//			modelo = FXCollections.observableArrayList(modelController.getProducts(filter));
-//		}
 		ObservableList<FornecedorProduct> modelo;
 
 		if (filter.equals("")) {
@@ -189,6 +185,16 @@ public class FXMLProductFornecedorSearchController implements Initializable, FXM
 		modelController.deleteProduct();
 
 		return true;
+	}
+	@FXML
+	void actOnTableMouseClicked() {
+		if (tviewSearch.getSelectionModel() != null && tviewSearch.getSelectionModel().getSelectedItem() != null) {
+			btnDelete.setDisable(false);
+			btnEdit.setDisable(false);
+		} else {
+			btnDelete.setDisable(true);
+			btnEdit.setDisable(true);
+		}
 	}
 
 // ENDSECTION Main FXMLController Methods

@@ -104,6 +104,22 @@
                               <String fx:value="JFXButtonCompactII" />
                            </styleClass>
                         </JFXButton>
+                        <JFXButton fx:id="btnCancel" buttonType="RAISED" onAction="#actCancel" prefWidth="150.0" ripplerFill="#282a2f" text="Cancelar">
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0" />
+                           </effect>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="REPLY" size="20" />
+                           </graphic>
+                           <styleClass>
+                              <String fx:value="JFXButtonDefault" />
+                              <String fx:value="JFXButtonCancel" />
+                              <String fx:value="JFXButtonCompactII" />
+                           </styleClass>
+                        </JFXButton>
                      </children>
                   </HBox>
                   <HBox fx:id="pnSelectorMode" alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="14.0">
@@ -146,22 +162,6 @@
                            <styleClass>
                               <String fx:value="JFXButtonDefault" />
                               <String fx:value="JFXButtonNeutral" />
-                              <String fx:value="JFXButtonCompactII" />
-                           </styleClass>
-                        </JFXButton>
-                        <JFXButton fx:id="btnCancel" buttonType="RAISED" onAction="#actCancel" prefWidth="150.0" ripplerFill="#282a2f" text="Cancelar">
-                           <effect>
-                              <DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0" />
-                           </effect>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                           <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="REPLY" size="20" />
-                           </graphic>
-                           <styleClass>
-                              <String fx:value="JFXButtonDefault" />
-                              <String fx:value="JFXButtonCancel" />
                               <String fx:value="JFXButtonCompactII" />
                            </styleClass>
                         </JFXButton>

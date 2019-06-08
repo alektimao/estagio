@@ -21,7 +21,7 @@
    <children>
       <VBox fx:id="panelMain" spacing="10.0" style="-fx-background-color: white;" stylesheets="@FXMLStylesheet.css">
          <children>
-            <Label text="Criar Turma Personalizada" textFill="#545454">
+            <Label text="Turma Personalizada" textFill="#545454">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
@@ -32,7 +32,7 @@
                      <children>
                         <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXTextField id="tfieldName" fx:id="txtnome" editable="false" labelFloat="true" minWidth="300.0" opacity="0.88" prefHeight="26.0" promptText="Nome Turma Personalizada">
+                              <JFXTextField id="tfieldName" fx:id="txtnome" labelFloat="true" minWidth="300.0" opacity="0.88" prefHeight="26.0" promptText="Nome Turma Personalizada">
                                  <styleClass>
                                     <String fx:value="jfxtextfieldform" />
                                     <String fx:value="formMaxWidth" />
@@ -41,7 +41,7 @@
                                     <Insets />
                                  </FlowPane.margin>
                               </JFXTextField>
-                              <JFXTextField id="tfieldCPFCNPJ" fx:id="txtresponsavel" editable="false" labelFloat="true" minWidth="320.0" opacity="0.88" prefHeight="25.0" promptText="Responsavel pela turma" styleClass="formMaxWidth" />
+                              <JFXTextField id="tfieldCPFCNPJ" fx:id="txtresponsavel" labelFloat="true" minWidth="320.0" opacity="0.88" prefHeight="25.0" promptText="Responsavel pela turma" styleClass="formMaxWidth" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
@@ -120,12 +120,69 @@
                                                       <Insets />
                                                    </HBox.margin>
                                                    <children>
-                                                      <JFXCheckBox fx:id="ckseg" text="Segunda" />
-                                                      <JFXCheckBox fx:id="ckTer" text="Terça" />
-                                                      <JFXCheckBox fx:id="ckQua" text="Quarta" />
-                                                      <JFXCheckBox fx:id="ckQui" text="Quinta" />
-                                                      <JFXCheckBox fx:id="cksex" text="Sexta" />
-                                                      <JFXCheckBox fx:id="cksab" text="Sabado" />
+                                                      <HBox>
+                                                         <children>
+                                                            <Label text="Dias da Semana " textFill="#545454">
+                                                               <font>
+                                                                  <Font size="13.0" />
+                                                               </font>
+                                                               <opaqueInsets>
+                                                                  <Insets right="2.0" />
+                                                               </opaqueInsets>
+                                                            </Label>
+                                                            <JFXCheckBox fx:id="ckseg" text="Segunda">
+                                                               <HBox.margin>
+                                                                  <Insets right="15.0" />
+                                                               </HBox.margin>
+                                                            </JFXCheckBox>
+                                                            <JFXCheckBox fx:id="ckTer" text="Terça">
+                                                               <HBox.margin>
+                                                                  <Insets right="15.0" />
+                                                               </HBox.margin>
+                                                            </JFXCheckBox>
+                                                            <JFXCheckBox fx:id="ckQua" text="Quarta">
+                                                               <HBox.margin>
+                                                                  <Insets right="15.0" />
+                                                               </HBox.margin>
+                                                            </JFXCheckBox>
+                                                            <JFXCheckBox fx:id="ckQui" text="Quinta">
+                                                               <HBox.margin>
+                                                                  <Insets right="15.0" />
+                                                               </HBox.margin>
+                                                            </JFXCheckBox>
+                                                            <JFXCheckBox fx:id="cksex" text="Sexta">
+                                                               <HBox.margin>
+                                                                  <Insets right="15.0" />
+                                                               </HBox.margin>
+                                                            </JFXCheckBox>
+                                                            <JFXCheckBox fx:id="cksab" text="Sabado">
+                                                               <HBox.margin>
+                                                                  <Insets right="15.0" />
+                                                               </HBox.margin>
+                                                            </JFXCheckBox>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox>
+                                                         <children>
+                                                            <Label text="Lanchar ? " textFill="#545454">
+                                                               <font>
+                                                                  <Font size="13.0" />
+                                                               </font>
+                                                               <opaqueInsets>
+                                                                  <Insets right="2.0" />
+                                                               </opaqueInsets>
+                                                               <HBox.margin>
+                                                                  <Insets right="5.0" />
+                                                               </HBox.margin>
+                                                            </Label>
+                                                            <JFXCheckBox fx:id="cksim" onAction="#clicksim" text="Sim">
+                                                               <HBox.margin>
+                                                                  <Insets right="15.0" />
+                                                               </HBox.margin>
+                                                            </JFXCheckBox>
+                                                            <JFXCheckBox fx:id="cknao" onAction="#clicknao" text="Não" />
+                                                         </children>
+                                                      </HBox>
                                                       <JFXTextArea fx:id="txtinfo" minWidth="648.0" prefHeight="97.0" promptText="Informaçoes sobre a turma" />
                                                    </children>
                                                 </FlowPane>
@@ -143,14 +200,6 @@
                                  <padding>
                                     <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
                                  </padding>
-                              </VBox>
-                              <VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-background-color: white;">
-                                 <padding>
-                                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                 </padding>
-                                 <effect>
-                                    <DropShadow />
-                                 </effect>
                               </VBox>
                            </children>
                         </VBox>

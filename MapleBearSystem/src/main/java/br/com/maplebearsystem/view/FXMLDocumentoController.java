@@ -241,6 +241,10 @@ public class FXMLDocumentoController implements Initializable, FXMLDefaultContro
 		}
 		
 	}
+	
+	public StackPane getRootPane() {
+		return this.rootPane;
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

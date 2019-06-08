@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Fetch;
 
@@ -34,8 +35,8 @@ public class Alocar implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne
-	@JoinColumn(name = "funcionarioID", referencedColumnName = "id")
+	@OneToOne
+	//@JoinColumn(name = "funcionarioID", referencedColumnName = "id")
 	private Funcionario funcionario;
 	private int quantidade;
 	private boolean atraso;
@@ -45,7 +46,6 @@ public class Alocar implements Serializable {
 	private String obs;
 	private String aula;
 	private String sala;
-
 	@OneToMany(mappedBy = "prodAlocar",fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(org.hibernate.annotations.FetchMode.SUBSELECT)
 	private List<Alocar_Produto> produtos;

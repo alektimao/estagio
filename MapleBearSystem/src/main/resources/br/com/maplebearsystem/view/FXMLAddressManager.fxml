@@ -13,7 +13,7 @@
 
 <StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.FXMLAddressManagerController">
    <children>
-      <VBox fx:id="primaryPane" alignment="TOP_RIGHT" spacing="5.0" styleClass="DWORDefaultPaneBackground" stylesheets="@FXMLStylesheet.css">
+      <VBox fx:id="primaryPane" alignment="TOP_RIGHT" spacing="5.0" stylesheets="@FXMLStylesheet.css">
          <children>
             <HBox alignment="CENTER_LEFT">
                <children>

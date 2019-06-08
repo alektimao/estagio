@@ -93,7 +93,17 @@
                                                    <children>
                                                       <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                                                          <children>
-                                                            <HBox fx:id="Hali" alignment="CENTER" spacing="15.0" style="-fx-border-color: lightgrey;" VBox.vgrow="ALWAYS">
+                                                            <TableView fx:id="tviewAlimento" editable="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                                              <columns>
+                                                                <TableColumn fx:id="colAlimento" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="-1.0" text="Alimento" />
+                                                                  <TableColumn fx:id="colGravidadeAlimento" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Gravidade" />
+                                                                  <TableColumn fx:id="colperiodoalimento" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Periodo" />
+                                                              </columns>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </TableView>
+                                                            <HBox fx:id="Hali" alignment="CENTER" prefHeight="184.0" prefWidth="690.0" spacing="15.0" style="-fx-border-color: lightgrey;" VBox.vgrow="ALWAYS">
                                                                <children>
                                                                   <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="ALWAYS">
                                                                      <padding>
@@ -126,14 +136,6 @@
                                                                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                                </padding>
                                                             </HBox>
-                                                            <TableView fx:id="tviewAlimento" editable="true" minWidth="600.0" prefHeight="100.0">
-                                                              <columns>
-                                                                <TableColumn fx:id="colAlimento" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="-1.0" text="Alimento" />
-                                                                  <TableColumn fx:id="colGravidadeAlimento" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Gravidade" />
-                                                                  <TableColumn fx:id="colperiodoalimento" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Periodo" />
-                                                              </columns>
-                                                            </TableView>
-                                                            <HBox alignment="CENTER_RIGHT" spacing="15.0" />
                                                             <HBox alignment="CENTER_RIGHT" spacing="15.0">
                                                                <children>
                                                                   <JFXButton fx:id="btadd1" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#addalimento" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-background-color: green; -fx-text-fill: white;" text="Adicionar">
@@ -158,17 +160,6 @@
                                                       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                    </padding>
                                                 </VBox>
-                                                <VBox spacing="5.0" style="-fx-background-color: white;">
-                                                   <children>
-                                                      <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" vgap="25.0" />
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                                   </padding>
-                                                   <effect>
-                                                      <DropShadow />
-                                                   </effect>
-                                                </VBox>
                                              </children>
                                           </VBox>
                                        </children>
@@ -188,6 +179,16 @@
                                                    <children>
                                                       <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                                                          <children>
+                                                            <TableView fx:id="tviewRemedio" editable="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                                               <columns>
+                                                                  <TableColumn fx:id="colRemedio" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="-1.0" text="Remedio" />
+                                                                  <TableColumn fx:id="colGravidadeRemedio" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Gravidade" />
+                                                                  <TableColumn fx:id="colPeriodoRemedio" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Periodo" />
+                                                               </columns>
+                                                               <VBox.margin>
+                                                                  <Insets top="5.0" />
+                                                               </VBox.margin>
+                                                            </TableView>
                                                             <HBox fx:id="Hrem" alignment="CENTER" spacing="15.0" style="-fx-border-color: lightgrey;" VBox.vgrow="ALWAYS">
                                                                <children>
                                                                   <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="ALWAYS">
@@ -239,14 +240,6 @@
                                                                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                                </padding>
                                                             </HBox>
-                                                            <TableView fx:id="tviewRemedio" editable="true" minWidth="600.0" prefHeight="100.0">
-                                                               <columns>
-                                                                  <TableColumn fx:id="colRemedio" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="-1.0" text="Remedio" />
-                                                                  <TableColumn fx:id="colGravidadeRemedio" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Gravidade" />
-                                                                  <TableColumn fx:id="colPeriodoRemedio" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Periodo" />
-                                                               </columns>
-                                                            </TableView>
-                                                            <HBox alignment="CENTER_RIGHT" spacing="15.0" />
                                                             <HBox alignment="CENTER_RIGHT" spacing="15.0">
                                                                <children>
                                                                   <JFXButton fx:id="btaddRemedio" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#addremedio" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-background-color: green; -fx-text-fill: white;" text="Adicionar">
@@ -270,17 +263,6 @@
                                                    <padding>
                                                       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                    </padding>
-                                                </VBox>
-                                                <VBox spacing="5.0" style="-fx-background-color: white;">
-                                                   <children>
-                                                      <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" vgap="25.0" />
-                                                   </children>
-                                                   <padding>
-                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                                   </padding>
-                                                   <effect>
-                                                      <DropShadow />
-                                                   </effect>
                                                 </VBox>
                                              </children>
                                           </VBox>

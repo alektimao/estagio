@@ -100,6 +100,14 @@ public class TurmaPersonalizada implements Serializable {
 		alunos.remove(aluno);
 	}
 
+	public List<WeekDays> getDiasDaSemana() {
+		return diasDaSemana;
+	}
+
+	public void setDiasDaSemana(List<WeekDays> diasDaSemana) {
+		this.diasDaSemana = diasDaSemana;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {

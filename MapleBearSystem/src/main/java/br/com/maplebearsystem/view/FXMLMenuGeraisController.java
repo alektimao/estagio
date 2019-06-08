@@ -7,14 +7,11 @@ import com.jfoenix.controls.JFXButton;
 
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
-import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 public class FXMLMenuGeraisController implements Initializable, FXMLDefaultControllerInterface {
 

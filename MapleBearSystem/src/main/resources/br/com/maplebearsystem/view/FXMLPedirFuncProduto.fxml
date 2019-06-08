@@ -23,7 +23,7 @@
    <children>
       <VBox fx:id="panelMain" spacing="7.0" style="-fx-background-color: white;">
          <children>
-            <Label text="Requisiçao de Produtos" textFill="#545454">
+            <Label text="Pedir Para Comprar" textFill="#545454">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>

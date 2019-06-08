@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import br.com.maplebearsystem.controller.FuncionarioController;
 import br.com.maplebearsystem.model.Ativo;
+import br.com.maplebearsystem.model.Funcionario;
 import br.com.maplebearsystem.model.Nivel;
 import br.com.maplebearsystem.model.Pessoa;
 import br.com.maplebearsystem.model.PessoaFisica;
@@ -86,6 +87,7 @@ public class FXMLFuncionarioFormController implements FXMLDefaultControllerInter
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		cbNivel.setItems( FXCollections.observableArrayList( Nivel.values()));
 		cbativo.setItems( FXCollections.observableArrayList( Ativo.values()));
+		tfieldMatricula.setDisable(true);
 		funcontroler = new FuncionarioController();
 		funcontroler.setupNewFuncionario();
 	}
@@ -157,15 +159,26 @@ public class FXMLFuncionarioFormController implements FXMLDefaultControllerInter
 		return funcontroler;
 	}
 
+	private void loadPessoa(Funcionario funcionario) {
+		funcontroler.getFuncionario().setPessoa((PessoaFisica) funcionario.getPessoa());
+		tfieldNome.setText(funcionario.getPessoa().getName());
+		tfieldFuncao.setText(funcionario.getJob());
+		tfieldMatricula.setText(funcionario.getId().toString());
+	    cbNivel.setValue(funcionario.getNivel());
+	    dtadmissão.setValue(funcionario.getAdmissao().toLocalDate());
+	    tfieldLogin.setText(funcionario.getLogin());
+	    tfieldSenha.setText(funcionario.getSenha());
+	    cbativo.setValue(funcionario.getAtivo());
+
+	}
+	
 	private void loadPessoa(Pessoa resultado) {
 		funcontroler.getFuncionario().setPessoa((PessoaFisica) resultado);
 		tfieldNome.setText(funcontroler.getFuncionario().getPessoa().getName());
-		//tfieldEndereco.setText(funcontroler.getFornecedor().getPessoa().getPrimaryAddress().getAddress());
-		//tfieldTelefone.setText(funcontroler.getFornecedor().getPessoa().getPrimaryPhone().getPhoneString());
 	}
 
 	public void CarregaCampos(FuncionarioController modelController) {
-		loadPessoa(modelController.getFuncionario().getPessoa());
+		loadPessoa(modelController.getFuncionario());
 		funcontroler = modelController;
 	}
 

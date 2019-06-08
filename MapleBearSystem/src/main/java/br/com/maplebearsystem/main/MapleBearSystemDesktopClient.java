@@ -7,13 +7,16 @@ import java.util.logging.Logger;
 
 import javax.persistence.NoResultException;
 
+import br.com.maplebearsystem.controller.ProgramParameterController;
 import br.com.maplebearsystem.dao.FederationDAO;
 import br.com.maplebearsystem.model.Federation;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.ui.util.FXUISetup;
+import br.com.maplebearsystem.view.FXMLInitSetupController;
 import br.com.maplebearsystem.view.util.BrazilianStatesAndCitiesImporter;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -27,21 +30,17 @@ public class MapleBearSystemDesktopClient extends Application {
 		Parent root = null;
 
 		try {
-
-			if (!doInitConfig) {
-//				root = FXMLLoader.load(DworDesktopClient.class.getResource(FXResourcePath.FXML_LOGIN.getPath()),
-//						ResourceBundle.getBundle("br.com.maplebearsystem.messages.messages"));
-				root = FXUISetup.getInstance().loadFXMLAsParent(FXResourcePath.FXML_MAPLEBEARSYSTEM_HOME);
-				// FXMLLoader.load(FXResourcePath.FXML_DWOR_HOME,
-				// ResourceBundle.getBundle("br.com.maplebearsystem.messages.messages"));
-			} else {
-				// execute Program Parameterization
-//				FXMLLoader fxmlLoader = new FXMLLoader();
-//				fxmlLoader.setLocation(FXResourcePath.FXML_DWOR_INITSETUP);
-//
-//				fxmlLoader.load();
-//				root = fxmlLoader.<FXMLInitSetupController>getController().getRootPane();
-			}
+			root = FXUISetup.getInstance().loadFXMLAsParent(FXResourcePath.FXML_MAPLEBEARSYSTEM_LOGIN);
+//			if (!doInitConfig) {
+//				root = FXUISetup.getInstance().loadFXMLAsParent(FXResourcePath.FXML_MAPLEBEARSYSTEM_LOGIN);
+//			} else {
+//				// execute Program Parameterization
+////				FXMLLoader fxmlLoader = new FXMLLoader();
+////				fxmlLoader.setLocation(FXResourcePath.FXML_DWOR_INITSETUP);
+////
+////				fxmlLoader.load();
+////				root = fxmlLoader.<FXMLInitSetupController>getController().getRootPane();
+//			}
 
 			Scene scene = FXUISetup.getInstance().createSceneWithParentMinimalSize(root);
 
@@ -74,13 +73,15 @@ public class MapleBearSystemDesktopClient extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 
-//		boolean flag = ProgramParameterController.getInstance().isProgramParameterizationNeeded();
-//
-//		if (!flag)
-//			ProgramParameterController.getInstance()
-//					.setLoggedUser(ProgramParameterController.getInstance().getProgramParameter().getAdministrator());
-//		initProgramStage(primaryStage, flag);
-		initProgramStage(primaryStage, false);
+		boolean flag = ProgramParameterController.getInstance().isProgramParameterizationNeeded();
+
+		if (flag)
+		{
+			ProgramParameterController.getInstance().validateSetAdministrator("", "", "ADMIN", "admin");
+			ProgramParameterController.getInstance().save();
+		}
+		initProgramStage(primaryStage, flag);
+		//initProgramStage(primaryStage, false);
 
 	}
 

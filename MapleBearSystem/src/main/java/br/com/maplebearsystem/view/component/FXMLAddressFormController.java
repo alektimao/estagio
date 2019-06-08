@@ -137,7 +137,7 @@ public class FXMLAddressFormController implements FXMLDefaultControllerInterface
 								.contains(cmbboxProvinceState.getEditor().getText().toLowerCase()));
 
 				if (autoCompleteProvinceState.getFilteredSuggestions().isEmpty()
-						|| cmbboxProvinceState.getEditor().getText().isEmpty()) {
+						|| cmbboxProvinceState.getEditor().getText().isEmpty() || cmbboxProvinceState.getEditor().isFocused()== false) {
 					autoCompleteProvinceState.hide();
 					// if you remove textField.getText.isEmpty() when text field is empty it
 					// suggests all options
@@ -199,7 +199,7 @@ public class FXMLAddressFormController implements FXMLDefaultControllerInterface
 				autoCompleteCity.filter(
 						city -> city.getName().toLowerCase().contains(cmbboxCity.getEditor().getText().toLowerCase()));
 
-				if (autoCompleteCity.getFilteredSuggestions().isEmpty() || cmbboxCity.getEditor().getText().isEmpty()) {
+				if (autoCompleteCity.getFilteredSuggestions().isEmpty() || cmbboxCity.getEditor().getText().isEmpty() || cmbboxCity.getEditor().isFocused() == false) {
 					autoCompleteCity.hide();
 					// if you remove textField.getText.isEmpty() when text field is empty it
 					// suggests all options

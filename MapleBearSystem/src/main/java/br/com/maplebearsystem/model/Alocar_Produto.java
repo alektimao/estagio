@@ -22,7 +22,6 @@ public class Alocar_Produto implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	@ManyToOne
 	@JoinColumn(name = "AlocarID", referencedColumnName = "id")
 	private Alocar alocar;
@@ -112,20 +111,4 @@ public class Alocar_Produto implements Serializable {
 	public void setQuantity(Integer quantity) {
 		this.qtdemprestado = quantity;
 	}
-	
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (obj == null) {
-//			return false;
-//		}
-//		
-//		if (obj instanceof Alocar_Produto) {
-//			Alocar_Produto new_name = (Alocar_Produto) obj;
-//			if (this.id.equals(new_name.getId())) {
-//				return true;
-//			}
-//		}
-//		return super.equals(obj);
-//	}
-
 }

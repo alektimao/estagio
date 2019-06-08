@@ -11,9 +11,12 @@ import com.jfoenix.controls.JFXTextField;
 
 import br.com.maplebearsystem.controller.FuncionarioController;
 import br.com.maplebearsystem.model.Funcionario;
+import br.com.maplebearsystem.model.Requisicao;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.ui.util.FXUISetup;
+import br.com.maplebearsystem.view.FXMLAlocarEquipamentoController;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
+import br.com.maplebearsystem.view.FXMLReceberController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -65,14 +68,15 @@ public class FXMLFuncionarioSearchController implements Initializable, FXMLDefau
 	private JFXButton btnCancel;
 
 	private FXMLDefaultControllerInterface sourceController;
-	
-	private FuncionarioController modelController;
 
+	private FuncionarioController modelController;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		modelController = new FuncionarioController();
 		switchToEditorMode();
+		btnDelete.setDisable(false);
+		btnEdit.setDisable(false);
 		initUI();
 	}
 
@@ -92,19 +96,20 @@ public class FXMLFuncionarioSearchController implements Initializable, FXMLDefau
 	}
 
 	private boolean editItem() {
-		
-		try {
-			FXMLFuncionarioRegistrationController controller = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_FUNCIONARIO, null, 0.0)
-					.<FXMLFuncionarioRegistrationController>getController();
-			controller.setSourceFXMLController(this);
-			controller.receiveData(tviewSearch.getSelectionModel().getSelectedItem(), this);
+		if (tviewSearch.getSelectionModel().getSelectedItem() != null) {
+			try {
+				FXMLFuncionarioRegistrationController controller = FXUISetup
+						.getInstance().loadFXMLIntoStackPane(rootPane,
+								FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_FUNCIONARIO, null, 0.0)
+						.<FXMLFuncionarioRegistrationController>getController();
+				controller.setSourceFXMLController(this);
+				controller.receiveData(tviewSearch.getSelectionModel().getSelectedItem(), this);
 
-			return true;
-		} catch (Exception e) {
-			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed to edit contact", e);
+				return true;
+			} catch (Exception e) {
+				Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed to edit contact", e);
+			}
 		}
-
 		return false;
 
 	}
@@ -113,7 +118,7 @@ public class FXMLFuncionarioSearchController implements Initializable, FXMLDefau
 
 		try {
 
-			tviewSearch.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE );
+			tviewSearch.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 			if (pnButtons.getChildren().contains(pnEditorMode))
 				pnButtons.getChildren().remove(pnEditorMode);
@@ -127,7 +132,7 @@ public class FXMLFuncionarioSearchController implements Initializable, FXMLDefau
 		}
 
 	}
-	
+
 	public void switchToEditorMode() {
 		try {
 			tviewSearch.setRowFactory(tv -> {
@@ -184,6 +189,17 @@ public class FXMLFuncionarioSearchController implements Initializable, FXMLDefau
 
 		return true;
 	}
+	
+	@FXML
+	void actOnTableMouseClicked() {
+		if (tviewSearch.getSelectionModel() != null && tviewSearch.getSelectionModel().getSelectedItem() != null) {
+			btnDelete.setDisable(false);
+			btnEdit.setDisable(false);
+		} else {
+			btnDelete.setDisable(true);
+			btnEdit.setDisable(true);
+		}
+	}
 
 // ENDSECTION Main FXMLController Methods
 
@@ -198,16 +214,16 @@ public class FXMLFuncionarioSearchController implements Initializable, FXMLDefau
 	}
 
 	private void initTableViews() {
-		
-		tviewColID.setCellValueFactory((data)->{
-			return new SimpleStringProperty(""+data.getValue().getPessoa().getName());
-			});
-		tviewNivel.setCellValueFactory((data)->{
-			return new SimpleStringProperty(""+data.getValue().getLevel());
-			});
-		tviewFunc.setCellValueFactory((data)->{
-			return new SimpleStringProperty(""+data.getValue().getJob());
-			});
+
+		tviewColID.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getPessoa().getName());
+		});
+		tviewNivel.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getLevel());
+		});
+		tviewFunc.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getJob());
+		});
 	}
 
 	@Override
@@ -264,8 +280,9 @@ public class FXMLFuncionarioSearchController implements Initializable, FXMLDefau
 	@FXML
 	void actSPNew(ActionEvent event) {
 		try {
-			FXMLFuncionarioRegistrationController controller = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_FUNCIONARIO, null, 0.0)
+			FXMLFuncionarioRegistrationController controller = FXUISetup
+					.getInstance().loadFXMLIntoStackPane(rootPane,
+							FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_FUNCIONARIO, null, 0.0)
 					.<FXMLFuncionarioRegistrationController>getController();
 			controller.setSourceFXMLController(this);
 		} catch (Exception e) {
@@ -280,6 +297,17 @@ public class FXMLFuncionarioSearchController implements Initializable, FXMLDefau
 
 	@FXML
 	void actSelectItem(ActionEvent event) {
+		if (sourceController instanceof FXMLAlocarEquipamentoController) {
+			FXMLAlocarEquipamentoController controller = (FXMLAlocarEquipamentoController) sourceController;
+			try {
+				Funcionario resultado = tviewSearch.getSelectionModel().getSelectedItem();
+				controller.receiveData(resultado, this);
+				controller.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@FXML
@@ -326,7 +354,7 @@ public class FXMLFuncionarioSearchController implements Initializable, FXMLDefau
 	@Override
 	public void receiveData(Object data, FXMLDefaultControllerInterface sender) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public StackPane getRootPane() {

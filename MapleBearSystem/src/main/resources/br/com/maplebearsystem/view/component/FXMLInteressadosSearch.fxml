@@ -36,7 +36,7 @@
             </JFXButton>
          </children>
       </HBox>
-      <TableView fx:id="tviewSearch" prefHeight="200.0" VBox.vgrow="ALWAYS">
+      <TableView fx:id="tviewSearch" onMouseClicked="#actOnTableMouseClicked" prefHeight="200.0" VBox.vgrow="ALWAYS">
          <columns>
             <TableColumn fx:id="tviewColNome" editable="false" maxWidth="-1.0" minWidth="200.0" prefWidth="60.0" text="Responsavel" />
             <TableColumn fx:id="tviewColTelefone" editable="false" maxWidth="1.7976931348623157E308" minWidth="183.0" prefWidth="184.0" resizable="false" text="Telefone" />

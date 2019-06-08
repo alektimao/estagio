@@ -7,15 +7,18 @@ import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
 
+import br.com.maplebearsystem.model.Funcionario;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.notifications.FXNotificationFactory;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.ui.util.FXUISetup;
 import br.com.maplebearsystem.view.component.FXMLAlunoRegistrationController;
+import br.com.maplebearsystem.view.component.FXMLBuscaEmprestimoController;
 import br.com.maplebearsystem.view.component.FXMLContactRegistrationController;
 import br.com.maplebearsystem.view.component.FXMLContactSearchController;
 import br.com.maplebearsystem.view.component.FXMLFornecedorRegistrationController;
 import br.com.maplebearsystem.view.component.FXMLFornecedorSearchController;
+import br.com.maplebearsystem.view.component.FXMLFuncionarioSearchController;
 import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.component.FXMLProdutoSearchController;
 import javafx.event.ActionEvent;
@@ -55,6 +58,8 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 
 	@FXML
 	private JFXButton btnGerais;
+	
+	public static Funcionario logado = new Funcionario();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -129,7 +134,7 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 
 	private void verificarmode(FXMLDefaultControllerInterface controller) {
 		if (controller instanceof FXMLContactSearchController) {
-			((FXMLContactSearchController) controller).switchToSelectorMode();
+			((FXMLContactSearchController) controller).switchToEditorMode();
 		}
 	}
 
@@ -158,7 +163,10 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 
 	@Override
 	public void setSourceFXMLController(FXMLDefaultControllerInterface controller) throws Exception {
-		// TODO Auto-generated method stub
+		if (controller instanceof FXMLLoginController) {
+			FXMLLoginController obj = (FXMLLoginController) controller;
+			logado = FXMLLoginController.logado;
+		}
 
 	}
 
@@ -177,6 +185,34 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 	@Override
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
 		//sub-menus
+		if (sender instanceof FXMLAlocarEquipamentoController) {
+			FXMLAlocarEquipamentoController obj = (FXMLAlocarEquipamentoController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLContratoController) {
+			FXMLContratoController obj = (FXMLContratoController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLDocumentoController) {
+			FXMLDocumentoController obj = (FXMLDocumentoController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLInteressadosManagerController) {
+			FXMLInteressadosManagerController obj = (FXMLInteressadosManagerController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLRestricaoController) {
+			FXMLRestricaoController obj = (FXMLRestricaoController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLSalaMultiUsoController) {
+			FXMLSalaMultiUsoController obj = (FXMLSalaMultiUsoController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLTurmaPersonalizadaController) {
+			FXMLTurmaPersonalizadaController obj = (FXMLTurmaPersonalizadaController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
 		if (sender instanceof FXMLReceberController) {
 			FXMLReceberController obj = (FXMLReceberController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
@@ -227,6 +263,14 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 		}
 		if (sender instanceof FXMLProductManagerController) {
 			FXMLProductManagerController obj = (FXMLProductManagerController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLFuncionarioSearchController) {
+			FXMLFuncionarioSearchController obj = (FXMLFuncionarioSearchController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLBuscaEmprestimoController) {
+			FXMLBuscaEmprestimoController obj = (FXMLBuscaEmprestimoController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
 		}
 		//menu

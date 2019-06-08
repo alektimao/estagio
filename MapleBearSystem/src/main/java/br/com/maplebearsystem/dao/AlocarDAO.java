@@ -57,13 +57,8 @@ public class AlocarDAO extends GenericDAO<Alocar> {
 	public Long getID(Alocar obj) {
 		return obj.getId();
 	}
-
+	
 	public List<Alocar> listAllAlocar() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Alocar> listAllPedidos() {
 		List<Alocar> list;
 
 		String jpqlQuery = "select r from Alocar r ORDER BY r.id ASC";
@@ -84,7 +79,7 @@ public class AlocarDAO extends GenericDAO<Alocar> {
 	public List<Alocar> listAlocar(String filter) {
 		List<Alocar> list;
 
-		String jpqlQuery = "select r from Alocar r where lower(r.descricao) LIKE :pDescription";
+		String jpqlQuery = "select r from Alocar r where lower(r.funcionario.pessoa.name) LIKE :pDescription";
 
 		EntityManager em = JPAUtil.getEntityManager();
 

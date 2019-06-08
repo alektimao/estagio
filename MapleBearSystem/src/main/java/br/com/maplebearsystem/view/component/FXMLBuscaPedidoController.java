@@ -174,9 +174,9 @@ public class FXMLBuscaPedidoController implements Initializable, FXMLDefaultCont
 		tviewColData.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getRequestDate());
 		});
-//		tviewColValortotal.setCellValueFactory((data)->{
-//			return new SimpleStringProperty(""+data.getValue().getDescricao());
-//			});
+		tviewColAutorizado.setCellValueFactory((data)->{
+			return new SimpleStringProperty(data.getValue().isAturorizar() == true ? "Sim" : "Não");
+			});
 		tviewColID.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getId());
 		});

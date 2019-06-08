@@ -72,6 +72,8 @@ public class FXMLInteressadosSearchController implements Initializable, FXMLDefa
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		modelController = new InteressadoController();
+		btnEdit.setDisable(true);
+		btnDelete.setDisable(true);
 		initUI();
 	}
 
@@ -89,13 +91,26 @@ public class FXMLInteressadosSearchController implements Initializable, FXMLDefa
 
 		return false;
 	}
+	
+	@FXML
+	void actOnTableMouseClicked() {
+		if (tviewSearch.getSelectionModel() != null && tviewSearch.getSelectionModel().getSelectedItem() != null) {
+			btnDelete.setDisable(false);
+			btnEdit.setDisable(false);
+		} else {
+			btnDelete.setDisable(true);
+			btnEdit.setDisable(true);
+		}
+	}
 
 	private boolean editItem() {
 
 		if (sourceController instanceof FXMLInteressadosManagerController) {
 			try {
-				((FXMLInteressadosManagerController) sourceController)
-						.editInteressados(tviewSearch.getSelectionModel().getSelectedItem());
+				if (tviewSearch.getSelectionModel().getSelectedItem() != null) {
+					((FXMLInteressadosManagerController) sourceController)
+					.editInteressados(tviewSearch.getSelectionModel().getSelectedItem());					
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -116,6 +131,8 @@ public class FXMLInteressadosSearchController implements Initializable, FXMLDefa
 				pnButtons.getChildren().remove(pnEditorMode);
 			if (!pnButtons.getChildren().contains(pnSelectorMode))
 				pnButtons.getChildren().add(pnSelectorMode);
+			btnEdit.setDisable(true);
+			btnDelete.setDisable(true);
 
 		} catch (Exception e) {
 			// TODO log exception e
@@ -141,6 +158,8 @@ public class FXMLInteressadosSearchController implements Initializable, FXMLDefa
 				pnButtons.getChildren().remove(pnSelectorMode);
 			if (!pnButtons.getChildren().contains(pnEditorMode))
 				pnButtons.getChildren().add(pnEditorMode);
+			btnEdit.setDisable(true);
+			btnDelete.setDisable(true);
 
 		} catch (Exception e) {
 			// TODO log exception e
@@ -266,7 +285,7 @@ public class FXMLInteressadosSearchController implements Initializable, FXMLDefa
 
 	@FXML
 	void actSPEdit(ActionEvent event) {
-
+		editItem();
 	}
 
 	@FXML

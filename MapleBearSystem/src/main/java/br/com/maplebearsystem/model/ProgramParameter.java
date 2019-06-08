@@ -1,6 +1,6 @@
 package br.com.maplebearsystem.model;
 
-import br.com.maplebearsystem.model.Employee;
+
 import br.com.maplebearsystem.model.PessoaJuridica;
 import java.io.Serializable;
 import java.lang.Long;
@@ -18,10 +18,11 @@ public class ProgramParameter implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@OneToOne
-	private PessoaJuridica organization;
-	@OneToOne
-	private Employee administrator;
+	
+	private String mastersenha;
+	private String masterlogin;
+	private String masterToken;
+	private String masterchave;
 
 	public ProgramParameter() {
 		
@@ -30,25 +31,44 @@ public class ProgramParameter implements Serializable {
 	public Long getId() {
 		return this.id;
 	}
-
-	public PessoaJuridica getOrganization() {
-		return this.organization;
-	}
-
-	public Employee getAdministrator() {
-		return this.administrator;
-	}
-
+	
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public void setOrganization(PessoaJuridica organization) {
-		this.organization = organization;
+	public String getMastersenha() {
+		return mastersenha;
 	}
 
-	public void setAdministrator(Employee administrator) {
-		this.administrator = administrator;
+	public String getMasterlogin() {
+		return masterlogin;
 	}
+
+	public String getMasterToken() {
+		return masterToken;
+	}
+
+	public String getMasterchave() {
+		return masterchave;
+	}
+
+	public void setMastersenha(String mastersenha) {
+		this.mastersenha = mastersenha;
+	}
+
+	public void setMasterlogin(String masterlogin) {
+		this.masterlogin = masterlogin;
+	}
+
+	public void setMasterToken(String masterToken) {
+		this.masterToken = masterToken;
+	}
+
+	public void setMasterchave(String masterchave) {
+		this.masterchave = masterchave;
+	}
+
+	
+	
 
 }

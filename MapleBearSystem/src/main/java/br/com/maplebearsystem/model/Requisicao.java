@@ -37,6 +37,7 @@ public class Requisicao implements Serializable {
 	private BigDecimal priceTotal;
 	private BigDecimal frete;
 	private boolean pedidorecebido;
+	private boolean aturorizar;
 
 	public Requisicao() {
 		super();
@@ -96,8 +97,16 @@ public class Requisicao implements Serializable {
 
 	public void setPedidorecebido(boolean pedidorecebido) {
 		this.pedidorecebido = pedidorecebido;
-	}	
-	
+	}
+
+	public boolean isAturorizar() {
+		return aturorizar;
+	}
+
+	public void setAturorizar(boolean aturorizar) {
+		this.aturorizar = aturorizar;
+	}
+
 	public void addProdutoRequisicao(Requisicao_Produto requisicao_Produto) {
 		if (requisicao_Produtos.contains(requisicao_Produto))
 			return;

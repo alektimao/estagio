@@ -7,6 +7,7 @@ public class FXResourcePath {
 
 	public static final URL DWOR_ICON = resURL("/com/dwor/resources/images/icon.png");
 	public static final URL FXML_MAPLEBEARSYSTEM_HOME = resURL("/br/com/maplebearsystem/view/FXMLMenuPrincipal.fxml");
+	public static final URL FXML_MAPLEBEARSYSTEM_LOGIN = resURL("/br/com/maplebearsystem/view/FXMLLogin.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_ADDRESSMANAGER = resURL("/br/com/maplebearsystem/view/component/FXMLAddressManager.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLMenuProduto.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_ALUNOS = resURL("/br/com/maplebearsystem/view/FXMLMenuAluno.fxml");
@@ -16,6 +17,7 @@ public class FXResourcePath {
 	public static final URL FXML_MAPLEBEARSYSTEM_RETIRAR_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLRetirarProduto.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_CADASTRAR_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLProductManager.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_CADASTRAR_FORNECEDOR = resURL("/br/com/maplebearsystem/view/component/FXMLFornecedorRegistration.fxml");
+	public static final URL FXML_MAPLEBEARSYSTEM_EMPRESTAR_BUSCAR = resURL("/br/com/maplebearsystem/view/component/FXMLBuscaEmprestimo.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_CADASTRAR_FUNCIONARIO = resURL("/br/com/maplebearsystem/view/component/FXMLFuncionariosRegistration.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_EMPRESTAR = resURL("/br/com/maplebearsystem/view/FXMLAlocarEquipamento.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_BUSCAR_PEDIDO = resURL("/br/com/maplebearsystem/view/component/FXMLPedidoBusca.fxml");

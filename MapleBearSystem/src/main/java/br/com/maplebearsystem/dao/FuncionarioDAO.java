@@ -60,4 +60,23 @@ public class FuncionarioDAO extends GenericDAO<Funcionario> {
 		return null;
 	}
 
+	public Funcionario login(String login, String senha) {
+		Funcionario list;
+
+		String jpqlQuery = "select r from Funcionario r where r.login = :pname and r.senha = :pSenha";
+
+		EntityManager em = JPAUtil.getEntityManager();
+
+		em.getTransaction().begin();
+
+		TypedQuery<Funcionario> query = em.createQuery(jpqlQuery, Funcionario.class);
+		query.setParameter("pname",login);
+		query.setParameter("pSenha",senha);
+		list = query.getSingleResult();
+
+		em.getTransaction().commit();
+
+		return list;
+	}
+
 }

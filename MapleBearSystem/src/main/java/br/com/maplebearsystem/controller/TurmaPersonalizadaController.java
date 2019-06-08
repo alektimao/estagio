@@ -9,6 +9,7 @@ import br.com.maplebearsystem.dao.TurmaPersonalizadaDAO;
 import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.model.Documento;
 import br.com.maplebearsystem.model.TurmaPersonalizada;
+import br.com.maplebearsystem.model.WeekDays;
 
 public class TurmaPersonalizadaController {
 
@@ -40,7 +41,7 @@ public class TurmaPersonalizadaController {
 		turma.setAlunos(new ArrayList<Aluno>());
 	}
 
-	public List<Exception> validar(List<Aluno> aluno, String turma, String responsavel, String info, String infoTurma) {
+	public List<Exception> validar(List<Aluno> aluno, String turma, String responsavel, String infoTurma, List<WeekDays> list) {
 		List<Exception> errList = new ArrayList<Exception>();
 
 		try {
@@ -61,6 +62,12 @@ public class TurmaPersonalizadaController {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
 		}
+		try {
+			validateDias(list);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
 		if (errList.isEmpty()) {
 			try {
 				saveTurma(this.turma);
@@ -71,6 +78,13 @@ public class TurmaPersonalizadaController {
 			}
 		}
 		return errList;
+	}
+
+	private void validateDias(List<WeekDays> list) throws Exception {
+		if (list == null || list.size() == 0) {
+			throw new Exception("Defina os dias da Turma!");
+		}
+		turma.setDiasDaSemana(list);
 	}
 
 	public void saveTurma(TurmaPersonalizada turma) {
@@ -109,4 +123,5 @@ public class TurmaPersonalizadaController {
 	public void removeAluno(Aluno turma2) {
 		turma.removeAlunos(turma2);		
 	}
+
 }

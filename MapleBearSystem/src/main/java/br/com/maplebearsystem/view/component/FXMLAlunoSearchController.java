@@ -6,6 +6,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.PersistenceException;
+
+import org.hibernate.exception.ConstraintViolationException;
+
 import br.com.maplebearsystem.controller.AlunoController;
 import br.com.maplebearsystem.controller.PessoaController;
 import br.com.maplebearsystem.model.Aluno;
@@ -117,7 +121,13 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 			Aluno itemToRemove = tviewPessoas.getSelectionModel().getSelectedItem();
 			getModelController().deleteAluno(itemToRemove);
 			tviewPessoas.getItems().remove(itemToRemove);
-		} catch (Exception e) {
+		}
+		catch (PersistenceException ex)
+		{
+			new FXNotification("Não e possivel deletar aluno pois ele e utlizado em outras funções do sistema", FXNotification.NotificationType.ERROR).show();
+			return false;
+		}
+		catch (Exception e) {
 			Logger.getLogger(this.getClass().getName()).log(Level.FINE, "Info: failed to save contact", e);
 			new FXNotification("Error: " + e.getMessage() + e.getCause(), FXNotification.NotificationType.ERROR).show();
 			return false;

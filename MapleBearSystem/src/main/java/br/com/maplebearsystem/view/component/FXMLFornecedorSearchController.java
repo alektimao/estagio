@@ -68,14 +68,15 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 	private JFXButton btnCancel;
 
 	private FXMLDefaultControllerInterface sourceController;
-	
-	private FornecedorController modelController;
 
+	private FornecedorController modelController;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		modelController = new FornecedorController();
 		switchToEditorMode();
+		btnDelete.setDisable(false);
+		btnEdit.setDisable(false);
 		initUI();
 	}
 
@@ -95,19 +96,20 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 	}
 
 	private boolean editItem() {
-		
-		try {
-			FXMLFornecedorRegistrationController controller = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_FORNECEDOR, null, 0.0)
-					.<FXMLFornecedorRegistrationController>getController();
-			controller.setSourceFXMLController(this);
-			controller.receiveData(tviewSearch.getSelectionModel().getSelectedItem(), this);
+		if (tviewSearch.getSelectionModel().getSelectedItem() != null) {
+			try {
+				FXMLFornecedorRegistrationController controller = FXUISetup
+						.getInstance().loadFXMLIntoStackPane(rootPane,
+								FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_FORNECEDOR, null, 0.0)
+						.<FXMLFornecedorRegistrationController>getController();
+				controller.setSourceFXMLController(this);
+				controller.receiveData(tviewSearch.getSelectionModel().getSelectedItem(), this);
 
-			return true;
-		} catch (Exception e) {
-			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed to edit contact", e);
+				return true;
+			} catch (Exception e) {
+				Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed to edit contact", e);
+			}
 		}
-
 		return false;
 
 	}
@@ -116,7 +118,7 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 
 		try {
 
-			tviewSearch.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE );
+			tviewSearch.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 			if (pnButtons.getChildren().contains(pnEditorMode))
 				pnButtons.getChildren().remove(pnEditorMode);
@@ -130,7 +132,7 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 		}
 
 	}
-	
+
 	public void switchToEditorMode() {
 		try {
 			tviewSearch.setRowFactory(tv -> {
@@ -188,6 +190,17 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 		return true;
 	}
 
+	@FXML
+	void actOnTableMouseClicked() {
+		if (tviewSearch.getSelectionModel() != null && tviewSearch.getSelectionModel().getSelectedItem() != null) {
+			btnDelete.setDisable(false);
+			btnEdit.setDisable(false);
+		} else {
+			btnDelete.setDisable(true);
+			btnEdit.setDisable(true);
+		}
+	}
+
 // ENDSECTION Main FXMLController Methods
 
 // SECTION Data Access FXMLController Methods
@@ -201,10 +214,10 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 	}
 
 	private void initTableViews() {
-		
-		tviewColID.setCellValueFactory((data)->{
-			return new SimpleStringProperty(""+data.getValue().getNomefantasia());
-			});
+
+		tviewColID.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getNomefantasia());
+		});
 	}
 
 	@Override
@@ -261,8 +274,9 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 	@FXML
 	void actSPNew(ActionEvent event) {
 		try {
-			FXMLFornecedorRegistrationController controller = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_FORNECEDOR, null, 0.0)
+			FXMLFornecedorRegistrationController controller = FXUISetup
+					.getInstance().loadFXMLIntoStackPane(rootPane,
+							FXResourcePath.FXML_MAPLEBEARSYSTEM_CADASTRAR_FORNECEDOR, null, 0.0)
 					.<FXMLFornecedorRegistrationController>getController();
 			controller.setSourceFXMLController(this);
 		} catch (Exception e) {
@@ -277,8 +291,7 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 
 	@FXML
 	void actSelectItem(ActionEvent event) {
-		if(sourceController instanceof FXMLPedidoController)
-		{
+		if (sourceController instanceof FXMLPedidoController) {
 			FXMLPedidoController controller = (FXMLPedidoController) sourceController;
 			try {
 				List<Fornecedor> resultado = tviewSearch.getSelectionModel().getSelectedItems();
@@ -289,8 +302,7 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 				e.printStackTrace();
 			}
 		}
-		if(sourceController instanceof FXMLRetirarProdutoController)
-		{
+		if (sourceController instanceof FXMLRetirarProdutoController) {
 			FXMLRetirarProdutoController controller = (FXMLRetirarProdutoController) sourceController;
 			try {
 				List<Fornecedor> resultado = tviewSearch.getSelectionModel().getSelectedItems();
@@ -347,7 +359,7 @@ public class FXMLFornecedorSearchController implements Initializable, FXMLDefaul
 	@Override
 	public void receiveData(Object data, FXMLDefaultControllerInterface sender) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public StackPane getRootPane() {

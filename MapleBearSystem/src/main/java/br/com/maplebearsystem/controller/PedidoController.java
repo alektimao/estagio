@@ -315,7 +315,7 @@ public class PedidoController {
 	}
 
 	public void removeProduct(Requisicao_Produto product) {
-		if (product.getRestante() == product.getQuantity()) {
+		if (product.getRestante() == product.getQuantity() || product.getRestante() == null) {
 			requisicao.removeProdutoRequisicao(product);
 			Requisicao_ProductDAO r = new Requisicao_ProductDAO();
 			r.delete(product);

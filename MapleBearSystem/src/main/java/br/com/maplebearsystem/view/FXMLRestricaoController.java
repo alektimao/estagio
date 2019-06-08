@@ -313,6 +313,10 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 		tfieldMatricula.setText(resultado.getNumeromatricula());
 		//
 	}
+	
+	public StackPane getRootPane() {
+		return this.rootMenuPane;
+	}
 
 	@Override
 	public void reset() {

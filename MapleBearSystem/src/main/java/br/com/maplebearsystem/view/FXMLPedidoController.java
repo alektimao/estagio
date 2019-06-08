@@ -145,6 +145,10 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 			if (alert.getResult() == ButtonType.YES) {
 				controlerPedido.removeProduct(product);
 				loadTableView();
+				if (controlerPedido.getRequisicao().getRequestedParts().size() == 0) {
+					FXUISetup.getInstance().clearTextInputs(rootPane);
+					FXUISetup.getInstance().clearTableViews(rootPane);
+				}
 				// calculateValues();
 			}
 		} catch (Exception e) {
@@ -165,6 +169,12 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 			FXNotification notification = new FXNotification("Pedido Salvo,",
 					FXNotification.NotificationType.INFORMATION);
 			notification.show();
+			try {
+				sourceController.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			String text = "";
 
@@ -400,7 +410,12 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 
 	@FXML
 	void autorizarpedido(ActionEvent event) {
-
+		if (controlerPedido.getRequisicao().isAturorizar() == true) {
+			controlerPedido.getRequisicao().setAturorizar(false);
+		}
+		if (controlerPedido.getRequisicao().isAturorizar() == false) {
+			controlerPedido.getRequisicao().setAturorizar(true);
+		}
 	}
 
 	@FXML

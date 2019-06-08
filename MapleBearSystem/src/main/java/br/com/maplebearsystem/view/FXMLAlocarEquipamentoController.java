@@ -15,14 +15,18 @@ import com.jfoenix.controls.JFXTextField;
 import br.com.maplebearsystem.controller.AlocarController;
 import br.com.maplebearsystem.model.Alocar;
 import br.com.maplebearsystem.model.Alocar_Produto;
+import br.com.maplebearsystem.model.Funcionario;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.ProductMovement;
+import br.com.maplebearsystem.model.Requisicao;
 import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.model.constants.PedidoConstants;
 import br.com.maplebearsystem.model.validators.FieldValidators;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
+import br.com.maplebearsystem.view.component.FXMLBuscaEmprestimoController;
 import br.com.maplebearsystem.view.component.FXMLBuscaPedidoController;
+import br.com.maplebearsystem.view.component.FXMLFuncionarioSearchController;
 import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.component.FXMLProdutoSearchController;
 import br.com.maplebearsystem.view.util.FXUISetup;
@@ -125,9 +129,9 @@ public class FXMLAlocarEquipamentoController implements Initializable, FXMLDefau
 	@FXML
 	void buscarpedido(ActionEvent event) {
 		try {
-			FXMLBuscaPedidoController controller = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_BUSCAR_PEDIDO, null, 0.0)
-					.<FXMLBuscaPedidoController>getController();
+			FXMLFuncionarioSearchController controller = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLE_FUNCIONARIO_BUSCA, null, 0.0)
+					.<FXMLFuncionarioSearchController>getController();
 			controller.switchToSelectorMode();
 			controller.setSourceFXMLController(this);
 
@@ -174,7 +178,10 @@ public class FXMLAlocarEquipamentoController implements Initializable, FXMLDefau
 	@FXML
 	void salvarpedido(ActionEvent event) {
 		if (save()) {
-
+			
+			FXUISetup.getInstance().clearTextInputs(rootPane);
+			FXUISetup.getInstance().clearTableViews(rootPane);
+			
 			FXNotification notification = new FXNotification("Produto(s) Emprestado(s),",
 					FXNotification.NotificationType.INFORMATION);
 			notification.show();
@@ -243,6 +250,30 @@ public class FXMLAlocarEquipamentoController implements Initializable, FXMLDefau
 				loadTableView();
 			}
 		}
+		if (sender instanceof FXMLFuncionarioSearchController) {
+			if (data instanceof Funcionario) {
+				Funcionario resultado = (Funcionario) data;
+				controlerAlocar.setupNewAlocar();
+				controlerAlocar.getAlocar().setFuncionario(resultado);
+				FXUISetup.getInstance().clearTextInputs(rootPane);
+				FXUISetup.getInstance().clearTableViews(rootPane);
+				tfieldFuncionario.setText(controlerAlocar.getAlocar().getFuncionario().getPessoa().getName());
+			}
+		}
+		if (sender instanceof FXMLBuscaEmprestimoController) {
+			if (data instanceof Alocar) {
+				Alocar resultado = (Alocar) data;
+				controlerAlocar.setupEditAlocar(resultado);
+				tfieldFuncionario.setText(controlerAlocar.getAlocar().getFuncionario().getPessoa().getName());
+				txtsala.setText(controlerAlocar.getAlocar().getSala());
+				txtaula.setText(controlerAlocar.getAlocar().getSala());
+				dtdevolucao.setValue(controlerAlocar.getAlocar().getDevolucao().toLocalDate());
+				dtemprestimo.setValue(controlerAlocar.getAlocar().getDia().toLocalDate());
+				loadTableView();
+			}
+		}
+		
+		
 	}
 
 	@Override
@@ -251,9 +282,16 @@ public class FXMLAlocarEquipamentoController implements Initializable, FXMLDefau
 			throw new UnsupportedOperationException();
 
 		}
-
+		if (sender instanceof FXMLBuscaEmprestimoController) {
+			FXMLBuscaEmprestimoController obj = (FXMLBuscaEmprestimoController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
 		if (sender instanceof FXMLProdutoSearchController) {
 			FXMLProdutoSearchController obj = (FXMLProdutoSearchController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLFuncionarioSearchController) {
+			FXMLFuncionarioSearchController obj = (FXMLFuncionarioSearchController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
 		}
 	}
@@ -298,6 +336,7 @@ public class FXMLAlocarEquipamentoController implements Initializable, FXMLDefau
 					&& pedido.getProdAlocar().getEstoque().getQtd() >= Integer.parseInt(newFullName)) {
 
 				pedido.setQtdemprestado(Integer.parseInt(newFullName));
+				//pedido.getProdAlocar().getEstoque().setQtd(pedido.getProdAlocar().getEstoque().getQtd()-pedido.getQtdemprestado());
 
 			} else {
 				pedido.setQtdemprestado(0);
@@ -320,6 +359,7 @@ public class FXMLAlocarEquipamentoController implements Initializable, FXMLDefau
 			if (Integer.parseInt(newFullName) > 0 && pedido.getQtdemprestado() >= Integer.parseInt(newFullName)) {
 
 				pedido.setQtddevolvido(Integer.parseInt(newFullName));
+				//pedido.getProdAlocar().getEstoque().setQtd(pedido.getProdAlocar().getEstoque().getQtd()+pedido.getQtddevolvido());
 
 			} else {
 				pedido.setQtddevolvido(0);

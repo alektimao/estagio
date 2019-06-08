@@ -75,6 +75,8 @@ public class FXMLProdutoSearchController implements Initializable, FXMLDefaultCo
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		modelController = new ProductController();
+		btnDelete.setDisable(false);
+		btnEdit.setDisable(false);
 		initUI();
 	}
 
@@ -97,8 +99,10 @@ public class FXMLProdutoSearchController implements Initializable, FXMLDefaultCo
 
 		if (sourceController instanceof FXMLProductManagerController) {
 			try {
+				if (tviewSearch.getSelectionModel().getSelectedItem() != null) {
 				((FXMLProductManagerController) sourceController)
 						.editProduct(tviewSearch.getSelectionModel().getSelectedItem());
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -108,7 +112,18 @@ public class FXMLProdutoSearchController implements Initializable, FXMLDefaultCo
 		}
 		return false;
 	}
-
+	
+	@FXML
+	void actOnTableMouseClicked() {
+		if (tviewSearch.getSelectionModel() != null && tviewSearch.getSelectionModel().getSelectedItem() != null) {
+			btnDelete.setDisable(false);
+			btnEdit.setDisable(false);
+		} else {
+			btnDelete.setDisable(true);
+			btnEdit.setDisable(true);
+		}
+	}
+	
 	public void switchToSelectorMode() {
 
 		try {

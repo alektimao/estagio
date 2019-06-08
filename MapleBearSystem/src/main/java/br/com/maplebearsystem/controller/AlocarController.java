@@ -13,6 +13,8 @@ import javax.persistence.EntityExistsException;
 import br.com.maplebearsystem.dao.AlocarDAO;
 import br.com.maplebearsystem.dao.Alocar_ProductDAO;
 import br.com.maplebearsystem.dao.FuncionarioDAO;
+import br.com.maplebearsystem.dao.RequisicaoDAO;
+import br.com.maplebearsystem.dao.Requisicao_ProductDAO;
 import br.com.maplebearsystem.model.Alocar;
 import br.com.maplebearsystem.model.Alocar_Produto;
 import br.com.maplebearsystem.model.FornecedorProduct;
@@ -78,14 +80,25 @@ public class AlocarController {
 	}
 
 	public void saveAlocar(Alocar Product) {
+		List<Alocar_Produto> l = new ArrayList<Alocar_Produto>();
 		AlocarDAO dao = new AlocarDAO();
 		dao.save(Product);
+		for (Alocar_Produto i : Product.getProdutos()) {
+		    i.setAlocar(Product);
+		    l.add(i);
+		}
+		Product.setProdutos(l);
+		AlocarDAO d = new AlocarDAO();
+		d.save(Product);
 	}
 
 	public void deleteAlocar() {
 		AlocarDAO dao = new AlocarDAO();
 		dao.delete(alocar);
-
+	}
+	public void deleteAlocar(Alocar alocar) {
+		AlocarDAO dao = new AlocarDAO();
+		dao.delete(alocar);
 	}
 
 	// ENDSECTION Alocar Methods
@@ -157,11 +170,15 @@ public class AlocarController {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
 		}
+		try {
+			validateFuncionario(alocar.getFuncionario());
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
 		if (errList.isEmpty()) {
 			try {
-				FuncionarioDAO dao = new FuncionarioDAO();
-				alocar.setFuncionario(dao.listFuncionario("teste").get(0));
-				alocar.setObs("");
+				alocar.setObs(!obs.equals("")? obs:"");
 				saveAlocar(alocar);
 			} catch (Exception e) {
 				System.out.println("Error: Failed to save WorkOrder - " + e.getMessage());
@@ -171,9 +188,20 @@ public class AlocarController {
 		return errList;
 	}
 
+	private void validateFuncionario(Funcionario funcionario) throws Exception {
+		if (funcionario == null) {
+			throw new Exception("Emprestimo sem Funcionario");
+		}
+	}
+
 	private void validateListaProdutos(List<Alocar_Produto> produtos) throws Exception {
 		if (produtos.isEmpty()) {
 			throw new Exception("Emprestimo Sem Produtos");
+		}
+		for (Alocar_Produto requisicao_Produto : produtos) {
+			if (requisicao_Produto.getQtdemprestado() == 0) {
+				throw new Exception("Emprestimo Com Quantidade não informado");
+			}
 		}
 		alocar.setProdutos(produtos);
 	}
@@ -219,7 +247,16 @@ public class AlocarController {
 	}
 
 	public void removeProduct(Alocar_Produto product) {
-		alocar.getProdutos().remove(product);
+		//alocar.getProdutos().remove(product);
+		//if (product.getQtddevolvido() == product.getQtdemprestado()) {
+			alocar.removeProdutoAlocar(product);
+			Alocar_ProductDAO r = new Alocar_ProductDAO();
+			r.delete(product);
+//			if (requisicao.getRequestedParts().size() == 0) {
+//				RequisicaoDAO del = new RequisicaoDAO();
+//				del.delete(requisicao);
+//			}
+		//}
 	}
 
 	public void editarAlocar(Alocar requisicao2) {

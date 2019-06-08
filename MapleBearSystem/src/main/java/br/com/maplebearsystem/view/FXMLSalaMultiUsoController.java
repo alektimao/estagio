@@ -83,6 +83,10 @@ public class FXMLSalaMultiUsoController implements Initializable, FXMLDefaultCon
 	void salvar(ActionEvent event) {
 
 	}
+	
+	public StackPane getRootPane() {
+		return this.rootPane;
+	}
 
 	@Override
 	public void reset() {

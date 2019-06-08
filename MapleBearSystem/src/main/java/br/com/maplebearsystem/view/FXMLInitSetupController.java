@@ -69,13 +69,7 @@ public class FXMLInitSetupController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		ProgramParameterController.getInstance().setupParameterizationMode();
-
-		pnOrganizationInfoFormController
-				.setModelController(ProgramParameterController.getInstance().getPessoaOrganizationController());
-
-		pnAdminInfoFormController
-				.setModelController(ProgramParameterController.getInstance().getPessoaAdminController());
-
+		
 		initUI();
 
 	}
@@ -94,48 +88,31 @@ public class FXMLInitSetupController implements Initializable {
 
 	private boolean save() {
 
-		ProgramParameterController modelController = ProgramParameterController.getInstance();
-
-		pnOrganizationInfoFormController.validateSetPrimaryPhoneAndAddress();
-
-		modelController.validateSetOrganization(
-				pnOrganizationInfoFormController.getTfieldName().getText(),
-				pnOrganizationInfoFormController.getTfieldOtherName().getText(),
-				pnOrganizationInfoFormController.getTfieldRGIE().getText(),
-				pnOrganizationInfoFormController.getTfieldCPFCNPJ().getText(),
-				pnOrganizationInfoFormController.getTfieldIMunicipal().getText(),
-				pnOrganizationInfoFormController.getTfieldEmail().getText());
-
-		pnAdminInfoFormController.validateSetPrimaryPhoneAndAddress();
-
-		modelController.validateSetAdministrator(
-				pnAdminInfoFormController.getTfieldName().getText(),
-				pnAdminInfoFormController.getTfieldRGIE().getText(),
-				pnAdminInfoFormController.getTfieldCPFCNPJ().getText(),
-				pnAdminInfoFormController.getTfieldEmail().getText(),
-				tfieldLoginUsername.getText(),
-				tfieldLoginPassword.getText(),
-				tfieldLoginPasswordRepeated.getText());
-
-		List<Exception> errorList = modelController.save();
-
-		if (errorList.isEmpty()) {
-			Alert alert = new Alert(Alert.AlertType.INFORMATION, "Salvo", ButtonType.OK);
-			alert.showAndWait();
-			return true;
-
-		} else {
-			String text = "";
-
-			for (Exception e : errorList) {
-				text = text + e.getMessage() + "\n";
-			}
-
-			Alert errAlert = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
-			errAlert.showAndWait();
-
+//		ProgramParameterController modelController = ProgramParameterController.getInstance();
+//
+//		pnOrganizationInfoFormController.validateSetPrimaryPhoneAndAddress();
+//
+//		
+//
+//		List<Exception> errorList = modelController.save();
+//
+//		if (errorList.isEmpty()) {
+//			Alert alert = new Alert(Alert.AlertType.INFORMATION, "Salvo", ButtonType.OK);
+//			alert.showAndWait();
+//			return true;
+//
+//		} else {
+//			String text = "";
+//
+//			for (Exception e : errorList) {
+//				text = text + e.getMessage() + "\n";
+//			}
+//
+//			Alert errAlert = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
+//			errAlert.showAndWait();
+//
 			return false;
-		}
+//		}
 	}
 
 	/*
@@ -163,16 +140,7 @@ public class FXMLInitSetupController implements Initializable {
 
 	@FXML
 	void actSave(ActionEvent event) {
-		if (save()) {
-			try {
-				FXUISetup.getInstance().changeSceneFromDWORMainStage(FXResourcePath.FXML_MAPLEBEARSYSTEM_HOME);
-
-				ProgramParameterController.getInstance().setLoggedUser(
-						ProgramParameterController.getInstance().getProgramParameter().getAdministrator());
-			} catch (IOException e) {
-				Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed change view after saving", e);
-			}
-		}
+		
 	}
 
 	@FXML
