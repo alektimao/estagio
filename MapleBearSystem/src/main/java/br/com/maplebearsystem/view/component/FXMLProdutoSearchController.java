@@ -13,6 +13,7 @@ import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.view.FXMLAlocarEquipamentoController;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.FXMLPedidoController;
+import br.com.maplebearsystem.view.FXMLPedidoFuncController;
 import br.com.maplebearsystem.view.FXMLProductManagerController;
 import br.com.maplebearsystem.view.FXMLRetirarProdutoController;
 import javafx.beans.property.SimpleStringProperty;
@@ -293,6 +294,18 @@ public class FXMLProdutoSearchController implements Initializable, FXMLDefaultCo
 		if(sourceController instanceof FXMLPedidoController)
 		{
 			FXMLPedidoController controller = (FXMLPedidoController) sourceController;
+			try {
+				List<Product> resultado = tviewSearch.getSelectionModel().getSelectedItems();
+				controller.receiveData(resultado, this);
+				controller.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(sourceController instanceof FXMLPedidoFuncController)
+		{
+			FXMLPedidoFuncController controller = (FXMLPedidoFuncController) sourceController;
 			try {
 				List<Product> resultado = tviewSearch.getSelectionModel().getSelectedItems();
 				controller.receiveData(resultado, this);

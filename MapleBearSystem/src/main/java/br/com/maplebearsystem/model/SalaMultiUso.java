@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -25,15 +26,15 @@ public class SalaMultiUso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String nomeatividade;
 	private String responsavelativade;
-	private String diadasemana;
+	private WeekDays diadasemana;
 	private String de;
 	private String ate;
 	private String info;
-	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<TurmaPersonalizada> turma;
 
 	public SalaMultiUso() {
@@ -55,9 +56,7 @@ public class SalaMultiUso implements Serializable {
 		return responsavelativade;
 	}
 
-	public String getDiadasemana() {
-		return diadasemana;
-	}
+
 
 	public String getDe() {
 		return de;
@@ -83,7 +82,11 @@ public class SalaMultiUso implements Serializable {
 		this.responsavelativade = responsavelativade;
 	}
 
-	public void setDiadasemana(String diadasemana) {
+	public WeekDays getDiadasemana() {
+		return diadasemana;
+	}
+
+	public void setDiadasemana(WeekDays diadasemana) {
 		this.diadasemana = diadasemana;
 	}
 

@@ -32,6 +32,15 @@
                   <String fx:value="DWORNavigationMenuButton" />
                </styleClass>
             </JFXButton>
+            <JFXButton id="NavigationMenuButton" fx:id="btnPedirFuncproduto" maxWidth="1.7976931348623157E308" onAction="#actPedirFuncproduto" text="Requisitar">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="DWORNavigationMenu" />
+                  <String fx:value="DWORNavigationMenuButton" />
+               </styleClass>
+            </JFXButton>
             <JFXButton id="NavigationMenuButton" fx:id="btnCadastroEmprestar" maxWidth="1.7976931348623157E308" onAction="#actCadastroEmprestar" text="Emprestar" textAlignment="CENTER" wrapText="true" HBox.hgrow="ALWAYS">
                <font>
                   <Font name="System Bold" size="13.0" />
@@ -41,7 +50,7 @@
                   <String fx:value="DWORNavigationMenuButton" />
                </styleClass>
             </JFXButton>
-      				<JFXButton id="NavigationMenuButton" fx:id="btnPedirProduto" maxWidth="1.7976931348623157E308" onAction="#actPedirProduto" text="Pedir Produtos" HBox.hgrow="ALWAYS">
+      				<JFXButton id="NavigationMenuButton" fx:id="btnPedirProduto" maxWidth="1.7976931348623157E308" onAction="#actPedirProduto" text="Pedir" HBox.hgrow="ALWAYS">
       					<font>
       						<Font name="System Bold" size="13.0" />
       					</font>
@@ -50,7 +59,7 @@
       						<String fx:value="DWORNavigationMenuButton" />
       					</styleClass>
       				</JFXButton>
-      				<JFXButton id="NavigationMenuButton" fx:id="btnReceberProduto" maxWidth="1.7976931348623157E308" onAction="#actReceberProduto" text="Receber Produtos" HBox.hgrow="ALWAYS">
+      				<JFXButton id="NavigationMenuButton" fx:id="btnReceberProduto" maxWidth="1.7976931348623157E308" onAction="#actReceberProduto" text="Receber" HBox.hgrow="ALWAYS">
       					<font>
       						<Font name="System Bold" size="13.0" />
       					</font>
@@ -59,7 +68,7 @@
       						<String fx:value="DWORNavigationMenuButton" />
       					</styleClass>
       				</JFXButton>
-      				<JFXButton id="NavigationMenuButton" fx:id="btnRetirarProdutos" maxWidth="1.7976931348623157E308" onAction="#actRetirarProdutos" text="Retirar Produtos" HBox.hgrow="ALWAYS">
+      				<JFXButton id="NavigationMenuButton" fx:id="btnRetirarProdutos" maxWidth="1.7976931348623157E308" onAction="#actRetirarProdutos" text="Retirar " HBox.hgrow="ALWAYS">
       					<font>
       						<Font name="System Bold" size="13.0" />
       					</font>

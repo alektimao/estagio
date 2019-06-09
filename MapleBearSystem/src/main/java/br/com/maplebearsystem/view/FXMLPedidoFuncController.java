@@ -259,6 +259,10 @@ public class FXMLPedidoFuncController implements Initializable, FXMLDefaultContr
 			FXMLProductFornecedorSearchController obj = (FXMLProductFornecedorSearchController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
 		}
+		if (sender instanceof FXMLProdutoSearchController) {
+			FXMLProdutoSearchController obj = (FXMLProdutoSearchController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
 		if (sender instanceof FXMLBuscaPedidoController) {
 			FXMLBuscaPedidoController obj = (FXMLBuscaPedidoController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());

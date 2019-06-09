@@ -13,11 +13,14 @@ public class FXResourcePath {
 	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_ALUNOS = resURL("/br/com/maplebearsystem/view/FXMLMenuAluno.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_GERAIS = resURL("/br/com/maplebearsystem/view/FXMLMenuGerais.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_PEDIR_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLPedirProduto.fxml");
+	public static final URL FXML_MAPLEBEARSYSTEM_PEDIRFUNC_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLPedirFuncProduto.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_RECEBER_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLReceberPedido.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_RETIRAR_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLRetirarProduto.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_CADASTRAR_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLProductManager.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_CADASTRAR_FORNECEDOR = resURL("/br/com/maplebearsystem/view/component/FXMLFornecedorRegistration.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_EMPRESTAR_BUSCAR = resURL("/br/com/maplebearsystem/view/component/FXMLBuscaEmprestimo.fxml");
+	public static final URL FXML_MAPLEBEARSYSTEM_TURMA_BUSCAR = resURL("/br/com/maplebearsystem/view/component/FXMLBuscaTurma.fxml");
+	public static final URL FXML_MAPLEBEARSYSTEM_SALA_BUSCAR = resURL("/br/com/maplebearsystem/view/component/FXMLBuscaSala.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_CADASTRAR_FUNCIONARIO = resURL("/br/com/maplebearsystem/view/component/FXMLFuncionariosRegistration.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_EMPRESTAR = resURL("/br/com/maplebearsystem/view/FXMLAlocarEquipamento.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_BUSCAR_PEDIDO = resURL("/br/com/maplebearsystem/view/component/FXMLPedidoBusca.fxml");

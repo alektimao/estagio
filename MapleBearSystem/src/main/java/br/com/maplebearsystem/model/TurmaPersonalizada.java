@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -30,13 +31,14 @@ public class TurmaPersonalizada implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String nometurma;
 	private String responsavel;
 	private String periodo;
+    private boolean lanchar;		
 	private String info;
-	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Aluno> alunos;
 	@ElementCollection(fetch = FetchType.LAZY, targetClass = WeekDays.class) 
 	@Enumerated(EnumType.STRING) 
@@ -106,6 +108,19 @@ public class TurmaPersonalizada implements Serializable {
 
 	public void setDiasDaSemana(List<WeekDays> diasDaSemana) {
 		this.diasDaSemana = diasDaSemana;
+	}
+	
+	public void addAlunos(Aluno alu) {
+		if (this.alunos.contains(alu))
+			return;
+		alunos.add(alu);		
+	}
+	public boolean isLanchar() {
+		return lanchar;
+	}
+
+	public void setLanchar(boolean lanchar) {
+		this.lanchar = lanchar;
 	}
 
 	@Override

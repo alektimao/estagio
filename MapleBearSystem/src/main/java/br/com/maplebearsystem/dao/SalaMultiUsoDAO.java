@@ -1,6 +1,7 @@
 package br.com.maplebearsystem.dao;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,7 +11,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.model.SalaMultiUso;
+import br.com.maplebearsystem.model.TurmaPersonalizada;
+import br.com.maplebearsystem.model.WeekDays;
 import br.com.maplebearsystem.persistance.JPAUtil;
 
 public class SalaMultiUsoDAO extends GenericDAO<SalaMultiUso> {
@@ -38,11 +42,29 @@ public class SalaMultiUsoDAO extends GenericDAO<SalaMultiUso> {
 		return list;
 	}
 	
-	public List<SalaMultiUso> listApprovedBudgetOrders(String nometurma,String responsavel) {
+	public List<SalaMultiUso> listAllSalaMultiUso(String filter) {
 
-		Root<SalaMultiUso> SalaMultiUsoRoot;
+		List<SalaMultiUso> list;
 
-		List<SalaMultiUso> result;
+		String jpqlQuery = "select r from SalaMultiUso r where lower(r.nomeatividade) LIKE :pTurmaPersonalizadaDescription";
+
+		EntityManager em = JPAUtil.getEntityManager();
+
+		em.getTransaction().begin();
+
+		TypedQuery<SalaMultiUso> query = em.createQuery(jpqlQuery, SalaMultiUso.class);
+		query.setParameter("pTurmaPersonalizadaDescription", "%" + filter.toLowerCase() + "%");
+		list = query.getResultList();
+
+		em.getTransaction().commit();
+
+		return list;
+	}
+	public List<Aluno> listAlunosBusca(String cpf,String nometurma,String numeromatricula) {
+
+		Root<Aluno> AlunoRoot;
+
+		List<Aluno> result;
 
 		EntityManager em = JPAUtil.getEntityManager();
 
@@ -50,33 +72,57 @@ public class SalaMultiUsoDAO extends GenericDAO<SalaMultiUso> {
 
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 
-		CriteriaQuery<SalaMultiUso> criteriaQuery = criteriaBuilder.createQuery(SalaMultiUso.class);
+		CriteriaQuery<Aluno> criteriaQuery = criteriaBuilder.createQuery(Aluno.class);
 
-		SalaMultiUsoRoot = criteriaQuery.from(SalaMultiUso.class);
-		if ((nometurma != null || !nometurma.equals("")) && (responsavel != null || !responsavel.equals(""))) {
-			Predicate pEqualsTurma = criteriaBuilder.equal(SalaMultiUsoRoot.get("nomeatividade"), nometurma);			
-			Predicate pEqualsresponsavel = criteriaBuilder.equal(SalaMultiUsoRoot.get("responsavelativade"), responsavel);
-			
-			Predicate filtros = criteriaBuilder.and(pEqualsTurma,pEqualsresponsavel);
-			
-			criteriaQuery.select(SalaMultiUsoRoot).where(filtros).orderBy(criteriaBuilder.asc(SalaMultiUsoRoot.get("id")));
-		}
-		if ((nometurma != null || !nometurma.equals("")) && (responsavel == null || responsavel.equals(""))) {
-			Predicate pEqualsTurma = criteriaBuilder.equal(SalaMultiUsoRoot.get("nomeatividade"), nometurma);			
+		AlunoRoot = criteriaQuery.from(Aluno.class);
 		
-			criteriaQuery.select(SalaMultiUsoRoot).where(pEqualsTurma).orderBy(criteriaBuilder.asc(SalaMultiUsoRoot.get("id")));
+		List<Predicate> filtros = new ArrayList<Predicate>();
+		
+		if (nometurma != null && !nometurma.equals("")) {
+			Predicate pEqualsTurma = criteriaBuilder.equal(AlunoRoot.get("nome"), nometurma);
+			filtros.add(pEqualsTurma);
 		}
-		if ((nometurma == null || nometurma.equals("")) && (responsavel != null || !responsavel.equals(""))) {			
-			Predicate pEqualsresponsavel = criteriaBuilder.equal(SalaMultiUsoRoot.get("responsavelativade"), responsavel);
-			
-			criteriaQuery.select(SalaMultiUsoRoot).where(pEqualsresponsavel).orderBy(criteriaBuilder.asc(SalaMultiUsoRoot.get("id")));
+		if (cpf != null && !cpf.equals("")) {
+			Predicate pEqualscpf = criteriaBuilder.equal(AlunoRoot.get("cpf"), cpf);
+			filtros.add(pEqualscpf);
 		}
+		
+		if (numeromatricula != null && !numeromatricula.equals("")) {
+			Predicate pEqualsnumeromatricula = criteriaBuilder.equal(AlunoRoot.get("numeromatricula"), numeromatricula);			
+			filtros.add(pEqualsnumeromatricula);
+		}
+		
+		//Predicate filtros2 = criteriaBuilder.any(filtros.toArray());
+		
+	    criteriaQuery.select(AlunoRoot).where(filtros.toArray(new Predicate[] {})).orderBy(criteriaBuilder.asc(AlunoRoot.get("id")));
 
 		result = em.createQuery(criteriaQuery).getResultList();
 
 		em.getTransaction().commit();
 
 		return result;
+	}
+	
+	public List<SalaMultiUso> HoraDuplicada(WeekDays dia,String horaini,String horafim) {
+		List<SalaMultiUso> list;
+
+		String jpqlQuery = "select r from SalaMultiUso r "
+				+ "where (r.de LIKE :pSalaMultiUsoDe or r.ate LIKE :pSalaMultiUsoDe) and"
+				+ "(r.de LIKE :pSalaMultiUsoAte or r.ate LIKE :pSalaMultiUsoAte)";
+
+		EntityManager em = JPAUtil.getEntityManager();
+
+		em.getTransaction().begin();
+
+		TypedQuery<SalaMultiUso> query = em.createQuery(jpqlQuery, SalaMultiUso.class);
+		query.setParameter("pSalaMultiUsoDe",horaini);
+		query.setParameter("pSalaMultiUsoAte",horafim);
+		//query.setParameter("pSalaMultiUsoDia",dia.toString());
+		list = query.getResultList();
+
+		em.getTransaction().commit();
+
+		return list;
 	}
 	
 	public List<SalaMultiUso> listSalaMultiUso(String filter) {

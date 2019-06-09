@@ -41,6 +41,10 @@ public class FXMLMenuProdutoController implements Initializable, FXMLDefaultCont
 
     @FXML
     private JFXButton btnRetirarProdutos;
+    
+    @FXML
+    private JFXButton btnPedirFuncproduto;
+    
 
 	private FXMLMenuHomeController sourceController;
 
@@ -75,6 +79,11 @@ public class FXMLMenuProdutoController implements Initializable, FXMLDefaultCont
 	void actCadastroEmprestar(ActionEvent event) {
 		//sourceController.loadForm(FXResourcePath.FXML_MAPLEBEARSYSTEM_GERENCIAR_EMPRESTAR);
 		sourceController.loadForm(FXResourcePath.FXML_MAPLEBEARSYSTEM_EMPRESTAR_BUSCAR);
+	}
+	@FXML
+	void actPedirFuncproduto(ActionEvent event) {
+		//sourceController.loadForm(FXResourcePath.FXML_MAPLEBEARSYSTEM_GERENCIAR_EMPRESTAR);
+		sourceController.loadForm(FXResourcePath.FXML_MAPLEBEARSYSTEM_PEDIRFUNC_PRODUTOS);
 	}
 
 	@FXML

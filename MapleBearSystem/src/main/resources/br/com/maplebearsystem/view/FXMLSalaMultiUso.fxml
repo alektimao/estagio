@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
@@ -31,7 +32,7 @@
                      <children>
                         <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXTextField id="tfieldName" fx:id="txtnome" editable="false" labelFloat="true" minWidth="275.0" opacity="0.88" prefHeight="26.0" promptText="Nome Atividade ">
+                              <JFXTextField id="tfieldName" fx:id="txtnome" labelFloat="true" minWidth="275.0" opacity="0.88" prefHeight="26.0" promptText="Nome Atividade ">
                                  <styleClass>
                                     <String fx:value="jfxtextfieldform" />
                                     <String fx:value="formMaxWidth" />
@@ -40,7 +41,8 @@
                                     <Insets />
                                  </FlowPane.margin>
                               </JFXTextField>
-                              <JFXTextField id="tfieldCPFCNPJ" fx:id="txtresponsavel" editable="false" labelFloat="true" minWidth="275.0" opacity="0.88" prefHeight="25.0" promptText="Responsavel pela Atividade" styleClass="formMaxWidth" />
+                              <JFXTextField id="tfieldCPFCNPJ" fx:id="txtresponsavel" labelFloat="true" minWidth="275.0" opacity="0.88" prefHeight="25.0" promptText="Responsavel pela Atividade" styleClass="formMaxWidth" />
+                              <JFXComboBox fx:id="cbDiasemana" minWidth="154.0" promptText="Dia" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
@@ -118,9 +120,8 @@
                                                       <Insets />
                                                    </HBox.margin>
                                                    <children>
-                                                      <JFXTextField id="tfieldCPFCNPJ" fx:id="txtdia" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Dia da Semana" styleClass="formMaxWidth" />
-                                                      <JFXTextField id="tfieldCPFCNPJ" fx:id="txtde" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="de" styleClass="formMaxWidth" />
-                                                      <JFXTextField id="tfieldCPFCNPJ" fx:id="txtate" editable="false" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="ate" styleClass="formMaxWidth" />
+                                                      <JFXTextField id="tfieldCPFCNPJ" fx:id="txtde" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Horario inicio" styleClass="formMaxWidth" />
+                                                      <JFXTextField id="tfieldCPFCNPJ" fx:id="txtate" labelFloat="true" minWidth="154.0" opacity="0.88" prefHeight="25.0" promptText="Horario FIm" styleClass="formMaxWidth" />
                                                       <JFXTextArea fx:id="txtinfo" minWidth="648.0" prefHeight="97.0" promptText="Informaçoes sobre a atividade" />
                                                    </children>
                                                 </FlowPane>

@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.maplebearsystem.dao.SalaMultiUsoDAO;
+import br.com.maplebearsystem.dao.TurmaPersonalizadaDAO;
 import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.model.SalaMultiUso;
 import br.com.maplebearsystem.model.TurmaPersonalizada;
+import br.com.maplebearsystem.model.WeekDays;
 import br.com.maplebearsystem.model.validators.FieldValidators;
+import javafx.util.Callback;
 
 public class SalaMultiUsoController {
 
@@ -31,9 +34,11 @@ public class SalaMultiUsoController {
 
 	public void setupNewSalaMultiUso() {
 		sala = new SalaMultiUso();
+		sala.setTurma(new ArrayList<TurmaPersonalizada>());
 	}
 
-	public void validar(List<TurmaPersonalizada> turma, String de, String ate, String dia, String responsavel,String info) {
+	public List<Exception> validar(List<TurmaPersonalizada> turma, String de, String ate, WeekDays dia,
+			String responsavel, String info, String atividade) {
 		List<Exception> errList = new ArrayList<Exception>();
 
 		try {
@@ -67,20 +72,28 @@ public class SalaMultiUsoController {
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
 		}
 		try {
+			validateNomeAtividade(atividade);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
 			validateInfo(info);
 		} catch (Exception e) {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
 		}
 		if (errList.isEmpty()) {
-			try {
-				saveSalaMultiUso(this.sala);
-			} catch (Exception e) {
-				System.out.println("Error: Failed to save SalaMultiUso - " + e.getMessage());
-				errList.add(new Exception("Falha ao Salvar"));
-			}
+			saveSalaMultiUso(this.sala);
 		}
+		return errList;
+	}
 
+	private void validateNomeAtividade(String responsavel) throws Exception {
+		if (responsavel == null || responsavel.equals("")) {
+			throw new Exception("Defina o nome da Atividade!");
+		}
+		sala.setNomeatividade(responsavel);
 	}
 
 	private void validateInfo(String info) {
@@ -98,32 +111,11 @@ public class SalaMultiUsoController {
 
 	}
 
-	private void validateDiaSemana(String dia) throws Exception {
-		if (dia == null || dia.equals("")) {
-			throw new Exception("Defina o(s) dia(s) da atividade!");
+	private void validateDiaSemana(WeekDays dia) throws Exception {
+		if (dia == null) {
+			throw new Exception("Defina o dia da atividade!");
 		}
-		switch (dia.toUpperCase()) {
-		case "SEGUNDA-FEIRA":
-			sala.setDiadasemana(dia);
-			break;
-		case "TERÇA-FEIRA":
-			sala.setDiadasemana(dia);
-			break;
-		case "QUARTA-FEIRA":
-			sala.setDiadasemana(dia);
-			break;
-		case "QUINTA-FEIRA":
-			sala.setDiadasemana(dia);
-			break;
-		case "SEXTA-FEIRA":
-			sala.setDiadasemana(dia);
-			break;
-		case "SABADO-FEIRA":
-			sala.setDiadasemana(dia);
-			break;
-		default:
-			throw new Exception("Dia da Semana Invalido!");
-		}
+		sala.setDiadasemana(dia);
 	}
 
 	private void validateHoraFim(String ate) throws Exception {
@@ -133,7 +125,8 @@ public class SalaMultiUsoController {
 		if (!FieldValidators.validadeHoras(ate)) {
 			throw new Exception("Hora final da atividade invalida!");
 		}
-		if (this.sala.getDe() != null && Integer.parseInt(ate.split(":")[0]) < Integer.parseInt(this.sala.getDe().split(":")[0])) {
+		if (this.sala.getDe() != null
+				&& Integer.parseInt(ate.split(":")[0]) < Integer.parseInt(this.sala.getDe().split(":")[0])) {
 			throw new Exception("Hora final deve ser maior que a inicial!");
 		}
 		sala.setAte(ate);
@@ -146,15 +139,16 @@ public class SalaMultiUsoController {
 		if (!FieldValidators.validadeHoras(de)) {
 			throw new Exception("Defina a hora inicial da atividade!");
 		}
-		if (this.sala.getAte() != null && Integer.parseInt(de.split(":")[0]) > Integer.parseInt(this.sala.getAte().split(":")[0])) {
+		if (this.sala.getAte() != null
+				&& Integer.parseInt(de.split(":")[0]) > Integer.parseInt(this.sala.getAte().split(":")[0])) {
 			throw new Exception("Hora inicial deve ser menor que a final!");
 		}
 		sala.setDe(de);
 	}
 
 	private void validateTurma(List<TurmaPersonalizada> turma) throws Exception {
-		if (turma.size() > 0) {
-			throw new Exception("Defina o Aluno do SalaMultiUso!");
+		if (turma.size() == 0) {
+			throw new Exception("Defina a(s) Turmas da SalaMultiUso!");
 		}
 		sala.setTurma(turma);
 	}
@@ -163,5 +157,28 @@ public class SalaMultiUsoController {
 
 		SalaMultiUsoDAO dao = new SalaMultiUsoDAO();
 		dao.save(documento);
+	}
+
+	public void remove(TurmaPersonalizada turma) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public List<SalaMultiUso> getAllSalaMultiUso() {
+		SalaMultiUsoDAO dao = new SalaMultiUsoDAO();
+
+		return dao.listAllSalaMultiUso();
+	}
+
+	public  List<SalaMultiUso> getAllSalaMultiUso(String filter) {
+		
+		SalaMultiUsoDAO dao = new SalaMultiUsoDAO();
+
+		return dao.listAllSalaMultiUso(filter);
+	}
+
+	public void deleteSalaMultiUso(SalaMultiUso itemToRemove) {
+		// TODO Auto-generated method stub
+		
 	}
 }

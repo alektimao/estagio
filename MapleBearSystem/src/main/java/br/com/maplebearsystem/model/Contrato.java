@@ -4,14 +4,10 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-
-import br.com.maplebearsystem.view.viewmodel.ProdutoAlterado;
 
 /**
  * Entity implementation class for Entity: PartProduct
@@ -32,7 +28,7 @@ public class Contrato implements Serializable {
 	private String nacionalidade;
 	private String estadocivil;
 	private String profissao;
-	private String end;
+	private String Pessoa1End;
 	private String comp;
 	private String num;
 	private String cidade;
@@ -95,7 +91,7 @@ public class Contrato implements Serializable {
 	}
 
 	public String getEnd() {
-		return end;
+		return Pessoa1End;
 	}
 
 	public String getComp() {
@@ -227,7 +223,7 @@ public class Contrato implements Serializable {
 	}
 
 	public void setEnd(String end) {
-		this.end = end;
+		this.Pessoa1End = end;
 	}
 
 	public void setComp(String comp) {

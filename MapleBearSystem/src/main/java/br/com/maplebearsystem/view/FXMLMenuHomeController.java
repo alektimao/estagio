@@ -14,6 +14,8 @@ import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.ui.util.FXUISetup;
 import br.com.maplebearsystem.view.component.FXMLAlunoRegistrationController;
 import br.com.maplebearsystem.view.component.FXMLBuscaEmprestimoController;
+import br.com.maplebearsystem.view.component.FXMLBuscaSalaController;
+import br.com.maplebearsystem.view.component.FXMLBuscaTurmaController;
 import br.com.maplebearsystem.view.component.FXMLContactRegistrationController;
 import br.com.maplebearsystem.view.component.FXMLContactSearchController;
 import br.com.maplebearsystem.view.component.FXMLFornecedorRegistrationController;
@@ -271,6 +273,14 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 		}
 		if (sender instanceof FXMLBuscaEmprestimoController) {
 			FXMLBuscaEmprestimoController obj = (FXMLBuscaEmprestimoController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLBuscaTurmaController) {
+			FXMLBuscaTurmaController obj = (FXMLBuscaTurmaController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLBuscaSalaController) {
+			FXMLBuscaSalaController obj = (FXMLBuscaSalaController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
 		}
 		//menu

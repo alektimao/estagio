@@ -85,12 +85,12 @@ public class FXMLMenuAlunoController implements Initializable, FXMLDefaultContro
 
     @FXML
     void actSala(ActionEvent event) {
-    	sourceController.loadForm(FXResourcePath.FXML_MAPLE_SALA_MULTI);
+    	sourceController.loadForm(FXResourcePath.FXML_MAPLEBEARSYSTEM_SALA_BUSCAR);
     }
 
     @FXML
     void actTurma(ActionEvent event) {
-    	sourceController.loadForm(FXResourcePath.FXML_MAPLE_TURMA);
+    	sourceController.loadForm(FXResourcePath.FXML_MAPLEBEARSYSTEM_TURMA_BUSCAR);
     }
 
 	@Override
