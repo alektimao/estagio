@@ -13,6 +13,7 @@ import br.com.maplebearsystem.model.PedidoFunc;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.FXMLPedidoController;
+import br.com.maplebearsystem.view.FXMLPedidoFuncController;
 import br.com.maplebearsystem.view.FXMLReceberController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -157,6 +158,19 @@ public class FXMLBuscaPedidoFuncController implements Initializable, FXMLDefault
 				e.printStackTrace();
 			}
 		}
+		if(sourceController instanceof FXMLPedidoFuncController)
+		{
+			FXMLPedidoFuncController controller = (FXMLPedidoFuncController) sourceController;
+			try {
+				PedidoFunc resultado = tviewSearch.getSelectionModel().getSelectedItem();
+//				controller.abrePainelSaidaRegistration(resultado);
+				controller.receiveData(resultado, this);
+				controller.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@FXML
@@ -176,7 +190,7 @@ public class FXMLBuscaPedidoFuncController implements Initializable, FXMLDefault
 			return new SimpleStringProperty("" + data.getValue().getRequestDate());
 		});
 		tviewColAutorizado.setCellValueFactory((data)->{
-			return new SimpleStringProperty(data.getValue().getFuncionario().getPessoa().getName() == null ? "" : data.getValue().getFuncionario().getPessoa().getName());
+			return new SimpleStringProperty(data.getValue().getFuncionario() != null ? data.getValue().getFuncionario().getPessoa().getName():"");
 			});
 		tviewColID.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getId());
@@ -215,6 +229,7 @@ public class FXMLBuscaPedidoFuncController implements Initializable, FXMLDefault
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		modelController = new PedidoFuncController();
+		modelController.setupNewPedidoFunc();
 		initUI();
 	}
 	

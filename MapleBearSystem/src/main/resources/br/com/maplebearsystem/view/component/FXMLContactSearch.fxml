@@ -165,6 +165,19 @@
                               <String fx:value="JFXButtonCompactII" />
                            </styleClass>
                         </JFXButton>
+                        <JFXButton buttonType="RAISED" onAction="#actCancel" prefWidth="150.0" ripplerFill="#282a2f" text="Cancelar">
+                           <effect>
+                              <DropShadow blurType="GAUSSIAN" height="30.0" radius="14.5" width="30.0" />
+                           </effect>
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="REPLY" size="20" />
+                           </graphic>
+                           <styleClass>
+                              <String fx:value="JFXButtonDefault" />
+                              <String fx:value="JFXButtonCancel" />
+                              <String fx:value="JFXButtonCompactII" />
+                           </styleClass>
+                        </JFXButton>
                      </children>
                   </HBox>
                </children>

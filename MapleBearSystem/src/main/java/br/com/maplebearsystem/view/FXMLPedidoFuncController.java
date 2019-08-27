@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -27,6 +28,7 @@ import br.com.maplebearsystem.model.constants.PedidoConstants;
 import br.com.maplebearsystem.model.validators.FieldValidators;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.view.component.FXMLBuscaPedidoController;
+import br.com.maplebearsystem.view.component.FXMLBuscaPedidoFuncController;
 import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.component.FXMLProdutoSearchController;
 import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
@@ -75,6 +77,9 @@ public class FXMLPedidoFuncController implements Initializable, FXMLDefaultContr
 
 	@FXML
 	private TableColumn<PedidoFunc_Produto, String> colqtdpedido;
+
+	@FXML
+	private TableColumn<PedidoFunc_Produto, String> colcomprado;
 
 	@FXML
 	private JFXButton btadd1;
@@ -147,6 +152,12 @@ public class FXMLPedidoFuncController implements Initializable, FXMLDefaultContr
 			FXNotification notification = new FXNotification("Pedido Salvo,",
 					FXNotification.NotificationType.INFORMATION);
 			notification.show();
+			try {
+				sourceController.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			String text = "";
 
@@ -161,8 +172,8 @@ public class FXMLPedidoFuncController implements Initializable, FXMLDefaultContr
 
 	private boolean save() {
 		try {
-			mainErrorList = controlerPedido.validateSalvar(tfieldnome.getText(),
-					dtdiapedido.getValue(), tviewProducts.getItems());
+			mainErrorList = controlerPedido.validateSalvar(tfieldnome.getText(), dtdiapedido.getValue(),
+					tviewProducts.getItems());
 			if (mainErrorList.isEmpty()) {
 				return true;
 			}
@@ -223,6 +234,14 @@ public class FXMLPedidoFuncController implements Initializable, FXMLDefaultContr
 				loadTableView();
 			}
 		}
+		if (sender instanceof FXMLBuscaPedidoFuncController) {
+			if (data instanceof PedidoFunc) {
+				PedidoFunc resultado = (PedidoFunc) data;
+				carregarcampos(resultado);
+				loadPedidoFunc(resultado);
+				loadTableView();
+			}
+		}
 
 	}
 
@@ -263,8 +282,8 @@ public class FXMLPedidoFuncController implements Initializable, FXMLDefaultContr
 			FXMLProdutoSearchController obj = (FXMLProdutoSearchController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
 		}
-		if (sender instanceof FXMLBuscaPedidoController) {
-			FXMLBuscaPedidoController obj = (FXMLBuscaPedidoController) sender;
+		if (sender instanceof FXMLBuscaPedidoFuncController) {
+			FXMLBuscaPedidoFuncController obj = (FXMLBuscaPedidoFuncController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
 		}
 		if (sender instanceof FXMLRetirarProdutoController) {
@@ -292,7 +311,7 @@ public class FXMLPedidoFuncController implements Initializable, FXMLDefaultContr
 
 			int row = pos.getRow();
 			PedidoFunc_Produto pedido = event.getTableView().getItems().get(row);
-			
+
 			Double valor = Double.parseDouble(newFullName);
 			if (valor > 0) {
 				pedido.setQuantity(valor.intValue());
@@ -301,6 +320,9 @@ public class FXMLPedidoFuncController implements Initializable, FXMLDefaultContr
 				pedido.setQuantity(0);
 			}
 			tviewProducts.getItems().set(row, pedido);
+		});
+		colcomprado.setCellValueFactory((data) -> {
+			return new SimpleStringProperty(data.getValue().isProdutorecebido() == true ? "SIM" : "NAO");
 		});
 	}
 
@@ -314,20 +336,34 @@ public class FXMLPedidoFuncController implements Initializable, FXMLDefaultContr
 	}
 
 	private void initMascara() {
-		tfieldnome.setTextFormatter(TextFieldFormatterHelper.getTextFieldFormatter(FieldValidators.RegexCharsets.CHARSET_DESCRIPTION.getValue(), PedidoConstants.MAXLEN_DESCRIPTION));
+		tfieldnome.setTextFormatter(TextFieldFormatterHelper.getTextFieldFormatter(
+				FieldValidators.RegexCharsets.CHARSET_DESCRIPTION.getValue(), PedidoConstants.MAXLEN_DESCRIPTION));
 	}
 
 	@FXML
 	void autorizarpedido(ActionEvent event) {
-
+		if (tviewProducts.getSelectionModel().getSelectedItem().isProdutorecebido() == false) {
+			tviewProducts.getSelectionModel().getSelectedItem().setProdutorecebido(true);
+		} else {
+			tviewProducts.getSelectionModel().getSelectedItem().setProdutorecebido(false);
+		}
+		try {
+			ObservableList<PedidoFunc_Produto> modelo;
+			modelo = FXCollections.observableArrayList(tviewProducts.getItems());
+			if (tviewProducts.getItems() != null)
+				tviewProducts.getItems().clear();
+			tviewProducts.setItems(modelo);
+		} catch (Exception e) {
+			System.out.println("Error: failed to load OrderPartProductTableview - " + e.getMessage());
+		}
 	}
 
 	@FXML
 	void buscarpedido(ActionEvent event) {
 		try {
-			FXMLBuscaPedidoController controller = FXUISetup.getInstance()
-					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_BUSCAR_PEDIDO, null, 0.0)
-					.<FXMLBuscaPedidoController>getController();
+			FXMLBuscaPedidoFuncController controller = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_BUSCAR_PEDIDOFUNC, null, 0.0)
+					.<FXMLBuscaPedidoFuncController>getController();
 			controller.switchToSelectorMode();
 			controller.setSourceFXMLController(this);
 

@@ -78,6 +78,9 @@ dependencies {
 	//JSON Implementation by Google
   	implementation 'com.google.code.gson:gson:2.8.5'
   	
+  	//jasperreports
+    implementation 'net.sf.jasperreports:jasperreports:6.8.0'
+  	
   	//Apache Commons Library
   	implementation 'org.apache.commons:commons-lang3:3.8.1'
 	

@@ -115,7 +115,11 @@ public class FXMLMenuProdutoController implements Initializable, FXMLDefaultCont
 	void actRetirarProdutos(ActionEvent event) {
 		sourceController.loadForm(FXResourcePath.FXML_MAPLEBEARSYSTEM_RETIRAR_PRODUTOS);
 	}
-
+	@FXML
+	void actRelatorio(ActionEvent event) {
+		sourceController.loadForm(FXResourcePath.FXML_MAPLE_RELATORIO);
+	}
+	
 	@Override
 	public void reset() {
 		// TODO Auto-generated method stub

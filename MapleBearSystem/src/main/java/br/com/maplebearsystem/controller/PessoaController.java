@@ -281,7 +281,9 @@ public class PessoaController {
 			errorList.addAll(primaryPhoneErrorList);
 		if (!primaryAddressErrorList.isEmpty())
 			errorList.addAll(primaryAddressErrorList);
-
+		if (this.stagedAddress == null || this.stagedPhone == null) {
+			errorList.add(new Exception("Pessoa sem endereço ou telefone \n"));
+		}
 		if (errorList.isEmpty()) {
 			try {
 				this.savePessoa(this.stagedPessoa);

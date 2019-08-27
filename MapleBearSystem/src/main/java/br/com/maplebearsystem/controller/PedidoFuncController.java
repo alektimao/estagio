@@ -13,6 +13,7 @@ import br.com.maplebearsystem.dao.PedidoFunc_ProductDAO;
 import br.com.maplebearsystem.model.PedidoFunc;
 import br.com.maplebearsystem.model.PedidoFunc_Produto;
 import br.com.maplebearsystem.model.Product;
+import br.com.maplebearsystem.view.FXMLLoginController;
 
 public class PedidoFuncController {
 
@@ -50,59 +51,7 @@ public class PedidoFuncController {
 		requisicao = new PedidoFunc();
 		setPedidoFunc_produto(new PedidoFunc_Produto());
 	}
-
-	public List<Exception> tratarinfoPedidoFunc(PedidoFunc requisicao) {
-		List<Exception> errorList = new ArrayList<Exception>();
-
-		if (requisicao == null) {
-			requisicao = new PedidoFunc();
-		}
-		try {
-			setPedidoFuncDataPedido(requisicao.getRequestDate());
-		} catch (Exception e) {
-			// TODO log user input exception
-			errorList.add(e);
-			System.out.println("Info:" + e.getMessage());
-		}
-//		
-//		try {
-//			setPedidoFuncDataDe(requisicao.getRequestDate());
-//		} catch (Exception e) {
-//			// TODO log user input exception
-//			errorList.add(e);
-//			System.out.println("Info:" + e.getMessage());
-//		}
-		if (errorList.isEmpty()) {
-			try {
-				tratarinfoPedidoFunc(this.requisicao);
-			} catch (EntityExistsException e) {
-				errorList.add(new Exception("Requisição Já cadastrada"));
-				System.out.println(
-						"Info: PedidoFunc \"" + requisicao.getId() + "\" already registered - " + e.getMessage());
-			} catch (Exception saveException) {
-				System.out.println("Error: failed to save " + saveException.getMessage());
-				errorList.add(new Exception("Erro desconhecido ao salvar: \n" + saveException.getLocalizedMessage()));
-			}
-		}
-
-		return errorList;
-	}
-
-	private void setPedidoFuncDataPedido(Date requestDate) throws Exception {
-		LocalDate localDateTime = LocalDate.now();
-		if (requestDate == null || localDateTime == null) {
-			throw new Exception("Data / Hora de abertura não definida");
-		}
-		try {
-			if (requisicao.getRequestDate().toLocalDate().isBefore(localDateTime)) {
-				throw new Exception("Data e hora de finalização do agendamento é anterior a data e hora agendada");
-			}
-		} catch (NullPointerException e) {
-			System.out.println("Info: workDone date and time must be null - " + e.getMessage() + " - " + e.getCause());
-		}
-		requisicao.setRequestDate(requestDate);
-	}
-
+	
 	public void savePedidoFunc(PedidoFunc Product) {
 		PedidoFuncDAO dao = new PedidoFuncDAO();
 		dao.save(Product);
@@ -180,6 +129,14 @@ public class PedidoFuncController {
 		}
 		try {
 			validateListaProdutos(produtos);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
+		try {
+			if (FXMLLoginController.logado.getPessoa() != null) {
+				requisicao.setFuncionario(FXMLLoginController.logado);
+			}			 
 		} catch (Exception e) {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
