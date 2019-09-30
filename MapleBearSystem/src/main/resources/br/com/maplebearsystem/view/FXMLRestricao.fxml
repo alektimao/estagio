@@ -93,7 +93,7 @@
                                                    <children>
                                                       <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                                                          <children>
-                                                            <TableView fx:id="tviewAlimento" editable="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                                            <TableView fx:id="tviewAlimento" editable="true" onMouseClicked="#alteraalimento" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                                               <columns>
                                                                 <TableColumn fx:id="colAlimento" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="-1.0" text="Alimento" />
                                                                   <TableColumn fx:id="colGravidadeAlimento" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Gravidade" />
@@ -179,7 +179,7 @@
                                                    <children>
                                                       <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                                                          <children>
-                                                            <TableView fx:id="tviewRemedio" editable="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                                            <TableView fx:id="tviewRemedio" editable="true" onMouseClicked="#alteraremedio" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                                                <columns>
                                                                   <TableColumn fx:id="colRemedio" maxWidth="1.7976931348623157E308" minWidth="350.0" prefWidth="-1.0" text="Remedio" />
                                                                   <TableColumn fx:id="colGravidadeRemedio" maxWidth="-1.0" minWidth="145.0" prefWidth="-1.0" text="Gravidade" />

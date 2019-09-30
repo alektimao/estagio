@@ -10,8 +10,10 @@ import javax.persistence.EntityExistsException;
 import br.com.maplebearsystem.dao.FornecedorProductDAO;
 import br.com.maplebearsystem.dao.ProductDAO;
 import br.com.maplebearsystem.model.FornecedorProduct;
+import br.com.maplebearsystem.model.PedidoFunc_Produto;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.validators.FieldValidators;
+import javafx.util.Callback;
 
 
 public class ProductController {
@@ -270,6 +272,17 @@ public class ProductController {
 		ProductDAO dao = new ProductDAO();
 
 		return dao.listProduct(filter);
+	}
+
+	public List<FornecedorProduct> getProdutosdoPedidoFunc(List<PedidoFunc_Produto> produtos) {
+		// TODO Auto-generated method stub
+		List<Product> prods = new ArrayList<Product>();
+		for (PedidoFunc_Produto product : produtos) {
+			prods.add(product.getProdPedidoFunc());
+		}
+		FornecedorProductDAO dao = new FornecedorProductDAO();
+
+		return dao.listProdutosForn(prods);
 	}
 
 // ENDSECTION Controller to DAO Methods

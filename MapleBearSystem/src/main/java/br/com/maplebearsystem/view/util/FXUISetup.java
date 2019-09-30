@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
@@ -305,6 +306,15 @@ public class FXUISetup {
 		for (Node n : componentes) {
 			if (n instanceof TextInputControl) {
 				((TextInputControl) n).setText("");
+			}
+		}
+
+	}
+	public void clearTextdatepickers(Pane parent) {
+		ArrayList<Node> componentes = getAllNodes(parent);
+		for (Node n : componentes) {
+			if (n instanceof DatePicker) {
+				((DatePicker) n).setValue(null);
 			}
 		}
 

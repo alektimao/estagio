@@ -22,6 +22,8 @@ public class RestricaoController {
 
 	private Restricao restricao;
 	private Restricao_Alimento requisicao_alimento;
+	private Restricao_Alimento alteraralimento;
+	private Restricao_Remedio alterarremedio;
 	private Restricao_Remedio requisicao_remedio;
 	private List<Restricao_Alimento> listalimento;
 	private List<Restricao_Remedio> listremedio;
@@ -32,6 +34,14 @@ public class RestricaoController {
 
 	public void reset() {
 
+	}
+
+	public Restricao_Remedio getAlterarremedio() {
+		return alterarremedio;
+	}
+
+	public void setAlterarremedio(Restricao_Remedio alterarremedio) {
+		this.alterarremedio = alterarremedio;
 	}
 
 	public Restricao getRestricao() {
@@ -56,6 +66,14 @@ public class RestricaoController {
 
 	public void setRequisicao_remedio(Restricao_Remedio requisicao_remedio) {
 		this.requisicao_remedio = requisicao_remedio;
+	}
+
+	public Restricao_Alimento getAlteraralimento() {
+		return alteraralimento;
+	}
+
+	public void setAlteraralimento(Restricao_Alimento alteraralimento) {
+		this.alteraralimento = alteraralimento;
 	}
 
 	public void setAluno(Aluno resultado) {
@@ -135,7 +153,13 @@ public class RestricaoController {
 		}
 		if (errList.isEmpty()) {
 			try {
-				restricao.addRestricaoAlimento(requisicao_alimento);
+				if (alteraralimento == null) {
+					restricao.addRestricaoAlimento(requisicao_alimento);	
+				}
+				else
+				{
+					restricao.AlterarRestricaoAlimento(alteraralimento);
+				}
 				// saveDocumento(this.documento);
 			} catch (Exception e) {
 				System.out.println("Error: Failed to save Documento - " + e.getMessage());
@@ -211,9 +235,15 @@ public class RestricaoController {
 		}
 		if (errList.isEmpty()) {
 			try {
-				restricao.addRestricaoRemedio(requisicao_remedio);
-				// saveDocumento(this.documento);
-			} catch (Exception e) {
+				if (alterarremedio == null) {
+					restricao.addRestricaoRemedio(requisicao_remedio);	
+				}
+				else
+				{
+					restricao.AlterarRestricaoAlimento(alteraralimento);
+				}
+			}
+			catch (Exception e) {
 				System.out.println("Error: Failed to save Documento - " + e.getMessage());
 				errList.add(new Exception("Falha ao Salvar"));
 			}
@@ -226,9 +256,13 @@ public class RestricaoController {
 			throw new Exception("Data Fim não selecionada");
 		}
 		if (ate != null) {
-			if (!requisicao_alimento.getDe().before(Date.valueOf(ate))) {
+			if (!requisicao_remedio.getDe().before(Date.valueOf(ate))) {
 				throw new Exception("Data Fim deve ser depois da Data Início");
 			}
+		}
+		if (alterarremedio != null) {
+			alterarremedio.setAte(Date.valueOf(ate));
+			
 		}
 		requisicao_remedio.setAte(Date.valueOf(ate));
 	}
@@ -240,6 +274,9 @@ public class RestricaoController {
 		if (de.getDayOfYear() < 19) {
 			throw new Exception("Data inválida");
 		}
+		if (alterarremedio != null) {
+			alterarremedio.setDe(Date.valueOf(de));			
+		}
 		requisicao_remedio.setDe(Date.valueOf(de));
 	}
 
@@ -247,13 +284,20 @@ public class RestricaoController {
 		if (conduta == null || conduta.equals("")) {
 			throw new Exception("Defina a Conduta a ser tomada!");
 		}
+		if (alterarremedio != null) {
+			alterarremedio.setCondutas(conduta);
+			
+		}
 		requisicao_remedio.setCondutas(conduta);
-
 	}
 
 	private void validateSintomas2(String sintomas) throws Exception {
 		if (sintomas == null || sintomas.equals("")) {
 			throw new Exception("Defina o(s) Sintoma(s)!");
+		}
+		if (alterarremedio != null) {
+			alterarremedio.setSintomas(sintomas);
+			
 		}
 		requisicao_remedio.setSintomas(sintomas);
 
@@ -263,12 +307,20 @@ public class RestricaoController {
 		if (plano == null || plano.equals("")) {
 			throw new Exception("Defina o Plano de Saúde!");
 		}
+		if (alterarremedio != null) {
+			alterarremedio.setPlano(plano);
+			
+		}
 		requisicao_remedio.setPlano(plano);
 	}
 
 	private void validatePosologia(String posologia) throws Exception {
 		if (posologia == null || posologia.equals("")) {
 			throw new Exception("Defina a Posologia!");
+		}
+		if (alterarremedio != null) {
+			alterarremedio.setPosologia(posologia);
+			
 		}
 		requisicao_remedio.setPosologia(posologia);
 
@@ -278,12 +330,19 @@ public class RestricaoController {
 		if (remedio == null || remedio.equals("")) {
 			throw new Exception("Defina o Remédio!");
 		}
+		if (alterarremedio != null) {
+			alterarremedio.setRemedio(remedio);
+			
+		}
 		requisicao_remedio.setRemedio(remedio);
 	}
 
 	private void validateDosagem(String dosagem) throws Exception {
 		if (dosagem == null || dosagem.equals("")) {
 			throw new Exception("Defina a Conduta a ser tomada!");
+		}
+		if (alterarremedio != null) {
+			alterarremedio.setDosagem(dosagem);			
 		}
 		requisicao_remedio.setDosagem(dosagem);
 
@@ -292,12 +351,20 @@ public class RestricaoController {
 		if (gravidade == null || gravidade.equals("")) {
 			throw new Exception("Defina a gravidade!");
 		}
+		if (alterarremedio != null) {
+			alterarremedio.setGravidade(gravidade);
+			
+		}
 		requisicao_remedio.setGravidade(gravidade);
 	}
 
 	private void validateConduta(String conduta) throws Exception {
 		if (conduta == null || conduta.equals("")) {
 			throw new Exception("Defina a Conduta a ser tomada!");
+		}
+		if (alteraralimento != null) {
+			alteraralimento.setCondutas(conduta);
+			
 		}
 		requisicao_alimento.setCondutas(conduta);
 	}
@@ -306,12 +373,19 @@ public class RestricaoController {
 		if (sintomas == null || sintomas.equals("")) {
 			throw new Exception("Defina o(s) Sintomas da Restricao!");
 		}
+		if (alteraralimento != null) {
+			alteraralimento.setSintomas(sintomas);
+			
+		}
 		requisicao_alimento.setSintomas(sintomas);
 	}
 
 	private void validateAlimento(String alimento) throws Exception {
 		if (alimento == null || alimento.equals("")) {
 			throw new Exception("Defina o Alimento!");
+		}
+		if (alteraralimento != null) {
+			alteraralimento.setAlimento(alimento);			
 		}
 		requisicao_alimento.setAlimento(alimento);
 	}
@@ -320,7 +394,11 @@ public class RestricaoController {
 		if (gravidade == null || gravidade.equals("")) {
 			throw new Exception("Defina a gravidade!");
 		}
+		if (alteraralimento != null) {
+		alteraralimento.setGravidade(gravidade);
+		}
 		requisicao_alimento.setGravidade(gravidade);
+		
 	}
 
 	private void validateDataAte(LocalDate ate) throws Exception {
@@ -332,6 +410,9 @@ public class RestricaoController {
 				throw new Exception("Data Fim deve ser depois da Data Início");
 			}
 		}
+		if (alteraralimento != null) {
+			alteraralimento.setAte(Date.valueOf(ate));			
+		}
 		requisicao_alimento.setAte(Date.valueOf(ate));
 	}
 
@@ -341,6 +422,10 @@ public class RestricaoController {
 		}
 		if (de.getDayOfYear() < 19) {
 			throw new Exception("Data inválida");
+		}
+		if (alteraralimento != null) {
+			alteraralimento.setDe(Date.valueOf(de));
+			
 		}
 		requisicao_alimento.setDe(Date.valueOf(de));
 	}
@@ -385,5 +470,7 @@ public class RestricaoController {
 //			saveRestricao();			
 //		}
 	}
+
+
 
 }

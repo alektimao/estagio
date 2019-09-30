@@ -109,5 +109,28 @@ public class Restricao implements Serializable {
 		requisicao_remedio.setRequisicao(null);
 		
 	}
+
+	public void AlterarRestricaoAlimento(Restricao_Alimento alterarAlimento) {
+		int index = 0;
+		for (Restricao_Alimento Alimentos : requisicao_Alimento) {
+			if (alterarAlimento.getId() == Alimentos.getId()) {
+				//Alimentos = alterarAlimento;
+				requisicao_Alimento.set(index, alterarAlimento);
+			}
+			index++;
+		}
+		
+	}
+	public void AlterarRestricaoRemedio(Restricao_Remedio alterarRemedio) {
+		int index = 0;
+		for (Restricao_Remedio Alimentos : requisicao_Remedio) {
+			if (alterarRemedio.getId() == Alimentos.getId()) {
+				//Alimentos = alterarAlimento;
+				requisicao_Remedio.set(index, alterarRemedio);
+			}
+			index++;
+		}
+		
+	}
 	
 }

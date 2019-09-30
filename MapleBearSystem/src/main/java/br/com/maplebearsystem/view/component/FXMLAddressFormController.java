@@ -233,7 +233,7 @@ public class FXMLAddressFormController implements FXMLDefaultControllerInterface
 
 	public void reset() {
 
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
 
 	}
 

@@ -179,6 +179,17 @@ public class FornecedorController {
 					FornecedorDAO fornecedor = new FornecedorDAO();
 					forne.setNomefantasia(forne.getPessoa().getRazaoSocial());
 					fornecedor.save(forne);
+					
+					if (produtos.size() > 0) {
+						for (Product product : produtos) {
+							FornecedorProduct fornecedorproduto = new FornecedorProduct();
+							fornecedorproduto.setFornecedor(forne);
+							fornecedorproduto.setProduct(product);
+							FornecedorProductDAO fornecedorprod = new FornecedorProductDAO();
+							fornecedorprod.save(fornecedorproduto);
+						}
+					}
+					
 				}
 			} catch (Exception e) {
 				errList.add(new Exception("Falha ao Salvar Fornecedor"));

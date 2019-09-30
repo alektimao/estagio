@@ -13,7 +13,7 @@
 
 <StackPane fx:id="rootPane" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLPhoneManagerController">
    <children>
-      <VBox fx:id="primaryPane" alignment="TOP_RIGHT" spacing="5.0" styleClass="DWORDefaultPaneBackground">
+      <VBox fx:id="primaryPane" alignment="TOP_RIGHT" spacing="5.0" style="-fx-background-color: white;" styleClass="DWORDefaultPaneBackground">
          <children>
             <Label maxWidth="1.7976931348623157E308" text="Telefones" />
             <JFXListView fx:id="listViewPhones" minHeight="40.0" prefHeight="150.0" />

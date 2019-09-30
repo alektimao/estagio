@@ -16,7 +16,7 @@
 			<children>
             <HBox>
                <children>
-      				<Label styleClass="DWORScreenTitleII" text="Cadastro do Contato" />
+      				<Label styleClass="DWORScreenTitleII" text="Cadastro de Pessoa" />
                </children>
             </HBox>
 				<HBox fx:id="pnRdbtLegal" alignment="CENTER" spacing="30.0" styleClass="formMaxWidth" VBox.vgrow="NEVER">

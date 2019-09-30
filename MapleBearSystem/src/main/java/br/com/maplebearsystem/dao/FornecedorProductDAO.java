@@ -9,6 +9,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import br.com.maplebearsystem.model.FornecedorProduct;
+import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.persistance.JPAUtil;
 
@@ -104,6 +105,24 @@ public class FornecedorProductDAO extends GenericDAO<FornecedorProduct> {
 
 		TypedQuery<FornecedorProduct> query = em.createQuery(jpqlQuery, FornecedorProduct.class);
 		query.setParameter("pId",idrequisicao);
+		list = query.getResultList();
+
+		em.getTransaction().commit();
+
+		return list;
+	}
+	
+	public List<FornecedorProduct> listProdutosForn(List<Product> products) {
+		List<FornecedorProduct> list;
+
+		String jpqlQuery = "select r from FornecedorProduct r where r.produto in (:pId)";
+
+		EntityManager em = JPAUtil.getEntityManager();
+
+		em.getTransaction().begin();
+
+		TypedQuery<FornecedorProduct> query = em.createQuery(jpqlQuery, FornecedorProduct.class);
+		query.setParameter("pId",products);
 		list = query.getResultList();
 
 		em.getTransaction().commit();

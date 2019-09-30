@@ -10,9 +10,11 @@ import java.util.NoSuchElementException;
 
 import javax.persistence.EntityExistsException;
 
+import br.com.maplebearsystem.dao.PedidoFunc_ProductDAO;
 import br.com.maplebearsystem.dao.RequisicaoDAO;
 import br.com.maplebearsystem.dao.Requisicao_ProductDAO;
 import br.com.maplebearsystem.model.FornecedorProduct;
+import br.com.maplebearsystem.model.PedidoFunc_Produto;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.Requisicao;
 import br.com.maplebearsystem.model.Requisicao_Produto;
@@ -333,6 +335,13 @@ public class PedidoController {
 
 	public List<Requisicao_Produto> BuscaProdutosPedidos(Long id) {
 		Requisicao_ProductDAO dao = new Requisicao_ProductDAO();
+
+		return dao.listProdutosPedidos(id);
+	}
+
+	public List<PedidoFunc_Produto> BuscaProdutosPedidosFunc(Long id) {
+		// TODO Auto-generated method stub
+		PedidoFunc_ProductDAO dao = new PedidoFunc_ProductDAO();
 
 		return dao.listProdutosPedidos(id);
 	}

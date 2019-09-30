@@ -24,7 +24,7 @@
    <children>
       <VBox fx:id="panelMain" spacing="7.0" style="-fx-background-color: white;">
          <children>
-            <Label text="Requisiçao de Produtos" textFill="#545454">
+            <Label text="Compra de Produtos" textFill="#545454">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
@@ -79,6 +79,7 @@
                                                 <HBox alignment="CENTER_RIGHT" spacing="15.0" />
                                                 <HBox alignment="CENTER_RIGHT" spacing="7.0">
                                                    <children>
+                                                      <JFXButton fx:id="btpedfunc" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#buscarpedidofunc" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-background-color: blue; -fx-text-fill: white;" text="Pedido Func." />
                                                       <JFXButton fx:id="btadd1" buttonType="RAISED" minHeight="35.0" minWidth="100.0" onAction="#addproduto" prefWidth="100.0" ripplerFill="#282a2f" style="-fx-background-color: green; -fx-text-fill: white;" text="Adicionar">
                                                          <graphic>
                                                             <FontAwesomeIconView fill="WHITE" glyphName="PLUS" size="16" />

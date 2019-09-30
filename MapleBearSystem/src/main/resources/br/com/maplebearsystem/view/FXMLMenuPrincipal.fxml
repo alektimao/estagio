@@ -48,15 +48,6 @@
       						<String fx:value="DWORNavigationMenuButton" />
       					</styleClass>
       				</JFXButton>
-      				<JFXButton id="NavigationMenuButton" maxWidth="1.7976931348623157E308" text="Calendario" HBox.hgrow="ALWAYS">
-      					<font>
-      						<Font name="System Bold" size="13.0" />
-      					</font>
-      					<styleClass>
-      						<String fx:value="DWORNavigationMenu" />
-      						<String fx:value="DWORNavigationMenuButton" />
-      					</styleClass>
-      				</JFXButton>
       				<JFXButton id="NavigationMenuButton" fx:id="btnSidebarWorkOrders" maxWidth="1.7976931348623157E308" onAction="#actManageWorkOrders" text="Relatorios" HBox.hgrow="ALWAYS">
       					<font>
       						<Font name="System Bold" size="13.0" />

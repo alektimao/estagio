@@ -25,15 +25,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.VPos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
 
 public class FXMLRestricaoController implements Initializable, FXMLDefaultControllerInterface {
 
@@ -159,7 +160,11 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 	private FXMLDefaultControllerInterface sourceController;
 
 	private RestricaoController modelcontroller;
-
+	
+	private Restricao_Remedio alterarRemedio;
+	
+	private Restricao_Alimento alterarAlimento;
+	
 	List<Exception> mainErrorList;
 
 	@FXML
@@ -181,6 +186,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 		mainErrorList = modelcontroller.validar(modelcontroller.getaluno(), tfieldGravidade.getText(),
 				tfieldAlimento.getText(), txtinfo.getText(), txtinfo1.getText(), dtperiodode.getValue(),
 				dtperiodoate.getValue());
+		modelcontroller.setAlteraralimento(null);
 		if (mainErrorList.size() > 0) {
 			// podesalvar = false;
 			String text = "";
@@ -242,7 +248,11 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 			alert.showAndWait();
 
 			if (alert.getResult() == ButtonType.YES) {
-				modelcontroller.removeAlimento(ali);
+				if (ali.getId() != null) {
+					modelcontroller.removeAlimento(ali);
+				}
+				tviewAlimento.getItems().remove(ali);
+				modelcontroller.getRestricao().setRequisicao_Alimento(tviewAlimento.getItems());
 				loadTableView();
 				// calculateValues();
 			}
@@ -251,7 +261,6 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 			e.printStackTrace();
 		}
 	}
-
 	@FXML
 	void removerremedio(ActionEvent event) {
 		try {
@@ -263,9 +272,63 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 			alert.showAndWait();
 
 			if (alert.getResult() == ButtonType.YES) {
-				modelcontroller.removeRemedio(rem);
+				if (rem.getId() != null) {
+					modelcontroller.removeRemedio(rem);					
+				}
+				tviewRemedio.getItems().remove(rem);
+				modelcontroller.getRestricao().setRequisicao_Remedio(tviewRemedio.getItems());
 				loadTableView();
-				// calculateValues();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	void alteraalimento(MouseEvent event) {
+		try {
+			Restricao_Alimento ali = tviewAlimento.getSelectionModel().getSelectedItem();
+
+			if (ali == null) {
+				modelcontroller.setAlteraralimento(null);
+				alterarAlimento = null;
+				FXUISetup.getInstance().clearTextInputs(Hali);
+				FXUISetup.getInstance().clearTableViews(Hali);
+				return;
+			}
+			if (ali.getId() != null) {
+				alterarAlimento = ali;
+				modelcontroller.setAlteraralimento(ali);
+				carregarcamposAlimento(ali);
+			}
+			else
+			{
+				FXNotification notification = new FXNotification("nao e possivel alterar item da restrição que ainda nao foi salva,",
+						FXNotification.NotificationType.INFORMATION);
+				notification.show();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@FXML
+	void alteraremedio(MouseEvent event) {
+		try {
+			Restricao_Remedio rem = tviewRemedio.getSelectionModel().getSelectedItem();
+
+			if (rem == null) {
+				modelcontroller.setAlterarremedio(null);
+				alterarRemedio = null;
+				FXUISetup.getInstance().clearTextInputs(Hali);
+				FXUISetup.getInstance().clearTableViews(Hali);
+				return;
+			}
+			if (rem.getId() != null) {
+				alterarRemedio = rem;
+				modelcontroller.setAlterarremedio(rem);
+				carregarcamposRemedio(rem);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -311,6 +374,38 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 		tfieldnome.setText(resultado.getNome());
 		tfieldTurma.setText(resultado.getTurmaAtual());
 		tfieldMatricula.setText(resultado.getNumeromatricula());
+		//
+	}
+	private void carregarcamposAlimento(Restricao_Alimento resultado) {
+		FXUISetup.getInstance().clearTextInputs(Hali);
+		FXUISetup.getInstance().clearTableViews(Hali);
+		FXUISetup.getInstance().clearTextdatepickers(Hali);
+		//modelcontroller.getRestricaos(resultado.getId());
+		//modelcontroller.setAluno(resultado);
+		tfieldAlimento.setText(resultado.getAlimento());
+		tfieldGravidade.setText(resultado.getGravidade());
+		txtinfo.setText(resultado.getSintomas());
+		txtinfo1.setText(resultado.getCondutas());
+		//dtperiodode.setValue(null);
+		//dtperiodoate.setValue(null);
+		dtperiodode.setValue(resultado.getDe().toLocalDate());
+		dtperiodoate.setValue(resultado.getAte().toLocalDate());
+		//
+	}
+	
+	private void carregarcamposRemedio(Restricao_Remedio resultado) {
+		FXUISetup.getInstance().clearTextInputs(Hrem);
+		FXUISetup.getInstance().clearTableViews(Hrem);
+		FXUISetup.getInstance().clearTextdatepickers(Hrem);
+		tfieldRemedio.setText(resultado.getRemedio());
+		tfieldGravidade.setText(resultado.getGravidade());
+		txtSintomasRemedio.setText(resultado.getSintomas());
+		txtCondutaRemedio.setText(resultado.getCondutas());
+		tfieldDosagem.setText(resultado.getDosagem());
+		tfieldPlano.setText(resultado.getPlano());
+		tfieldPosologia.setText(resultado.getPosologia());
+		dtperiodode2.setValue(resultado.getDe().toLocalDate());
+		dtperiodoate2.setValue(resultado.getAte().toLocalDate());
 		//
 	}
 	
@@ -407,3 +502,4 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 		});
 	}
 }
+

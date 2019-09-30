@@ -40,6 +40,8 @@ import br.com.maplebearsystem.model.WeekDays;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 
 public class FXMLRelatorioController implements Initializable, FXMLDefaultControllerInterface{
+	@FXML
+    private StackPane rootpane;
 
     @FXML
     private VBox vboxRelatorio;
@@ -192,8 +194,8 @@ public class FXMLRelatorioController implements Initializable, FXMLDefaultContro
 			e.printStackTrace();
 		}
     }
-    public VBox getRootPane() {
-		return vboxRelatorio;
+    public StackPane getRootPane() {
+		return rootpane;
 	}
 
 	@Override

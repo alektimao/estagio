@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -19,6 +20,9 @@ import com.jfoenix.controls.JFXTextField;
 import br.com.maplebearsystem.controller.PedidoController;
 import br.com.maplebearsystem.main.MapleBearSystemDesktopClient;
 import br.com.maplebearsystem.model.FornecedorProduct;
+import br.com.maplebearsystem.model.Funcionario;
+import br.com.maplebearsystem.model.PedidoFunc;
+import br.com.maplebearsystem.model.PedidoFunc_Produto;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.Requisicao;
 import br.com.maplebearsystem.model.Requisicao_Produto;
@@ -26,6 +30,7 @@ import br.com.maplebearsystem.model.constants.PedidoConstants;
 import br.com.maplebearsystem.model.validators.FieldValidators;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.view.component.FXMLBuscaPedidoController;
+import br.com.maplebearsystem.view.component.FXMLBuscaPedidoFuncController;
 import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
 import br.com.maplebearsystem.view.util.FXUISetup;
@@ -106,11 +111,33 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 	@FXML
 	private JFXButton btautorizar;
 
+	@FXML
+	private JFXButton btpedfunc;
+
 	private PedidoController controlerPedido;
 
 	private FXMLDefaultControllerInterface sourceController;
 	List<Exception> mainErrorList;
+	public static List<PedidoFunc_Produto> produtos = new ArrayList<PedidoFunc_Produto>();
 
+	@FXML
+	void buscarpedidofunc(ActionEvent event) {
+		try {
+			FXMLBuscaPedidoFuncController controler = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_BUSCAR_PEDIDOFUNC, null, 0.0)
+					.<FXMLBuscaPedidoFuncController>getController();
+			controler.switchToSelectorMode();
+			controler.setSourceFXMLController(this);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
 	@FXML
 	void addproduto(ActionEvent event) {
 		try {
@@ -251,6 +278,14 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 				loadTableView();
 			}
 		}
+		if (sender instanceof FXMLBuscaPedidoFuncController) {
+			if (data instanceof PedidoFunc) {
+				PedidoFunc resultado = (PedidoFunc) data;
+				produtos = controlerPedido.BuscaProdutosPedidosFunc(resultado.getId());
+				// controlerPedido.validateListaProduto(resultado.getRequestedParts());
+				// loadTableView();
+			}
+		}
 
 	}
 
@@ -298,6 +333,10 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 			FXMLRetirarProdutoController obj = (FXMLRetirarProdutoController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
 		}
+		if (sender instanceof FXMLBuscaPedidoFuncController) {
+			FXMLBuscaPedidoFuncController obj = (FXMLBuscaPedidoFuncController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
 	}
 
 	private void initTableViews() {
@@ -322,7 +361,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 
 			int row = pos.getRow();
 			Requisicao_Produto pedido = event.getTableView().getItems().get(row);
-			
+
 			Double valor = Double.parseDouble(newFullName);
 			if (valor > 0) {
 				pedido.setQuantity(valor.intValue());
@@ -357,7 +396,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 			BigDecimal valor = new BigDecimal(newFullName.replace(',', '.'));
 			valor = valor.setScale(2, RoundingMode.HALF_UP);
 			// pra garantir arredondamento em escala de 2 algarismos
-		    Double valor2 = valor.doubleValue();
+			Double valor2 = valor.doubleValue();
 			if (valor2 > 0) {
 				pedido.setUnitPrice(valor);
 			}
@@ -386,7 +425,7 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 		List<Requisicao_Produto> produtos = tviewProducts.getItems();
 		for (Requisicao_Produto rp : produtos) {
 			if (rp.getPriceTotal() != null) {
-				//int test = rp.getPriceTotal().toBigInteger().intValue();
+				// int test = rp.getPriceTotal().toBigInteger().intValue();
 				valor = valor.add(rp.getPriceTotal());
 			}
 		}
@@ -405,7 +444,8 @@ public class FXMLPedidoController implements Initializable, FXMLDefaultControlle
 	private void initMascara() {
 		txtfrete.setTextFormatter(TextFieldFormatterHelper.getTextFieldDoubleFormatter(9, 2));
 		txtvalor.setTextFormatter(TextFieldFormatterHelper.getTextFieldDoubleFormatter(9, 2));
-		tfieldnome.setTextFormatter(TextFieldFormatterHelper.getTextFieldFormatter(FieldValidators.RegexCharsets.CHARSET_DESCRIPTION.getValue(), PedidoConstants.MAXLEN_DESCRIPTION));
+		tfieldnome.setTextFormatter(TextFieldFormatterHelper.getTextFieldFormatter(
+				FieldValidators.RegexCharsets.CHARSET_DESCRIPTION.getValue(), PedidoConstants.MAXLEN_DESCRIPTION));
 	}
 
 	@FXML

@@ -96,7 +96,12 @@ public class FXMLBuscaPedidoFuncController implements Initializable, FXMLDefault
 
 	@FXML
 	void actGoBack(ActionEvent event) {
-
+		try {
+			sourceController.closeSenderNode(this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML

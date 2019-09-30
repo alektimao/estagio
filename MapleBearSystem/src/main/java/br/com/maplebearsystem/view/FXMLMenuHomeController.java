@@ -62,14 +62,23 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 	@FXML
 	private JFXButton btnGerais;
 	
-	public static Funcionario logado = new Funcionario();
+	//public static Funcionario logado = new Funcionario();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// inicializa FXNotificationFactory
+		if (FXMLLoginController.logado.getPessoa() == null) {
+			desabilitarMenus();
+		}
 		FXNotificationFactory.initialize(mainAreaContainer);
 		new FXNotification("Programa inicializado", FXNotification.NotificationType.INFORMATION).show();
 
+	}
+
+	private void desabilitarMenus() {
+		btnSidebarEquipments.setDisable(true);
+		btnAlunos.setDisable(true);
+		
 	}
 
 	@FXML
@@ -168,7 +177,7 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 	public void setSourceFXMLController(FXMLDefaultControllerInterface controller) throws Exception {
 		if (controller instanceof FXMLLoginController) {
 			FXMLLoginController obj = (FXMLLoginController) controller;
-			logado = FXMLLoginController.logado;
+			//logado = FXMLLoginController.logado;
 		}
 
 	}

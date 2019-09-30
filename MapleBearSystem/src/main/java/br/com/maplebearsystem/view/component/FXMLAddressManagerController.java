@@ -110,6 +110,7 @@ public class FXMLAddressManagerController implements Initializable, FXMLDefaultC
 		setEditPaneEnabled(true);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void editAddress() {
 
 		Address address = listViewAddresses.getSelectionModel().getSelectedItem();
