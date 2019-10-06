@@ -27,6 +27,7 @@ public class Funcionario implements Serializable {
 	private String senha;
 	private Nivel nivel;
 	private Date admissao;
+	private Date aniversario;
 	private Ativo ativo;
 
 	public String getSenha() {
@@ -108,4 +109,13 @@ public class Funcionario implements Serializable {
 	public void setLevel(Nivel level) {
 		this.nivel = level;
 	}
+
+	public Date getAniversario() {
+		return aniversario;
+	}
+
+	public void setAniversario(Date aniversario) {
+		this.aniversario = aniversario;
+	}
+	
 }

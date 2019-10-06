@@ -38,7 +38,7 @@
                                  <children>
                                     <FlowPane hgap="15.0" vgap="20.0" HBox.hgrow="SOMETIMES">
                                        <children>
-                                          <JFXTextField id="tfieldName" fx:id="tfieldnome" labelFloat="true" minWidth="275.0" prefHeight="26.0" promptText="Descricao da Retirada">
+                                          <JFXTextField id="tfieldName" fx:id="tfieldnome" labelFloat="true" minWidth="203.0" prefHeight="26.0" prefWidth="203.0" promptText="Descricao da Retirada">
                                              <styleClass>
                                                 <String fx:value="jfxtextfieldform" />
                                                 <String fx:value="formMaxWidth" />
@@ -47,7 +47,13 @@
                                                 <Insets />
                                              </FlowPane.margin>
                                           </JFXTextField>
-                                          <JFXDatePicker fx:id="dtdiapedido" promptText="Data de Retirada" />
+                                          <JFXTextField id="tfieldName" fx:id="tfieldFunc" labelFloat="true" minWidth="221.0" onMouseClicked="#buscarFunc" prefHeight="26.0" prefWidth="221.0" promptText="Funcionario">
+                                             <styleClass>
+                                                <String fx:value="jfxtextfieldform" />
+                                                <String fx:value="formMaxWidth" />
+                                             </styleClass>
+                                          </JFXTextField>
+                                          <JFXDatePicker fx:id="dtdiapedido" prefHeight="25.0" prefWidth="128.0" promptText="Data de Retirada" />
                                        </children>
                                        <padding>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
@@ -56,7 +62,7 @@
                                           <Insets />
                                        </HBox.margin>
                                     </FlowPane>
-                                    <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="5.0" maxWidth="200.0" prefWidth="148.0" vgap="5.0" />
+                                    <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="5.0" maxWidth="200.0" prefHeight="91.0" prefWidth="90.0" vgap="5.0" />
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

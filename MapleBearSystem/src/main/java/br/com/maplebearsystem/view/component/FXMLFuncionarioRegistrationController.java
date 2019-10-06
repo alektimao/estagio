@@ -89,7 +89,7 @@ public class FXMLFuncionarioRegistrationController implements Initializable, FXM
 				pnFuncionarioFormController.gettfieldFuncao().getText(),
 				pnFuncionarioFormController.gettfieldLogin().getText(), pnFuncionarioFormController.getcbNivel().getValue(),
 				pnFuncionarioFormController.gettfieldSenha().getText(),
-				pnFuncionarioFormController.getdtadmissão().getValue());
+				pnFuncionarioFormController.getdtadmissão().getValue(),pnFuncionarioFormController.getdtaniversario().getValue());
 		if (errList.size() == 0) {
 			FXUISetup.getInstance().clearTextInputs(rootPane);
 			FXUISetup.getInstance().clearTableViews(rootPane);

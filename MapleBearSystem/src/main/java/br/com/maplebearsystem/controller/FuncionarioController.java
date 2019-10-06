@@ -105,7 +105,7 @@ public class FuncionarioController {
 	}
 
 	public List<Exception> salvar(PessoaFisica nome, Object ativo, String funcao, String login, Object nivel, String senha,
-			LocalDate dtadimissao) {
+			LocalDate dtadimissao,LocalDate dtaniversario) {
 		List<Exception> errList = new ArrayList<Exception>();
 		try {
 			validateNome(nome);
@@ -149,6 +149,12 @@ public class FuncionarioController {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
 		}
+		try {
+			validateDtaniversario(dtaniversario);
+		} catch (Exception e) {
+			errList.add(e);
+			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
+		}
 		if (errList.isEmpty()) {
 			try {
 				saveFuncionario(funcionario);
@@ -179,6 +185,17 @@ public class FuncionarioController {
 			throw new Exception("Data inválida");
 		}
 		funcionario.setAdmissao(Date.valueOf(dtadimissao));
+
+	}
+	
+	private void validateDtaniversario(LocalDate dtadimissao) throws Exception {
+		if (dtadimissao == null) {
+			throw new Exception("Data admissao não selecionada");
+		}
+		if (dtadimissao.getDayOfYear() < 1) {
+			throw new Exception("Data inválida");
+		}
+		funcionario.setAniversario(Date.valueOf(dtadimissao));
 
 	}
 

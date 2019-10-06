@@ -1,5 +1,8 @@
 package br.com.maplebearsystem.dao;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityExistsException;
@@ -7,7 +10,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
+import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.model.Interessados;
 import br.com.maplebearsystem.persistance.JPAUtil;
 
@@ -75,22 +83,61 @@ public class InteressadosDAO extends GenericDAO<Interessados> {
 		return list;
 	}
 
-	public List<Interessados> listInteressados(String filter) {
-		List<Interessados> list;
+	public List<Interessados> listInteressados(String filter, LocalDate localDate, LocalDate localDate2) {
+		Root<Interessados> Root;
 
-		String jpqlQuery = "select r from Interessados r where lower(r.nome) LIKE :pInteressadosnome";
+		List<Interessados> result;
 
 		EntityManager em = JPAUtil.getEntityManager();
 
 		em.getTransaction().begin();
 
-		TypedQuery<Interessados> query = em.createQuery(jpqlQuery, Interessados.class);
-		query.setParameter("pInteressadosnome", "%" + filter.toLowerCase() + "%");
-		list = query.getResultList();
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+
+		CriteriaQuery<Interessados> criteriaQuery = criteriaBuilder.createQuery(Interessados.class);
+
+		Root = criteriaQuery.from(Interessados.class);
+		
+		List<Predicate> filtros = new ArrayList<Predicate>();
+		
+		if (filter != null && !filter.equals("")) {
+			Predicate pnome = criteriaBuilder.equal(criteriaBuilder.lower(Root.get("nome")), filter);
+			filtros.add(pnome);
+		}
+		if (localDate != null && localDate2 == null) {
+			Predicate start = criteriaBuilder.greaterThanOrEqualTo(Root.get("data"), Date.valueOf(localDate));
+			Predicate end = criteriaBuilder.lessThanOrEqualTo(Root.get("data"), Date.valueOf(localDate));
+			filtros.add(start);
+			filtros.add(end);
+		}	
+		if (localDate != null && localDate2 != null) {
+			Predicate start = criteriaBuilder.greaterThanOrEqualTo(Root.get("data"), Date.valueOf(localDate));
+			Predicate end = criteriaBuilder.lessThanOrEqualTo(Root.get("data"), Date.valueOf(localDate2));			
+			filtros.add(start);
+			filtros.add(end);
+		}
+	    criteriaQuery.select(Root).where(filtros.toArray(new Predicate[] {})).orderBy(criteriaBuilder.asc(Root.get("id")));
+
+		result = em.createQuery(criteriaQuery).getResultList();
 
 		em.getTransaction().commit();
 
-		return list;
+		return result;
+		//List<Interessados> list;
+
+//		String jpqlQuery = "select r from Interessados r where lower(r.nome) LIKE :pInteressadosnome";
+//
+//		EntityManager em = JPAUtil.getEntityManager();
+//
+//		em.getTransaction().begin();
+//
+//		TypedQuery<Interessados> query = em.createQuery(jpqlQuery, Interessados.class);
+//		query.setParameter("pInteressadosnome", "%" + filter.toLowerCase() + "%");
+//		list = query.getResultList();
+//
+//		em.getTransaction().commit();
+//
+//		return list;
 	}
 
 	@Override

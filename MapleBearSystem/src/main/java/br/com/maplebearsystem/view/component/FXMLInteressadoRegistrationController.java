@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDatePicker;
 
 import br.com.maplebearsystem.controller.InteressadoController;
 import br.com.maplebearsystem.model.Interessados;
@@ -31,6 +32,7 @@ public class FXMLInteressadoRegistrationController implements Initializable, FXM
 	private JFXButton btnDelete;
 	@FXML
 	private JFXButton btnCancel;
+    
 	@FXML
 	private VBox pnInteressadosForm;
 	@FXML

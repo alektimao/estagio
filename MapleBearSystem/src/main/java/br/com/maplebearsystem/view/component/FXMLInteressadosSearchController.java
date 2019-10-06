@@ -1,9 +1,11 @@
 package br.com.maplebearsystem.view.component;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
 import br.com.maplebearsystem.controller.InteressadoController;
@@ -63,6 +65,10 @@ public class FXMLInteressadosSearchController implements Initializable, FXMLDefa
 	private JFXButton btnSelect;
 	@FXML
 	private JFXButton btnCancel;
+    @FXML
+	private JFXDatePicker tfieldData1;
+    @FXML
+    private JFXDatePicker tfieldData2;
 
 	private FXMLDefaultControllerInterface sourceController;
 	
@@ -170,10 +176,10 @@ public class FXMLInteressadosSearchController implements Initializable, FXMLDefa
 	}
 
 	public void reloadTableView() {
-		loadTableView(tfieldSearch.getText());
+		loadTableView(tfieldSearch.getText(),tfieldData1.getValue(),tfieldData2.getValue());
 	}
 
-	private void loadTableView(String filter) {
+	private void loadTableView(String filter, LocalDate localDate, LocalDate localDate2) {
 
 //		ObservableList<Interessados> modelo;
 //
@@ -185,11 +191,11 @@ public class FXMLInteressadosSearchController implements Initializable, FXMLDefa
 //		}
 		ObservableList<Interessados> modelo;
 
-		if (filter.equals("")) {
+		if (filter.equals("") && localDate == null && localDate2 == null) {
 			modelo = FXCollections.observableArrayList(modelController.getInteressadoss());
 		} else {
 
-			modelo = FXCollections.observableArrayList(modelController.getInteressadoss(filter));
+			modelo = FXCollections.observableArrayList(modelController.getInteressadoss(filter,localDate,localDate2));
 		}
 
 		tviewSearch.setItems(modelo);
@@ -252,10 +258,6 @@ public class FXMLInteressadosSearchController implements Initializable, FXMLDefa
 
 	}
 
-	public void loadResultForFilter(String filter) {
-		loadTableView(filter);
-	}
-
 // ENDSECTION UISetup FXMLController Methods
 
 // SECTION FXML Event Methods
@@ -275,7 +277,7 @@ public class FXMLInteressadosSearchController implements Initializable, FXMLDefa
 		try {
 			modelController.setupEditInteressados(tviewSearch.getSelectionModel().getSelectedItem());
 			if (delete()) {
-				loadTableView(tfieldSearch.getText());
+				loadTableView(tfieldSearch.getText(),tfieldData1.getValue(),tfieldData2.getValue());
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -297,7 +299,7 @@ public class FXMLInteressadosSearchController implements Initializable, FXMLDefa
 
 	@FXML
 	void actSPSearch(ActionEvent event) {
-		loadTableView(tfieldSearch.getText());
+		loadTableView(tfieldSearch.getText(),tfieldData1.getValue(),tfieldData2.getValue());
 	}
 
 	@FXML

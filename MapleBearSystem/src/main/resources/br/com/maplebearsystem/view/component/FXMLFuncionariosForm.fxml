@@ -26,16 +26,16 @@
                         <JFXTextField fx:id="tfieldNome" onMouseClicked="#actbuscar" />
                      </children>
                   </VBox>
-               </children>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
-               <children>
-                  <VBox layoutX="255.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                  <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label text="Função" />
                         <JFXTextField fx:id="tfieldFuncao" />
                      </children>
                   </VBox>
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="10.0" spacing="15.0">
+               <children>
                   <VBox layoutX="175.0" layoutY="10.0" spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Label text="Nivel" />
@@ -46,6 +46,12 @@
                      <children>
                         <Label text="Data de admissão" />
                         <JFXDatePicker fx:id="dtadmissão" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="10.0">
+                     <children>
+                        <Label text="Data de aniversario" />
+                        <JFXDatePicker fx:id="dtaniversario" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
                </children>

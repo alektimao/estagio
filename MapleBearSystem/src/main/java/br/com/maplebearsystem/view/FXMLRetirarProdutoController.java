@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -19,11 +21,14 @@ import br.com.maplebearsystem.controller.RetirarController;
 import br.com.maplebearsystem.dao.RequisicaoDAO;
 import br.com.maplebearsystem.main.MapleBearSystemDesktopClient;
 import br.com.maplebearsystem.model.FornecedorProduct;
+import br.com.maplebearsystem.model.Funcionario;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.ProductMovement;
 import br.com.maplebearsystem.model.Requisicao_Produto;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXResourcePath;
+import br.com.maplebearsystem.view.component.FXMLContactSearchController;
+import br.com.maplebearsystem.view.component.FXMLFuncionarioSearchController;
 import br.com.maplebearsystem.view.component.FXMLProductFornecedorSearchController;
 import br.com.maplebearsystem.view.component.FXMLProdutoSearchController;
 import br.com.maplebearsystem.view.util.FXMLResourcePathsEnum;
@@ -41,8 +46,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultControllerInterface {
 
@@ -57,6 +64,9 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 
 	@FXML
 	private JFXTextField tfieldnome;
+
+    @FXML
+    private JFXTextField tfieldFunc;
 
 	@FXML
 	private JFXDatePicker dtdiapedido;
@@ -113,6 +123,26 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 	@FXML
 	void buscarpedido(ActionEvent event) {
 
+	}
+	@FXML
+    void buscarFunc(MouseEvent event) {
+		loadtela(FXResourcePath.FXML_MAPLE_FUNCIONARIO_BUSCA);
+    }
+	public void loadtela(URL url) {
+		try {
+
+			FXMLDefaultControllerInterface controller = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, url, new DropShadow(20.0, Color.BLACK), 10.0)
+					.<FXMLDefaultControllerInterface>getController();
+
+			controller.setSourceFXMLController(this);
+			if (controller instanceof FXMLFuncionarioSearchController) {
+				((FXMLFuncionarioSearchController) controller).switchToSelectorMode();
+			}
+		} catch (Exception e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
+					"Error: failed to load menu: " + url.getPath(), e);
+		}
 	}
 
 	@FXML
@@ -234,6 +264,16 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 				loadTableView();
 			}
 		}
+//		if (sender instanceof FXMLFuncionarioSearchController) {
+//			if (data instanceof Funcionario) {
+//				Funcionario resultado = (Funcionario) data;
+//				controlerRetirar.setupNewRetirar();
+//				controlerRetirar.getRetiramovimento().setFuncionario(resultado);
+//				FXUISetup.getInstance().clearTextInputs(rootPane);
+//				FXUISetup.getInstance().clearTableViews(rootPane);
+//				tfieldFunc.setText(controlerRetirar.getRetiramovimento().getFuncionario().getPessoa().getName());
+//			}
+//		}
 
 	}
 

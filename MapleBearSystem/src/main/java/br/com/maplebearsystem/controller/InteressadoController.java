@@ -231,10 +231,10 @@ public class InteressadoController {
 		return dao.listAllInteressados();
 	}
 
-	public List<Interessados> getInteressadoss(String filter) {
+	public List<Interessados> getInteressadoss(String filter, LocalDate localDate, LocalDate localDate2) {
 		InteressadosDAO dao = new InteressadosDAO();
 
-		return dao.listInteressados(filter);
+		return dao.listInteressados(filter,localDate,localDate2);
 	}
 
 // ENDSECTION Controller to DAO Methods

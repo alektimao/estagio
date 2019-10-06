@@ -271,8 +271,7 @@ public class FXMLAlocarEquipamentoController implements Initializable, FXMLDefau
 				dtemprestimo.setValue(controlerAlocar.getAlocar().getDia().toLocalDate());
 				loadTableView();
 			}
-		}
-		
+		}	
 		
 	}
 

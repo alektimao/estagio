@@ -31,30 +31,31 @@ public class FXMLFuncionarioFormController implements FXMLDefaultControllerInter
 	@FXML
 	private StackPane rootPane;
 
-    @FXML
-    private JFXTextField tfieldMatricula;
+	@FXML
+	private JFXTextField tfieldMatricula;
 
-    @FXML
-    private JFXTextField tfieldNome;
+	@FXML
+	private JFXTextField tfieldNome;
 
-    @FXML
-    private JFXTextField tfieldFuncao;
+	@FXML
+	private JFXTextField tfieldFuncao;
 
-    @FXML
-    private JFXComboBox<Nivel> cbNivel;
+	@FXML
+	private JFXComboBox<Nivel> cbNivel;
 
-    @FXML
-    private JFXDatePicker dtadmissão;
+	@FXML
+	private JFXDatePicker dtadmissão;
+	@FXML
+	private JFXDatePicker dtaniversario;
 
-    @FXML
-    private JFXTextField tfieldLogin;
+	@FXML
+	private JFXTextField tfieldLogin;
 
-    @FXML
-    private JFXTextField tfieldSenha;
+	@FXML
+	private JFXTextField tfieldSenha;
 
-    @FXML
-    private JFXComboBox<Ativo> cbativo;
-
+	@FXML
+	private JFXComboBox<Ativo> cbativo;
 
 	private FXMLDefaultControllerInterface sourceController;
 
@@ -85,8 +86,8 @@ public class FXMLFuncionarioFormController implements FXMLDefaultControllerInter
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		cbNivel.setItems( FXCollections.observableArrayList( Nivel.values()));
-		cbativo.setItems( FXCollections.observableArrayList( Ativo.values()));
+		cbNivel.setItems(FXCollections.observableArrayList(Nivel.values()));
+		cbativo.setItems(FXCollections.observableArrayList(Ativo.values()));
 		tfieldMatricula.setDisable(true);
 		funcontroler = new FuncionarioController();
 		funcontroler.setupNewFuncionario();
@@ -128,33 +129,45 @@ public class FXMLFuncionarioFormController implements FXMLDefaultControllerInter
 		// TODO Auto-generated method stub
 
 	}
+
 	public StackPane getRootPane() {
 		return rootPane;
 	}
+
 	public JFXTextField gettfieldMatricula() {
 		return tfieldMatricula;
 	}
+
 	public JFXTextField gettfieldNome() {
 		return tfieldNome;
 	}
+
 	public JFXTextField gettfieldFuncao() {
 		return tfieldFuncao;
 	}
+
 	public JFXComboBox getcbNivel() {
 		return cbNivel;
 	}
+
 	public JFXDatePicker getdtadmissão() {
 		return dtadmissão;
+	}
+	public JFXDatePicker getdtaniversario() {
+		return dtaniversario;
 	}
 	public JFXTextField gettfieldLogin() {
 		return tfieldLogin;
 	}
+
 	public JFXTextField gettfieldSenha() {
 		return tfieldSenha;
 	}
+
 	public JFXComboBox getcbativo() {
 		return cbativo;
 	}
+
 	public FuncionarioController getFuncionarioController() {
 		return funcontroler;
 	}
@@ -164,14 +177,15 @@ public class FXMLFuncionarioFormController implements FXMLDefaultControllerInter
 		tfieldNome.setText(funcionario.getPessoa().getName());
 		tfieldFuncao.setText(funcionario.getJob());
 		tfieldMatricula.setText(funcionario.getId().toString());
-	    cbNivel.setValue(funcionario.getNivel());
-	    dtadmissão.setValue(funcionario.getAdmissao().toLocalDate());
-	    tfieldLogin.setText(funcionario.getLogin());
-	    tfieldSenha.setText(funcionario.getSenha());
-	    cbativo.setValue(funcionario.getAtivo());
+		cbNivel.setValue(funcionario.getNivel());
+		dtadmissão.setValue(funcionario.getAdmissao().toLocalDate());
+		tfieldLogin.setText(funcionario.getLogin());
+		tfieldSenha.setText(funcionario.getSenha());
+		cbativo.setValue(funcionario.getAtivo());
+		dtaniversario.setValue(funcionario.getAniversario().toLocalDate());
 
 	}
-	
+
 	private void loadPessoa(Pessoa resultado) {
 		funcontroler.getFuncionario().setPessoa((PessoaFisica) resultado);
 		tfieldNome.setText(funcontroler.getFuncionario().getPessoa().getName());
