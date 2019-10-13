@@ -8,6 +8,8 @@ import javax.persistence.TypedQuery;
 
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.Alocar;
+import br.com.maplebearsystem.model.Alocar_Produto;
+import br.com.maplebearsystem.model.FornecedorProduct;
 import br.com.maplebearsystem.persistance.JPAUtil;
 
 public class AlocarDAO extends GenericDAO<Alocar> {
@@ -87,6 +89,23 @@ public class AlocarDAO extends GenericDAO<Alocar> {
 
 		TypedQuery<Alocar> query = em.createQuery(jpqlQuery, Alocar.class);
 		query.setParameter("pDescription", "%" + filter.toLowerCase() + "%");
+		list = query.getResultList();
+
+		em.getTransaction().commit();
+
+		return list;
+	}
+	public List<Alocar_Produto> listProdutosAloc(long idrequisicao) {
+		List<Alocar_Produto> list;
+
+		String jpqlQuery = "select r from Alocar_Produto r where r.alocar.id = :pId";
+
+		EntityManager em = JPAUtil.getEntityManager();
+
+		em.getTransaction().begin();
+
+		TypedQuery<Alocar_Produto> query = em.createQuery(jpqlQuery, Alocar_Produto.class);
+		query.setParameter("pId",idrequisicao);
 		list = query.getResultList();
 
 		em.getTransaction().commit();

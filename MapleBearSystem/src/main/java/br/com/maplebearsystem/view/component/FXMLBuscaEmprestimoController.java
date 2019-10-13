@@ -49,21 +49,21 @@ public class FXMLBuscaEmprestimoController implements Initializable, FXMLDefault
 
 	@FXML
 	private JFXButton btnSearch;
-	
+
 	@FXML
-    private TableView<Alocar> tviewSearch;
+	private TableView<Alocar> tviewSearch;
 
-    @FXML
-    private TableColumn<Alocar, String> tviewColID;
+	@FXML
+	private TableColumn<Alocar, String> tviewColID;
 
-    @FXML
-    private TableColumn<Alocar, String> tviewColDescription;
+	@FXML
+	private TableColumn<Alocar, String> tviewColDescription;
 
-    @FXML
-    private TableColumn<Alocar, String> tviewColdata;
+	@FXML
+	private TableColumn<Alocar, String> tviewColdata;
 
-    @FXML
-    private TableColumn<Alocar, String> tviewColValortotal;
+	@FXML
+	private TableColumn<Alocar, String> tviewColValortotal;
 
 	@FXML
 	private VBox pnButtons;
@@ -129,14 +129,15 @@ public class FXMLBuscaEmprestimoController implements Initializable, FXMLDefault
 	@FXML
 	void actSPNew(ActionEvent event) {
 		try {
-			FXMLAlocarEquipamentoController controller = FXUISetup.getInstance().loadFXMLIntoStackPane(rootPane,
-							FXResourcePath.FXML_MAPLEBEARSYSTEM_GERENCIAR_EMPRESTAR, null, 0.0)
+			FXMLAlocarEquipamentoController controller = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_MAPLEBEARSYSTEM_GERENCIAR_EMPRESTAR, null, 0.0)
 					.<FXMLAlocarEquipamentoController>getController();
 			controller.setSourceFXMLController(this);
 		} catch (Exception e) {
 			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed to edit contact", e);
 		}
 	}
+
 	private boolean editItem() {
 		if (tviewSearch.getSelectionModel().getSelectedItem() != null) {
 			try {
@@ -176,8 +177,7 @@ public class FXMLBuscaEmprestimoController implements Initializable, FXMLDefault
 
 	@FXML
 	void actSelectItem(ActionEvent event) {
-		if(sourceController instanceof FXMLAlocarEquipamentoController)
-		{
+		if (sourceController instanceof FXMLAlocarEquipamentoController) {
 			FXMLAlocarEquipamentoController controller = (FXMLAlocarEquipamentoController) sourceController;
 			try {
 				Alocar resultado = tviewSearch.getSelectionModel().getSelectedItem();
@@ -195,7 +195,7 @@ public class FXMLBuscaEmprestimoController implements Initializable, FXMLDefault
 	void actSelectorEdit(ActionEvent event) {
 
 	}
-	
+
 	private boolean delete() {
 
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Deseja realmente deletar Este Item?", ButtonType.YES,
@@ -209,13 +209,11 @@ public class FXMLBuscaEmprestimoController implements Initializable, FXMLDefault
 			Alocar itemToRemove = tviewSearch.getSelectionModel().getSelectedItem();
 			modelController.deleteAlocar(itemToRemove);
 			tviewSearch.getItems().remove(itemToRemove);
-		}
-		catch (PersistenceException ex)
-		{
-			new FXNotification("Não e possivel deletar Emprestimo com produtos", FXNotification.NotificationType.ERROR).show();
+		} catch (PersistenceException ex) {
+			new FXNotification("Não e possivel deletar Emprestimo com produtos", FXNotification.NotificationType.ERROR)
+					.show();
 			return false;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			Logger.getLogger(this.getClass().getName()).log(Level.FINE, "Info: failed to save contact", e);
 			new FXNotification("Error: " + e.getMessage() + e.getCause(), FXNotification.NotificationType.ERROR).show();
 			return false;
@@ -235,9 +233,9 @@ public class FXMLBuscaEmprestimoController implements Initializable, FXMLDefault
 		tviewColDescription.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getFuncionario().getPessoa().getName());
 		});
-		tviewColdata.setCellValueFactory((data)->{
-			return new SimpleStringProperty("" +data.getValue().getDia());
-			});
+		tviewColdata.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getDia());
+		});
 		tviewColValortotal.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getSala());
 		});
@@ -271,6 +269,7 @@ public class FXMLBuscaEmprestimoController implements Initializable, FXMLDefault
 		if (sender instanceof FXMLAlocarEquipamentoController) {
 			FXMLAlocarEquipamentoController obj = (FXMLAlocarEquipamentoController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());
+			loadTableView("");
 		}
 
 	}
@@ -300,33 +299,34 @@ public class FXMLBuscaEmprestimoController implements Initializable, FXMLDefault
 		}
 
 	}
+
 	public void switchToEditorMode() {
-	try {
-		tviewSearch.setRowFactory(tv -> {
-			TableRow<Alocar> row = new TableRow<Alocar>();
-			row.setOnMouseClicked(event -> {
-				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					editItem();
-				}
+		try {
+			tviewSearch.setRowFactory(tv -> {
+				TableRow<Alocar> row = new TableRow<Alocar>();
+				row.setOnMouseClicked(event -> {
+					if (event.getClickCount() == 2 && (!row.isEmpty())) {
+						editItem();
+					}
+				});
+				return row;
 			});
-			return row;
-		});
 
-		if (pnButtons.getChildren().contains(pnSelectorMode))
-			pnButtons.getChildren().remove(pnSelectorMode);
-		if (!pnButtons.getChildren().contains(pnEditorMode))
-			pnButtons.getChildren().add(pnEditorMode);
+			if (pnButtons.getChildren().contains(pnSelectorMode))
+				pnButtons.getChildren().remove(pnSelectorMode);
+			if (!pnButtons.getChildren().contains(pnEditorMode))
+				pnButtons.getChildren().add(pnEditorMode);
 
-	} catch (Exception e) {
-		// TODO log exception e
+		} catch (Exception e) {
+			// TODO log exception e
 
-		System.out.println(e.getMessage());
+			System.out.println(e.getMessage());
+		}
+
 	}
-
-}
 
 	public StackPane getRootPane() {
 		return rootPane;
 	}
-	
+
 }

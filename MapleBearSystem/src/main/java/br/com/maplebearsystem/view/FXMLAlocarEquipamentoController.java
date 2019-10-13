@@ -185,6 +185,12 @@ public class FXMLAlocarEquipamentoController implements Initializable, FXMLDefau
 			FXNotification notification = new FXNotification("Produto(s) Emprestado(s),",
 					FXNotification.NotificationType.INFORMATION);
 			notification.show();
+			try {
+				sourceController.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			String text = "";
 
@@ -266,7 +272,7 @@ public class FXMLAlocarEquipamentoController implements Initializable, FXMLDefau
 				controlerAlocar.setupEditAlocar(resultado);
 				tfieldFuncionario.setText(controlerAlocar.getAlocar().getFuncionario().getPessoa().getName());
 				txtsala.setText(controlerAlocar.getAlocar().getSala());
-				txtaula.setText(controlerAlocar.getAlocar().getSala());
+				txtaula.setText(controlerAlocar.getAlocar().getAula());
 				dtdevolucao.setValue(controlerAlocar.getAlocar().getDevolucao().toLocalDate());
 				dtemprestimo.setValue(controlerAlocar.getAlocar().getDia().toLocalDate());
 				loadTableView();
@@ -334,8 +340,9 @@ public class FXMLAlocarEquipamentoController implements Initializable, FXMLDefau
 			if (Integer.parseInt(newFullName) > 0
 					&& pedido.getProdAlocar().getEstoque().getQtd() >= Integer.parseInt(newFullName)) {
 
+				pedido.getProdAlocar().getEstoque().setQtd(pedido.getProdAlocar().getEstoque().getQtd()+pedido.getQtdemprestado());
 				pedido.setQtdemprestado(Integer.parseInt(newFullName));
-				//pedido.getProdAlocar().getEstoque().setQtd(pedido.getProdAlocar().getEstoque().getQtd()-pedido.getQtdemprestado());
+				pedido.getProdAlocar().getEstoque().setQtd(pedido.getProdAlocar().getEstoque().getQtd()-pedido.getQtdemprestado());
 
 			} else {
 				pedido.setQtdemprestado(0);

@@ -256,7 +256,7 @@ public class PedidoController {
 			throw new Exception("Pedido Sem Produtos");
 		}
 		for (Requisicao_Produto requisicao_Produto : produtos) {
-			if (requisicao_Produto.getQuantity() == 0 || requisicao_Produto.getUnitPrice().intValue() == 0) {
+			if (requisicao_Produto.getQuantity() == 0 || requisicao_Produto.getUnitPrice().doubleValue() == 0) {
 				throw new Exception("Pedido Com Quantidade ou Valor nao informado");
 			}
 		}
@@ -268,8 +268,8 @@ public class PedidoController {
 			if (!requisicao.getRequestDate().before(Date.valueOf(dataentrega))) {
 				throw new Exception("Data prevista de entrega deve ser apos a data do pedido");
 			}
+			requisicao.setExpectedDeliveryDate(Date.valueOf(dataentrega));
 		}
-		requisicao.setExpectedDeliveryDate(Date.valueOf(dataentrega));
 	}
 
 	private void validateData(LocalDate datapedido) throws Exception {

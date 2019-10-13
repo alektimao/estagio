@@ -10,9 +10,9 @@ import javax.persistence.Persistence;
 public class JPAUtil {
 
 	private static final EntityManagerFactory entityManagerFactory = Persistence
-			.createEntityManagerFactory("MapleBSystemPostgreSQLPU");
+			//.createEntityManagerFactory("MapleBSystemPostgreSQLPU");
 			//.createEntityManagerFactory("MapleBSystemHyperSQLDBPU");
-			//.createEntityManagerFactory("MapleBSystemHyperSQLDBStandAlonePU");
+			.createEntityManagerFactory("MapleBSystemHyperSQLDBStandAlonePU");
 
 	public static EntityManager getEntityManager() {
 

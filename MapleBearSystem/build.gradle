@@ -1,6 +1,7 @@
 plugins {
 	id 'application'
 	id 'eclipse'
+	id "edu.sc.seis.launch4j" version "2.4.6"
 }
 
 application {
@@ -23,6 +24,11 @@ repositories {
     maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/" }
     maven { url "https://dl.bintray.com/jerady/maven" }
     jcenter()
+}
+
+launch4j {
+  mainClassName = 'br.com.maplebearsystem.main.MapleBearSystemDesktopClient'
+  outputDir = "launch4j/Maple_App"
 }
 
 dependencies {

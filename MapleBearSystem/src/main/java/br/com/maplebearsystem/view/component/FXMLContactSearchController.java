@@ -100,10 +100,7 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 
 	private boolean delete() {
 
-		Alert alert = new Alert(
-				Alert.AlertType.CONFIRMATION,
-				"Deseja realmente deletar Este Item?",
-				ButtonType.YES,
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Deseja realmente deletar Este Item?", ButtonType.YES,
 				ButtonType.NO);
 		alert.showAndWait();
 
@@ -147,8 +144,8 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 			sourceController.receiveData(tviewPessoas.getSelectionModel().getSelectedItem(), this);
 			sourceController.closeSenderNode(this);
 		} catch (Exception e) {
-			Logger.getLogger(this.getClass().getName())
-			.log(Level.WARNING, "Warning: failed to switch to selectItem", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Warning: failed to switch to selectItem",
+					e);
 		}
 
 		return false;
@@ -173,12 +170,13 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 				pnButtons.getChildren().add(pnSelectorMode);
 
 		} catch (Exception e) {
-			Logger.getLogger(this.getClass().getName())
-					.log(Level.WARNING, "Warning: failed to switch to SelectorMode", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Warning: failed to switch to SelectorMode",
+					e);
 			this.actCancel(null);
 		}
 
 	}
+
 	public void switchToSelectorMode2() {
 
 		try {
@@ -196,14 +194,14 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 				pnButtons.getChildren().remove(pnEditorMode);
 			if (!pnButtons.getChildren().contains(pnSelectorMode))
 				pnButtons.getChildren().add(pnSelectorMode);
-			 pnSelectorMode.getChildren().remove(btnEdit);
-			 pnSelectorMode.getChildren().remove(btnNew);
-			 btnEdit.setDisable(false);
-			 btnNew.setDisable(false);
+			pnSelectorMode.getChildren().remove(btnEdit);
+			pnSelectorMode.getChildren().remove(btnNew);
+			btnEdit.setDisable(false);
+			btnNew.setDisable(false);
 
 		} catch (Exception e) {
-			Logger.getLogger(this.getClass().getName())
-					.log(Level.WARNING, "Warning: failed to switch to SelectorMode", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Warning: failed to switch to SelectorMode",
+					e);
 			this.actCancel(null);
 		}
 
@@ -227,8 +225,8 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 				pnButtons.getChildren().add(pnEditorMode);
 
 		} catch (Exception e) {
-			Logger.getLogger(this.getClass().getName())
-					.log(Level.WARNING, "Warning: failed to switch to SelectorEditor mode", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
+					"Warning: failed to switch to SelectorEditor mode", e);
 			this.actCancel(null);
 		}
 
@@ -256,20 +254,17 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 
 					if (isJuridicaModeOnly()) {
 						modelo = FXCollections.observableArrayList(getModelController().getJuridicas());
-					}
-					else if (isFisicaModeOnly()) {
+					} else if (isFisicaModeOnly()) {
 						modelo = FXCollections.observableArrayList(getModelController().getPessoasFisica());
-					}
-					else{
+					} else {
 						modelo = FXCollections.observableArrayList(getModelController().getPessoas());
 					}
 				} else {
 					if (isJuridicaModeOnly()) {
 						modelo = FXCollections.observableArrayList(getModelController().getJuridicas(filter));
-					}else if (isFisicaModeOnly()) {
+					} else if (isFisicaModeOnly()) {
 						modelo = FXCollections.observableArrayList(getModelController().getPessoasFisica(filter));
-					} 
-					else {
+					} else {
 						modelo = FXCollections.observableList(getModelController().getPessoas(filter));
 					}
 				}
@@ -284,8 +279,8 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 				try {
 					tviewPessoas.setItems(task.get());
 				} catch (InterruptedException | ExecutionException e) {
-					Logger.getLogger(this.getClass().getName())
-							.log(Level.WARNING, "Error: failed to to load contacts into tableview", e);
+					Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
+							"Error: failed to to load contacts into tableview", e);
 				}
 			});
 
@@ -381,8 +376,8 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 			this.contactRegistrationController = controller;
 
 		} catch (Exception e) {
-			Logger.getLogger(this.getClass().getName())
-					.log(Level.WARNING, "Error: failed open FXMLContactRegistrationController", e);
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
+					"Error: failed open FXMLContactRegistrationController", e);
 		}
 
 	}
@@ -474,7 +469,7 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 	public void setJuridicaModeOnly(boolean juridicaModeOnly) {
 		JuridicaModeOnly = juridicaModeOnly;
 	}
-	
+
 	public boolean isFisicaModeOnly() {
 		return fisicaModeOnly;
 	}

@@ -283,7 +283,10 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 			throw new UnsupportedOperationException();
 
 		}
-
+		if (sender instanceof FXMLFuncionarioSearchController) {
+			FXMLFuncionarioSearchController obj = (FXMLFuncionarioSearchController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
 		if (sender instanceof FXMLProdutoSearchController) {
 			FXMLProdutoSearchController obj = (FXMLProdutoSearchController) sender;
 			rootPane.getChildren().remove(obj.getRootPane());

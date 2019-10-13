@@ -167,7 +167,10 @@ public class FXMLDocumentoController implements Initializable, FXMLDefaultContro
     	if (tviewdoc.getItems().size()>0) {
     		for (Documento doc : tviewdoc.getItems()) {
     			docController.saveDocumento(doc);
-    		}			
+    		}
+    		docController.setupNewDocumento();
+    		FXUISetup.getInstance().clearTextInputs(panelMain);
+			FXUISetup.getInstance().clearTableViews(panelMain);
 		}
     	else
     	{

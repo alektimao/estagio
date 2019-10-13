@@ -13,6 +13,7 @@ import javax.persistence.EntityExistsException;
 import br.com.maplebearsystem.dao.AlocarDAO;
 import br.com.maplebearsystem.dao.Alocar_ProductDAO;
 import br.com.maplebearsystem.dao.FuncionarioDAO;
+import br.com.maplebearsystem.dao.ProductDAO;
 import br.com.maplebearsystem.dao.RequisicaoDAO;
 import br.com.maplebearsystem.dao.Requisicao_ProductDAO;
 import br.com.maplebearsystem.model.Alocar;
@@ -56,7 +57,7 @@ public class AlocarController {
 
 	public void setupEditAlocar(Alocar partProduct) {
 		this.alocar = partProduct;
-
+		this.alocar.setProdutos(getProduto(alocar.getId()));
 	}
 
 	public void setupNewAlocar() {
@@ -115,7 +116,11 @@ public class AlocarController {
 
 		return dao.listAlocar(filter);
 	}
+	public List<Alocar_Produto> getProduto(long filter) {
+		AlocarDAO dao = new AlocarDAO();
 
+		return dao.listProdutosAloc(filter);
+	}
 	public void validateListaProduto(List<Product> data) {
 
 		List<Alocar_Produto> lrp = new ArrayList<Alocar_Produto>();
@@ -147,7 +152,7 @@ public class AlocarController {
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
 		}
 		try {
-			validateSala(aula);
+			validateSala(sala);
 		} catch (Exception e) {
 			errList.add(e);
 			System.out.println("Info: input validation error: " + e.getMessage() + e.getCause());
@@ -202,6 +207,13 @@ public class AlocarController {
 			if (requisicao_Produto.getQtdemprestado() == 0) {
 				throw new Exception("Emprestimo Com Quantidade não informado");
 			}
+			if (requisicao_Produto.getQtddevolvido() > 0 && requisicao_Produto.getQtdemprestado() > 0) {
+				requisicao_Produto.getProdAlocar().getEstoque().setQtd(requisicao_Produto.getProdAlocar().getEstoque().getQtd()+requisicao_Produto.getQtddevolvido());
+				requisicao_Produto.setQtdemprestado(requisicao_Produto.getQtdemprestado()-requisicao_Produto.getQtddevolvido());
+				requisicao_Produto.setQtddevolvido(0);
+			}
+			ProductDAO prod = new ProductDAO();
+			prod.save(requisicao_Produto.getProdAlocar());
 		}
 		alocar.setProdutos(produtos);
 	}
