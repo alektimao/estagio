@@ -11,16 +11,16 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="rootPane" stylesheets="@../FXMLStylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLAddressManagerController">
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLAddressManagerController">
    <children>
-      <VBox fx:id="primaryPane" alignment="TOP_RIGHT" spacing="5.0">
+      <VBox fx:id="primaryPane" alignment="TOP_RIGHT" spacing="5.0" styleClass="DWORDefaultPaneBackground" stylesheets="@../FXMLStylesheet.css">
          <children>
             <HBox alignment="CENTER_LEFT">
                <children>
                   <Label text="Endereços" />
                </children>
             </HBox>
-            <JFXListView fx:id="listViewAddresses" minHeight="40.0" prefHeight="150.0" />
+            <JFXListView fx:id="listViewAddresses" minHeight="150.0" />
             <HBox alignment="TOP_RIGHT" spacing="5.0">
                <children>
                   <JFXButton fx:id="btnEditItem" layoutX="396.0" layoutY="10.0" onAction="#actEditItem" text="Editar Endereço">
@@ -42,7 +42,7 @@
                   <Insets bottom="5.0" />
                </padding>
             </HBox>
-            <VBox fx:id="pnEdit" spacing="18.0" style="-fx-border-color: lightgray;">
+            <VBox fx:id="pnEdit" spacing="10.0" style="-fx-border-color: lightgray;">
                <children>
                   <fx:include fx:id="pnAddressForm" source="FXMLAddressForm.fxml" />
                   <HBox spacing="5.0">
@@ -77,9 +77,9 @@
                </padding>
             </VBox>
             <Pane />
-            <JFXButton onAction="#actGoBack" text="Voltar">
+            <JFXButton minHeight="29.0" onAction="#actGoBack" prefHeight="29.0" text="Voltar">
                <styleClass>
-                  <String fx:value="JFXButtonDefault" />
+                  <String fx:value="JFXButtonCompact" />
                   <String fx:value="JFXButtonCancel" />
                </styleClass>
                <graphic>

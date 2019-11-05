@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.maplebearsystem.view.component.FXMLConfigurationConnectionSetterController">
+   <children>
+      <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="DWORDefaultPaneBackground" stylesheets="@../FXMLStylesheet.css">
+         <children>
+            <Label styleClass="DWORScreenTitleII" text="Parametros de Conexão com o Banco de Dados" />
+            <HBox alignment="CENTER" spacing="15.0">
+               <children>
+                  <Label minWidth="150.0" text="Endereço IP" />
+                  <JFXTextField fx:id="tfieldIPAddress" maxWidth="300.0" promptText="Ex.: localhost, 10.0.1.42" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="20.0" layoutY="20.0" spacing="15.0">
+               <children>
+                  <Label minWidth="150.0" text="Porta:" />
+                  <JFXTextField fx:id="tfieldPort" maxWidth="300.0" promptText="Ex.: 5432" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <Pane layoutX="20.0" layoutY="200.0" minHeight="15.0" />
+            <HBox alignment="CENTER" layoutX="25.0" layoutY="25.0" spacing="15.0">
+               <children>
+                  <Label minWidth="150.0" text="Login do Banco:" />
+                  <JFXTextField fx:id="tfieldLogin" maxWidth="300.0" promptText="Ex.: postgres" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="20.0" layoutY="56.0" spacing="15.0">
+               <children>
+                  <Label minWidth="150.0" text="Senha do Banco:" />
+                  <JFXPasswordField fx:id="tfieldPassword" maxWidth="300.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="20.0" layoutY="92.0" spacing="15.0">
+               <children>
+                  <Label minWidth="150.0" text="Repetir Senha:" />
+                  <JFXPasswordField fx:id="tfieldPassowordRepeat" maxWidth="300.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <Pane maxHeight="150.0" minHeight="15.0" VBox.vgrow="ALWAYS" />
+            <HBox alignment="CENTER" maxWidth="500.0" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="btnCancel" layoutX="73.0" layoutY="10.0" onAction="#actCancel" text="Cancelar">
+                     <styleClass>
+                        <String fx:value="JFXButtonDefault" />
+                        <String fx:value="JFXButtonCompact" />
+                        <String fx:value="JFXButtonCancel" />
+                     </styleClass>
+                  </JFXButton>
+                  <Pane HBox.hgrow="ALWAYS" />
+                  <JFXButton fx:id="btnTest" onAction="#actTest" text="Testar">
+                     <styleClass>
+                        <String fx:value="JFXButtonDefault" />
+                        <String fx:value="JFXButtonCompact" />
+                        <String fx:value="JFXButtonAccept" />
+                     </styleClass>
+                  </JFXButton>
+                  <JFXButton fx:id="btnSave" layoutX="10.0" layoutY="10.0" onAction="#actSave" text="Salvar">
+                     <styleClass>
+                        <String fx:value="JFXButtonDefault" />
+                        <String fx:value="JFXButtonCompact" />
+                     </styleClass>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>

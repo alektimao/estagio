@@ -48,7 +48,7 @@ dependencies {
     //Hibernate Agroal
 	compile 'org.hibernate:hibernate-agroal:5.3.6.Final'
 	compile group:'org.quartz-scheduler', name: 'quartz' , version:'2.3.0'
-	
+	compile group:'com.itextpdf', name: 'itextpdf' , version:'5.5.13'
 	//PostgreSQL Library and Driver
 	compile 'org.postgresql:postgresql:42.2.5'
 

@@ -35,7 +35,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-
 public class FXMLRestricaoController implements Initializable, FXMLDefaultControllerInterface {
 
 	@FXML
@@ -160,11 +159,11 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 	private FXMLDefaultControllerInterface sourceController;
 
 	private RestricaoController modelcontroller;
-	
+
 	private Restricao_Remedio alterarRemedio;
-	
+
 	private Restricao_Alimento alterarAlimento;
-	
+
 	List<Exception> mainErrorList;
 
 	@FXML
@@ -261,6 +260,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 			e.printStackTrace();
 		}
 	}
+
 	@FXML
 	void removerremedio(ActionEvent event) {
 		try {
@@ -273,7 +273,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 
 			if (alert.getResult() == ButtonType.YES) {
 				if (rem.getId() != null) {
-					modelcontroller.removeRemedio(rem);					
+					modelcontroller.removeRemedio(rem);
 				}
 				tviewRemedio.getItems().remove(rem);
 				modelcontroller.getRestricao().setRequisicao_Remedio(tviewRemedio.getItems());
@@ -284,7 +284,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	void alteraalimento(MouseEvent event) {
 		try {
@@ -301,10 +301,9 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 				alterarAlimento = ali;
 				modelcontroller.setAlteraralimento(ali);
 				carregarcamposAlimento(ali);
-			}
-			else
-			{
-				FXNotification notification = new FXNotification("nao e possivel alterar item da restrição que ainda nao foi salva,",
+			} else {
+				FXNotification notification = new FXNotification(
+						"nao e possivel alterar item da restrição que ainda nao foi salva,",
 						FXNotification.NotificationType.INFORMATION);
 				notification.show();
 			}
@@ -313,6 +312,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 			e.printStackTrace();
 		}
 	}
+
 	@FXML
 	void alteraremedio(MouseEvent event) {
 		try {
@@ -338,14 +338,12 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 
 	@FXML
 	void salvar(ActionEvent event) {
-		if (tviewAlimento.getItems().size() > 0 || tviewRemedio.getItems().size() > 0 ) {
+		if (tviewAlimento.getItems().size() > 0 || tviewRemedio.getItems().size() > 0) {
 			modelcontroller.saveRestricao();
 			FXNotification notification = new FXNotification("Restrição Salva,",
 					FXNotification.NotificationType.INFORMATION);
 			notification.show();
-		}
-		else
-		{
+		} else {
 			FXNotification notification = new FXNotification("Não e possivel Salvar sem Inserir Alguma Restrição,",
 					FXNotification.NotificationType.WARNING);
 			notification.show();
@@ -376,23 +374,24 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 		tfieldMatricula.setText(resultado.getNumeromatricula());
 		//
 	}
+
 	private void carregarcamposAlimento(Restricao_Alimento resultado) {
 		FXUISetup.getInstance().clearTextInputs(Hali);
 		FXUISetup.getInstance().clearTableViews(Hali);
 		FXUISetup.getInstance().clearTextdatepickers(Hali);
-		//modelcontroller.getRestricaos(resultado.getId());
-		//modelcontroller.setAluno(resultado);
+		// modelcontroller.getRestricaos(resultado.getId());
+		// modelcontroller.setAluno(resultado);
 		tfieldAlimento.setText(resultado.getAlimento());
 		tfieldGravidade.setText(resultado.getGravidade());
 		txtinfo.setText(resultado.getSintomas());
 		txtinfo1.setText(resultado.getCondutas());
-		//dtperiodode.setValue(null);
-		//dtperiodoate.setValue(null);
+		// dtperiodode.setValue(null);
+		// dtperiodoate.setValue(null);
 		dtperiodode.setValue(resultado.getDe().toLocalDate());
 		dtperiodoate.setValue(resultado.getAte().toLocalDate());
 		//
 	}
-	
+
 	private void carregarcamposRemedio(Restricao_Remedio resultado) {
 		FXUISetup.getInstance().clearTextInputs(Hrem);
 		FXUISetup.getInstance().clearTableViews(Hrem);
@@ -408,7 +407,7 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 		dtperiodoate2.setValue(resultado.getAte().toLocalDate());
 		//
 	}
-	
+
 	public StackPane getRootPane() {
 		return this.rootMenuPane;
 	}
@@ -502,4 +501,3 @@ public class FXMLRestricaoController implements Initializable, FXMLDefaultContro
 		});
 	}
 }
-

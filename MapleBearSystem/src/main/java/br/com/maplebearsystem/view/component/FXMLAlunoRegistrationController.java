@@ -100,7 +100,7 @@ public class FXMLAlunoRegistrationController implements Initializable, FXMLDefau
 	private AlunoController modelController;
 
 	private String parametro;
-	
+
 	List<Exception> errorList;
 
 	@Override
@@ -219,7 +219,7 @@ public class FXMLAlunoRegistrationController implements Initializable, FXMLDefau
 		if (alert.getResult() == ButtonType.NO)
 			return false;
 
-		//modelController.deleteAluno();
+		// modelController.deleteAluno();
 
 		return true;
 	}
@@ -341,8 +341,7 @@ public class FXMLAlunoRegistrationController implements Initializable, FXMLDefau
 
 			} catch (NoResultException e) {
 				result = null;
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				FXNotification notification = new FXNotification("Erro ao Buscar Aluno",
 						FXNotification.NotificationType.WARNING);
 				notification.show();
@@ -353,22 +352,25 @@ public class FXMLAlunoRegistrationController implements Initializable, FXMLDefau
 			} else {
 				modelController.saveinfoAluno(wsAluno.getNome(), wsAluno.getAlunoID(), wsAluno.getCPF(),
 						wsAluno.getRG(), wsAluno.getNumeroMatricula(), wsAluno.getDataNascimento(),
-						wsAluno.getTurmaAtual());
+						wsAluno.getTurmaAtual(), wsAluno.getResponsaveis(), wsAluno.getBairro(), wsAluno.getCidade(),
+						wsAluno.getCEP(), wsAluno.getEndereco(), wsAluno.getNumeroEndereco());
 			}
 		}
 		if (alunosexistente.size() > 0) {
-			Alert alert = new Alert(Alert.AlertType.WARNING, "Ja Existe no sistema o(s) Aluno(s) Escolhido(s), deseja atualizar sua informações?", ButtonType.YES,
-					ButtonType.NO);
+			Alert alert = new Alert(Alert.AlertType.WARNING,
+					"Ja Existe no sistema o(s) Aluno(s) Escolhido(s), deseja atualizar sua informações?",
+					ButtonType.YES, ButtonType.NO);
 			alert.showAndWait();
-			if (alert.getResult() == ButtonType.YES)
-			{
+			if (alert.getResult() == ButtonType.YES) {
 				Aluno[] info = alunosexistente.toArray(new Aluno[0]);
 				WsAluno[] atualiza = Wsalunosexistente.toArray(new WsAluno[0]);
 				for (int i = 0; i < info.length; i++) {
 					modelController.setupEditAluno(info[i]);
 					modelController.saveinfoAluno(atualiza[i].getNome(), atualiza[i].getAlunoID(), atualiza[i].getCPF(),
 							atualiza[i].getRG(), atualiza[i].getNumeroMatricula(), atualiza[i].getDataNascimento(),
-							atualiza[i].getTurmaAtual());
+							atualiza[i].getTurmaAtual(), atualiza[i].getResponsaveis(), atualiza[i].getBairro(),
+							atualiza[i].getCidade(), atualiza[i].getCEP(), atualiza[i].getEndereco(),
+							atualiza[i].getNumeroEndereco());
 				}
 			}
 		}
@@ -436,7 +438,8 @@ public class FXMLAlunoRegistrationController implements Initializable, FXMLDefau
 				} else {
 					modelController.saveinfoAluno(wsAluno.getNome(), wsAluno.getAlunoID(), wsAluno.getCPF(),
 							wsAluno.getRG(), wsAluno.getNumeroMatricula(), wsAluno.getDataNascimento(),
-							wsAluno.getTurmaAtual());
+							wsAluno.getTurmaAtual(), wsAluno.getResponsaveis(), wsAluno.getBairro(), wsAluno.getCidade(),
+							wsAluno.getCEP(), wsAluno.getEndereco(), wsAluno.getNumeroEndereco());
 				}
 			}
 		}

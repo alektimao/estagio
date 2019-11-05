@@ -8,100 +8,42 @@
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
 	<style name="Row" mode="Transparent"/>
-	<parameter name="DataIni" class="java.sql.Date"/>
-	<parameter name="DataFim" class="java.sql.Date"/>
+	<parameter name="Tipo" class="java.lang.String"/>
+	<parameter name="Prod" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[select pf.produtopedidofuncid,sum(pf.quantity),po.shortdescription,pes.name
-from pedidofunc p
-inner join pedidofunc_produto pf on p.id = pf.pedidofuncid
-inner join product po on po.id = pf.produtopedidofuncid
-inner join funcionario f on f.id = p.funcionario_id
-inner join pessoa pes on pes.id = f.pessoa_id
-where p.requestdate between $P{DataIni} and $P{DataFim} and pf.produtorecebido = false
-group by pf.produtopedidofuncid,po.shortdescription,pes.name]]>
+		<![CDATA[select p.id,e.qtd, p.shortdescription,p.partnumber 
+from product p
+inner join estoque e on p.estoque_id = e.id
+where (p.partnumber like '%$P!{Tipo}%' or $P{Tipo} = '')
+and (p.shortdescription like '%$P!{Prod}%' or $P{Prod} = '')
+group by p.id,e.qtd, p.shortdescription,p.partnumber]]>
 	</queryString>
-	<field name="produtopedidofuncid" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="produtopedidofuncid"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pedidofunc_produto"/>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
 	</field>
-	<field name="sum" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="sum"/>
+	<field name="qtd" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="qtd"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="estoque"/>
 	</field>
 	<field name="shortdescription" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="shortdescription"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
 	</field>
-	<field name="name" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pessoa"/>
+	<field name="partnumber" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="partnumber"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="product"/>
 	</field>
 	<group name="Group1" keepTogether="true">
-		<groupExpression><![CDATA[$P{DataIni}]]></groupExpression>
+		<groupExpression><![CDATA[$P{Tipo}]]></groupExpression>
 		<groupHeader>
 			<band height="60">
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				<frame>
 					<reportElement mode="Opaque" x="2" y="3" width="553" height="24" forecolor="#62CCB0" backcolor="#FAFAFA" uuid="df26104b-a7fc-458f-8a21-50b13c7c7736"/>
-					<rectangle>
-						<reportElement mode="Opaque" x="300" y="0" width="110" height="24" backcolor="#FAE6E9" uuid="9dd361a5-5bec-487d-b548-dc13dd51e4ad">
-							<property name="com.jaspersoft.studio.unit.width" value="px"/>
-						</reportElement>
-						<graphicElement>
-							<pen lineWidth="0.0"/>
-						</graphicElement>
-					</rectangle>
-					<rectangle>
-						<reportElement mode="Opaque" x="0" y="0" width="130" height="24" backcolor="#FAE6E9" uuid="369745f3-8095-4b8b-8b7a-38e42b7aef67"/>
-						<graphicElement>
-							<pen lineWidth="0.0"/>
-						</graphicElement>
-					</rectangle>
-					<staticText>
-						<reportElement x="0" y="0" width="130" height="24" forecolor="#0A0A0A" uuid="b4d58f38-18f0-4fc0-bac6-1322f35cc892">
-							<property name="com.jaspersoft.studio.unit.x" value="px"/>
-							<property name="com.jaspersoft.studio.unit.width" value="px"/>
-						</reportElement>
-						<textElement textAlignment="Center" verticalAlignment="Middle">
-							<font size="18" isBold="true"/>
-						</textElement>
-						<text><![CDATA[Data Inicio:]]></text>
-					</staticText>
-					<staticText>
-						<reportElement x="300" y="0" width="110" height="24" forecolor="#0A0A0A" uuid="a183d2ac-59fd-4d3e-967e-3a73b7502a44">
-							<property name="com.jaspersoft.studio.unit.x" value="px"/>
-							<property name="com.jaspersoft.studio.unit.width" value="px"/>
-						</reportElement>
-						<textElement textAlignment="Center" verticalAlignment="Middle">
-							<font size="18" isBold="true"/>
-						</textElement>
-						<text><![CDATA[Data Fim:]]></text>
-					</staticText>
-					<textField pattern="dd/MM/YYYY">
-						<reportElement x="140" y="0" width="90" height="24" uuid="b2bb3c55-0ab0-40b8-b23b-8237b646e65c"/>
-						<textElement>
-							<font size="14"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$P{DataIni}]]></textFieldExpression>
-					</textField>
-					<textField pattern="dd/MM/YYYY">
-						<reportElement x="430" y="0" width="90" height="24" uuid="5ebdddf9-3cbf-4730-9ded-7dd6c6894400">
-							<property name="com.jaspersoft.studio.unit.width" value="px"/>
-						</reportElement>
-						<textElement>
-							<font size="14"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$P{DataFim}]]></textFieldExpression>
-					</textField>
 				</frame>
 				<staticText>
-					<reportElement style="Column header" x="0" y="37" width="80" height="15" forecolor="#736343" uuid="09df4bf2-636a-4a5a-891e-e865f7333f7a">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="20a43fc5-a044-4870-8f4d-f389e52ea65d"/>
-					</reportElement>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<text><![CDATA[Nome.]]></text>
-				</staticText>
-				<staticText>
-					<reportElement style="Column header" x="137" y="37" width="118" height="15" forecolor="#736343" uuid="545c2297-2f0e-4217-8c98-806ca06eaa25">
+					<reportElement style="Column header" x="3" y="37" width="118" height="15" forecolor="#736343" uuid="545c2297-2f0e-4217-8c98-806ca06eaa25">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f249d7dd-f183-4d90-9a64-ddd5105956fc"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -109,7 +51,7 @@ group by pf.produtopedidofuncid,po.shortdescription,pes.name]]>
 					<text><![CDATA[Produto]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="Column header" x="301" y="37" width="78" height="15" forecolor="#736343" uuid="4f5338b1-e8cd-4da7-bf2e-b39f1b9b1820">
+					<reportElement style="Column header" x="299" y="37" width="78" height="15" forecolor="#736343" uuid="4f5338b1-e8cd-4da7-bf2e-b39f1b9b1820">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f249d7dd-f183-4d90-9a64-ddd5105956fc"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -127,7 +69,7 @@ group by pf.produtopedidofuncid,po.shortdescription,pes.name]]>
 			<staticText>
 				<reportElement style="Title" x="2" y="0" width="553" height="62" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Pedido de Produtos]]></text>
+				<text><![CDATA[Estoque de Produtos]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement mode="Opaque" x="182" y="61" width="374" height="24" backcolor="#F7202B" uuid="6dac9e50-11d7-4e1d-b4bd-f0b2f6a9c5a9">
@@ -150,7 +92,7 @@ group by pf.produtopedidofuncid,po.shortdescription,pes.name]]>
 			<frame>
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="555" height="15" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="137" y="0" width="118" height="15" uuid="7e957d58-c5cd-4ca3-bdbe-eaee23c2c5e9">
+					<reportElement x="4" y="0" width="118" height="15" uuid="7e957d58-c5cd-4ca3-bdbe-eaee23c2c5e9">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a0485e08-a33a-4edd-b169-e2f20c3e4915"/>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{shortdescription}]]></textFieldExpression>
@@ -159,13 +101,7 @@ group by pf.produtopedidofuncid,po.shortdescription,pes.name]]>
 					<reportElement x="302" y="0" width="78" height="15" uuid="b2a8fd7c-f7f8-4926-b6b6-47d5146e0996">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e62c716b-fe89-463b-8dbf-9a5132c0bc65"/>
 					</reportElement>
-					<textFieldExpression><![CDATA[$F{sum}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true">
-					<reportElement x="0" y="0" width="120" height="15" uuid="ef9d4e3a-4d33-46e3-9f9c-c68882bf3ec4">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="40bf0d83-027b-4185-802b-99bb35971ecc"/>
-					</reportElement>
-					<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{qtd}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

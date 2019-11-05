@@ -10,7 +10,10 @@ public class FXResourcePath {
 	public static final URL FXML_MAPLEBEARSYSTEM_LOGIN = resURL("/br/com/maplebearsystem/view/FXMLLogin.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_ADDRESSMANAGER = resURL("/br/com/maplebearsystem/view/component/FXMLAddressManager.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLMenuProduto.fxml");
+	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_BACKUP = resURL("/br/com/maplebearsystem/view/component/FXMLConfigurationBackup.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_ALUNOS = resURL("/br/com/maplebearsystem/view/FXMLMenuAluno.fxml");
+	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_CONFIG = resURL("/br/com/maplebearsystem/view/FXMLMenuConfig.fxml");
+	public static final URL FXML_CONFIGURATION_CONNECTION_PARAMS = resURL("/br/com/maplebearsystem/view/component/FXMLConfigurationConnectionParameters.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_GERENCIAR_GERAIS = resURL("/br/com/maplebearsystem/view/FXMLMenuGerais.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_PEDIR_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLPedirProduto.fxml");
 	public static final URL FXML_MAPLEBEARSYSTEM_PEDIRFUNC_PRODUTOS = resURL("/br/com/maplebearsystem/view/FXMLPedirFuncProduto.fxml");

@@ -8,6 +8,10 @@ package br.com.maplebearsystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.maplebearsystem.controller.UserInputException;
+import br.com.maplebearsystem.controller.UserInputExceptionCombo;
+
+
 import br.com.maplebearsystem.dao.PessoaDAO;
 import br.com.maplebearsystem.model.Address;
 import br.com.maplebearsystem.model.City;
@@ -18,6 +22,7 @@ import br.com.maplebearsystem.model.Phone;
 import br.com.maplebearsystem.model.Phone.PhoneType;
 import br.com.maplebearsystem.model.constants.PessoaConstants;
 import br.com.maplebearsystem.model.validators.FieldValidators;
+import br.com.maplebearsystem.ui.util.TextUtils;
 
 /**
  *
@@ -28,8 +33,8 @@ public class PessoaController {
 	private Address detachedAddress;
 	private Phone detachedPhone;
 	private PessoaDAO pessoaDAO;
-	private List<Exception> primaryAddressErrorList;
-	private List<Exception> primaryPhoneErrorList;
+	private UserInputExceptionCombo primaryAddressErrorList;
+	private UserInputExceptionCombo primaryPhoneErrorList;
 	private Address stagedAddress;
 	private Pessoa stagedPessoa;
 	private Phone stagedPhone;
@@ -45,41 +50,6 @@ public class PessoaController {
 
 	private void addPhone() {
 		stagedPessoa.addPhone(stagedPhone);
-	}
-
-	private void updateAddress() {
-		detachedAddress.setAddress(stagedAddress.getAddress());
-		detachedAddress.setAddressComplement(stagedAddress.getAddressComplement());
-		detachedAddress.setDistrict(stagedAddress.getDistrict());
-		detachedAddress.setCity(stagedAddress.getCity());
-		detachedAddress.setPostalCode(stagedAddress.getPostalCode());
-		detachedAddress.setPessoa(stagedPessoa);
-	}
-
-	private void updatePhone() {
-		detachedPhone.setDdd(stagedPhone.getDdd());
-		detachedPhone.setNumber(stagedPhone.getNumber());
-		detachedPhone.setTelcomCompany(stagedPhone.getTelcomCompany());
-		detachedPhone.setType(stagedPhone.getType());
-		detachedPhone.setPessoa(stagedPessoa);
-	}
-
-	private void validateSetPessoaJuridicaRSocial(String razaoSocial) throws Exception {
-
-		String text = razaoSocial;
-
-		if (text == null || text.equals("")) {
-			((PessoaJuridica) stagedPessoa).setRazaoSocial("");
-		}
-
-		text = text.replaceAll("^\\s+|\\s+$", "");
-
-		if (!text.matches(FieldValidators.RegexCharsets.CHARSET_PESSOAJURIDICA_RAZAOSOCIAL.getValue())) {
-			throw new Exception("Campo \"Razão Social\" possui caracteres inválidos!");
-		}
-
-		((PessoaJuridica) stagedPessoa).setRazaoSocial(text);
-
 	}
 
 	public void checkOrSwitchToPessoaFisica() {
@@ -122,7 +92,7 @@ public class PessoaController {
 
 	}
 
-	public void deletePessoa(Pessoa pessoa) throws Exception {
+	public void deletePessoa(Pessoa pessoa) throws UserInputException {
 		PessoaDAO pdao = new PessoaDAO();
 		pdao.delete(pessoa);
 	}
@@ -136,40 +106,50 @@ public class PessoaController {
 		}
 	}
 
-	public List<PessoaJuridica> getJuridicas() {
-		return pessoaDAO.listJuridicaAll();
-	}
-
-	public List<PessoaJuridica> getJuridicas(String filter) {
-		return pessoaDAO.findJuridicaByName(filter);
-	}
-
-	public List<Pessoa> getPessoas() {
+	public List<Pessoa> findPessoas() {
 		return pessoaDAO.listAll();
 	}
 
-	public List<Pessoa> getPessoas(String filter) {
+	public List<Pessoa> findPessoas(String filter) {
 		return pessoaDAO.findByName(filter);
 	}
 
-	public List<PessoaFisica> getPessoasFisica() {
+	public List<PessoaFisica> findPessoasFisicas() {
 		return pessoaDAO.listFisicaAll();
 	}
 
-	public List<PessoaFisica> getPessoasFisica(String filter) {
+	public List<PessoaFisica> findPessoasFisicas(String filter) {
 		return pessoaDAO.findFisicaByName(filter);
 	}
 
-	public List<PessoaJuridica> getPessoasJuridica() {
+	public List<PessoaJuridica> findPessoasJuridicas() {
 		return pessoaDAO.listJuridicaAll();
 	}
 
-	public List<PessoaJuridica> getPessoasJuridica(String filter) {
+	public List<PessoaJuridica> findPessoasJuridicas(String filter) {
 		return pessoaDAO.findJuridicaByName(filter);
 	}
 
 	public Pessoa getStagedPessoa() {
 		return stagedPessoa;
+	}
+
+	public void removeAddress() throws Exception {
+		try {
+			stagedPessoa.removeAddress(detachedAddress);
+		} catch (Exception e) {
+			throw new Exception();
+		}
+
+	}
+
+	public void removePhone() throws Exception {
+		try {
+			stagedPessoa.removePhone(detachedPhone);
+		} catch (Exception e) {
+			throw new Exception();
+		}
+
 	}
 
 	public void reset() {
@@ -185,7 +165,7 @@ public class PessoaController {
 
 	}
 
-	public void saveAddress() throws Exception {
+	public void saveAddress() throws UserInputException {
 		if (stagedPessoa.getAddresses() == null) {
 			stagedPessoa.setPhones(new ArrayList<Phone>());
 		}
@@ -209,18 +189,14 @@ public class PessoaController {
 
 	}
 
-	public List<Exception> savePessoa(String name,
-			String otherName,
-			String rgie,
-			String cpfcnpj,
-			String imunicipal,
-			String email) {
+	public void savePessoa(String name, String otherName, String rgie, String cpfcnpj, String imunicipal, String email)
+			throws UserInputExceptionCombo, Exception {
 
-		List<Exception> errorList = new ArrayList<Exception>();
+		UserInputExceptionCombo errorList = new UserInputExceptionCombo();
 
 		try {
-			setName(name);
-		} catch (Exception e) {
+			validateSetPessoaName(name);
+		} catch (UserInputException e) {
 			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 			errorList.add(e);
 		}
@@ -229,28 +205,28 @@ public class PessoaController {
 
 			try {
 				validateSetPessoaJuridicaRSocial(otherName);
-			} catch (Exception e) {
+			} catch (UserInputException e) {
 				System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 				errorList.add(e);
 			}
 
 			try {
 				validateSetPessoaJuridicaIMunicipal(imunicipal);
-			} catch (Exception e) {
+			} catch (UserInputException e) {
 				System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 				errorList.add(e);
 			}
 
 			try {
 				validateSetPessoaJuridicaIEstadual(rgie);
-			} catch (Exception e) {
+			} catch (UserInputException e) {
 				System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 				errorList.add(e);
 			}
 
 			try {
 				validateSetPessoaJuridicaCNPJ(cpfcnpj);
-			} catch (Exception e) {
+			} catch (UserInputException e) {
 				System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 				errorList.add(e);
 			}
@@ -258,14 +234,14 @@ public class PessoaController {
 		} else {
 			try {
 				validateSetPessoaFisicaRG(rgie);
-			} catch (Exception e) {
+			} catch (UserInputException e) {
 				System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 				errorList.add(e);
 			}
 
 			try {
 				validateSetPessoaFisicaCPF(cpfcnpj);
-			} catch (Exception e) {
+			} catch (UserInputException e) {
 				System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 				errorList.add(e);
 			}
@@ -273,7 +249,7 @@ public class PessoaController {
 
 		try {
 			validateSetPessoaEmail(email);
-		} catch (Exception e) {
+		} catch (UserInputException e) {
 			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 			errorList.add(e);
 		}
@@ -281,21 +257,19 @@ public class PessoaController {
 			errorList.addAll(primaryPhoneErrorList);
 		if (!primaryAddressErrorList.isEmpty())
 			errorList.addAll(primaryAddressErrorList);
-		if (this.stagedAddress == null || this.stagedPhone == null) {
-			errorList.add(new Exception("Pessoa sem endereço ou telefone \n"));
+
+		if (!errorList.isEmpty()) {
+			throw errorList;
 		}
-		if (errorList.isEmpty()) {
-			try {
-				this.savePessoa(this.stagedPessoa);
-			} catch (Exception saveException) {
-				errorList.add(new Exception("Erro desconhecido ao salvar: \n" + saveException.getLocalizedMessage()));
-			}
+		try {
+			this.savePessoa(this.stagedPessoa);
+		} catch (Exception saveException) {
+			throw new Exception("Erro desconhecido ao salvar: \n" + saveException.getLocalizedMessage());
 		}
 
-		return errorList;
 	}
 
-	public void savePhone() throws Exception {
+	public void savePhone() throws UserInputException {
 
 		if (stagedPessoa.getPhones() == null) {
 			stagedPessoa.setPhones(new ArrayList<Phone>());
@@ -309,12 +283,12 @@ public class PessoaController {
 
 	}
 
-	public void setContactName(String contactName) throws Exception {
+	public void setContactName(String contactName) throws UserInputException {
 
 		String text = contactName;
 
 		if (text.length() > PessoaConstants.MAXLEN_CONTACTNAME.getValue()) {
-			throw new Exception(
+			throw new UserInputException(
 					"Campo Nome do Contato deve possuir " + "no máximo " + PessoaConstants.MAXLEN_CONTACTNAME.getValue()
 							+ "caracteres");
 		}
@@ -324,28 +298,10 @@ public class PessoaController {
 		// TODO Improve method polymorphism security
 
 		((PessoaJuridica) stagedPessoa).setContactName(text);
-		;
 
 	}
 
-	public void setName(String name) throws Exception {
-
-		String text = name;
-
-		if (text == null || "".equals(text)) {
-			throw new Exception("Campo \"Nome\" não foi preenchido! Preencha-o antes de continuar.");
-		}
-
-		text = text.replaceAll("^\\s+|\\s+$", "");
-
-		if (text.length() > PessoaConstants.MAXLEN_NAME.getValue()) {
-			throw new Exception("Campo nome deve possuir no máximo " + PessoaConstants.MAXLEN_NAME + "caracteres");
-		}
-
-		stagedPessoa.setName(text);
-	}
-
-	public void setRazaoSocial(String text) throws Exception {
+	public void setRazaoSocial(String text) throws UserInputException {
 
 		String textM = text;
 
@@ -356,13 +312,13 @@ public class PessoaController {
 		textM = textM.replaceAll("^\\s+|\\s+$", "");
 
 		if (textM.length() > PessoaConstants.MAXLEN_RSOCIAL.getValue()) {
-			throw new Exception(
+			throw new UserInputException(
 					"Campo Razão Social deve possuir no máximo " + PessoaConstants.MAXLEN_RSOCIAL.getValue()
 							+ "caracteres");
 		}
 
 		if (!(stagedPessoa instanceof PessoaJuridica)) {
-			throw new Exception("Razão social só pode ser atribuida a uma stagedPessoa Juridica");
+			throw new UserInputException("Razão social só pode ser atribuida a uma stagedPessoa Juridica");
 		}
 
 		// TODO Improve method polymorphism security
@@ -392,6 +348,7 @@ public class PessoaController {
 
 	public void setupNewAddress() {
 		detachedAddress = null;
+		stagedAddress = new Address();
 	}
 
 	public void setupNewPessoaFisica() {
@@ -417,82 +374,136 @@ public class PessoaController {
 		detachedPhone = null;
 	}
 
-	public List<Exception> validateSaveAddress(String postalCode,
+	private void updateAddress() {
+		detachedAddress.setAddress(stagedAddress.getAddress());
+		detachedAddress.setAddressComplement(stagedAddress.getAddressComplement());
+		detachedAddress.setDistrict(stagedAddress.getDistrict());
+		detachedAddress.setCity(stagedAddress.getCity());
+		detachedAddress.setPostalCode(stagedAddress.getPostalCode());
+		detachedAddress.setPessoa(stagedPessoa);
+	}
+
+	private void updatePhone() {
+		detachedPhone.setDdd(stagedPhone.getDdd());
+		detachedPhone.setNumber(stagedPhone.getNumber());
+		detachedPhone.setTelcomCompany(stagedPhone.getTelcomCompany());
+		detachedPhone.setType(stagedPhone.getType());
+		detachedPhone.setPessoa(stagedPessoa);
+	}
+
+	public void validateSaveAddress(String postalCode,
 			String address,
 			String addressNumber,
 			String district,
 			String addressComplement,
-			City city) {
+			City city) throws UserInputExceptionCombo, Exception {
 
-		List<Exception> errorList = new ArrayList<Exception>();
+		UserInputExceptionCombo errorList = new UserInputExceptionCombo();
 
 		try {
 			validateSetAddressPostalCode(postalCode);
-		} catch (Exception e) {
+		} catch (UserInputException e) {
 			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 			errorList.add(e);
 		}
 
 		try {
 			validateSetAddressString(address);
-		} catch (Exception e) {
+		} catch (UserInputException e) {
 			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 			errorList.add(e);
 		}
 
 		try {
 			validateSetAddressNumberString(addressNumber);
-		} catch (Exception e) {
+		} catch (UserInputException e) {
 			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 			errorList.add(e);
 		}
 
 		try {
 			validateSetAddressDistrict(district);
-		} catch (Exception e) {
+		} catch (UserInputException e) {
 			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 			errorList.add(e);
 		}
 
 		try {
 			validateSetAddressComplement(addressComplement);
-		} catch (Exception e) {
+		} catch (UserInputException e) {
 			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 			errorList.add(e);
 		}
 
 		try {
 			validateSetAddressCity(city);
-		} catch (Exception e) {
+		} catch (UserInputException e) {
 			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
 			errorList.add(e);
 		}
 
-		if (errorList.isEmpty()) {
-			try {
-				saveAddress();
-			} catch (Exception e) {
-				errorList.add(new Exception("Erro desconhecido ao salvar o telefone"));
-			}
+		if (!errorList.isEmpty()) {
+			throw errorList;
+		}
+		try {
+			saveAddress();
+		} catch (Exception e) {
+			throw new Exception("Erro desconhecido ao salvar o telefone");
 		}
 
-		return errorList;
 	}
 
-	public List<Exception> validateSavePrimaryAddress(String postalCode,
+	public void validateSavePhone(String phoneNumber, String telecomCompany, PhoneType phoneType)
+			throws UserInputExceptionCombo, Exception {
+
+		UserInputExceptionCombo errorList = new UserInputExceptionCombo();
+
+		try {
+			validateSetPhoneNumber(phoneNumber);
+		} catch (UserInputException e) {
+			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
+			errorList.add(e);
+		}
+
+		try {
+			validateSetTelcomCompany(telecomCompany);
+		} catch (UserInputException e) {
+			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
+			errorList.add(e);
+		}
+
+		try {
+			validateSetPhoneType(phoneType);
+		} catch (UserInputException e) {
+			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
+			errorList.add(e);
+		}
+
+		if (!errorList.isEmpty()) {
+			throw errorList;
+		}
+
+		try {
+			savePhone();
+		} catch (Exception e) {
+			throw new Exception("Erro desconhecido ao salvar o telefone");
+		}
+	}
+
+	public void validateSavePrimaryAddress(String postalCode,
 			String address,
 			String addressNumber,
 			String district,
 			String addressComplement,
-			City city) {
+			City city) throws Exception {
 
-		List<Exception> errorList = new ArrayList<Exception>();
+		UserInputExceptionCombo errorList = new UserInputExceptionCombo();
 		this.primaryAddressErrorList = errorList;
 
 		// if there's nothing to save
 		if ((postalCode == null || postalCode.equals("")) && (address == null || addressNumber.equals(""))
 				&& (addressNumber == null || addressNumber.equals("")) && (district == null || district.equals("")))
-			return errorList;
+			return;
 
 		try {
 			if (this.stagedPessoa.getAddresses() == null) {
@@ -507,32 +518,21 @@ public class PessoaController {
 			}
 		} catch (Exception e) {
 			System.out.println("Error: failed to set staged or detachedAddress " + e.getCause() + e.getMessage());
-			errorList.add(e);
-			return errorList;
+			throw e;
 		}
 
-		List<Exception> resultList = validateSaveAddress(
-				postalCode,
-				address,
-				addressNumber,
-				district,
-				addressComplement,
-				city);
-
-		if (!resultList.isEmpty())
-			errorList.addAll(resultList);
-
-		return errorList;
+		validateSaveAddress(postalCode, address, addressNumber, district, addressComplement, city);
 	}
 
-	public List<Exception> validateSavePrimaryPhone(String phoneNumber, String telecomCompany, PhoneType phoneType) {
+	public void validateSavePrimaryPhone(String phoneNumber, String telecomCompany, PhoneType phoneType)
+			throws Exception {
 
-		List<Exception> errorList = new ArrayList<Exception>();
+		UserInputExceptionCombo errorList = new UserInputExceptionCombo();
 		this.primaryPhoneErrorList = errorList;
 
 		// if there's nothing to save
 		if ((phoneNumber == null || phoneNumber.equals("")) && (telecomCompany == null || telecomCompany.equals("")))
-			return errorList;
+			return;
 
 		try {
 			if (this.stagedPessoa.getPhones() == null) {
@@ -547,74 +547,24 @@ public class PessoaController {
 			}
 		} catch (Exception e) {
 			System.out.println("Error: failed to set staged or detachedPhone " + e.getCause() + e.getMessage());
-			errorList.add(e);
-			return errorList;
+			throw e;
 		}
 
-		List<Exception> resultList = validateSavePhone(phoneNumber, telecomCompany, phoneType);
+		validateSavePhone(phoneNumber, telecomCompany, phoneType);
 
-		if (!resultList.isEmpty())
-			errorList.addAll(resultList);
-
-		return errorList;
-
-	}
-
-	public List<Exception> validateSavePhone(String phoneNumber, String telecomCompany, PhoneType phoneType) {
-
-		List<Exception> errorList = new ArrayList<Exception>();
-
-		try {
-			validateSetPhoneNumber(phoneNumber);
-		} catch (Exception e) {
-			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
-			errorList.add(e);
-		}
-
-		try {
-			validateSetTelcomCompany(telecomCompany);
-		} catch (Exception e) {
-			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
-			errorList.add(e);
-		}
-
-		try {
-			validateSetPhoneType(phoneType);
-		} catch (Exception e) {
-			System.out.println("Input validation error: " + e.getMessage() + " - " + e.getCause());
-			errorList.add(e);
-		}
-
-		if (errorList.isEmpty()) {
-			try {
-				savePhone();
-			} catch (Exception e) {
-				errorList.add(new Exception("Erro desconhecido ao salvar o telefone"));
-			}
-		}
-
-		if (errorList.isEmpty()) {
-			try {
-				savePhone();
-			} catch (Exception e) {
-				errorList.add(new Exception("Erro desconhecido ao salvar o telefone"));
-			}
-		}
-
-		return errorList;
 	}
 
 	public void validateSetAddressCity(City selectedItem) throws Exception {
 
 		if (selectedItem == null) {
-			throw new Exception("Cidade não selecionada");
+			throw new UserInputException("Cidade não selecionada");
 		}
 
 		stagedAddress.setCity(selectedItem);
 
 	}
 
-	public void validateSetAddressComplement(String addressComplement) throws Exception {
+	public void validateSetAddressComplement(String addressComplement) throws UserInputException {
 
 		String text = addressComplement;
 
@@ -626,7 +576,7 @@ public class PessoaController {
 		text = text.replaceAll("^\\s+|\\s+$", "");
 
 		if (text.length() > PessoaConstants.MAXLEN_ADDRESSCOMPLEMENT.getValue()) {
-			throw new Exception(
+			throw new UserInputException(
 					"Campo Complemento deve possuir no máximo " + PessoaConstants.MAXLEN_ADDRESSCOMPLEMENT.getValue()
 							+ "caracteres");
 		}
@@ -634,18 +584,18 @@ public class PessoaController {
 		stagedAddress.setAddressComplement(text);
 	}
 
-	public void validateSetAddressDistrict(String district) throws Exception {
+	public void validateSetAddressDistrict(String district) throws UserInputException {
 
 		String text = district;
 
 		if (text == null || "".equals(text)) {
-			throw new Exception("Campo Bairro deve ser preenchido");
+			throw new UserInputException("Campo Bairro deve ser preenchido");
 		}
 
 		text = text.replaceAll("^\\s+|\\s+$", "");
 
 		if (text.length() > PessoaConstants.MAXLEN_CITY.getValue()) {
-			throw new Exception(
+			throw new UserInputException(
 					"Campo Bairro deve possuir no máximo " + PessoaConstants.MAXLEN_CITY.getValue() + "caracteres");
 		}
 
@@ -653,7 +603,7 @@ public class PessoaController {
 
 	}
 
-	public void validateSetAddressNumberString(String addressNumber) throws Exception {
+	public void validateSetAddressNumberString(String addressNumber) throws UserInputException {
 
 		String text = addressNumber;
 		if (text == null) {
@@ -663,7 +613,7 @@ public class PessoaController {
 		text = text.replaceAll("^\\s+|\\s+$", "");
 
 		if (text.length() > PessoaConstants.MAXLEN_ADDRESS.getValue()) {
-			throw new Exception(
+			throw new UserInputException(
 					"Campo Numero deve possuir no máximo " + PessoaConstants.MAXLEN_ADDRESS.getValue() + "caracteres");
 		}
 
@@ -671,22 +621,22 @@ public class PessoaController {
 
 	}
 
-	public void validateSetAddressPostalCode(String postalCode) throws Exception {
+	public void validateSetAddressPostalCode(String postalCode) throws UserInputException {
 
 		String text = postalCode;
 
 		if (text == null || "".equals(text)) {
-			throw new Exception("Campo CEṔ deve ser preenchido");
+			throw new UserInputException("Campo CEṔ deve ser preenchido");
 		}
 
 		text = text.replaceAll("^\\s+|\\s+$", "");
 
 		if (!FieldValidators.validadeBrazilianCEPFormat(text)) {
-			throw new Exception("Campo CEP deve possuir o formato 00000-000");
+			throw new UserInputException("Campo CEP deve possuir o formato 00000-000");
 		}
 
 		if (text.length() > PessoaConstants.MAXLEN_POSTALCODE.getValue()) {
-			throw new Exception(
+			throw new UserInputException(
 					"Campo CEP deve possuir no máximo " + PessoaConstants.MAXLEN_POSTALCODE.getValue() + "caracteres");
 		}
 
@@ -694,18 +644,18 @@ public class PessoaController {
 
 	}
 
-	public void validateSetAddressString(String addressString) throws Exception {
+	public void validateSetAddressString(String addressString) throws UserInputException {
 
 		String text = addressString;
 
 		if (text == null || "".equals(text)) {
-			throw new Exception("Campo Endereço deve ser preenchido");
+			throw new UserInputException("Campo Endereço deve ser preenchido");
 		}
 
 		text = text.replaceAll("^\\s+|\\s+$", "");
 
 		if (text.length() > PessoaConstants.MAXLEN_ADDRESS.getValue()) {
-			throw new Exception(
+			throw new UserInputException(
 					"Campo Endereço deve possuir no máximo " + PessoaConstants.MAXLEN_ADDRESS.getValue()
 							+ "caracteres");
 		}
@@ -713,44 +663,47 @@ public class PessoaController {
 		stagedAddress.setAddress(text);
 	}
 
-	public void validateSetPessoaEmail(String email) throws Exception {
+	public void validateSetPessoaEmail(String email) throws UserInputException {
 
 		String text = email;
 
 		if (text == null) {
 			text = "";
 		}
+		if (!"".equals(text))
+		{
+			text = text.replaceAll("^\\s+|\\s+$", "");
+			
+			if (!FieldValidators.validateEmail(text)) {
+				throw new UserInputException("Campo Email possui formato invalido");
+			}			
+		}
 
 //		if (text == null || "".equals(text)) {
-//			throw new Exception("Campo Email deve ser preenchido");
+//			throw new UserInputException("Campo Email deve ser preenchido");
 //		}
 
-		text = text.replaceAll("^\\s+|\\s+$", "");
-
-		if (!FieldValidators.validateEmail(text)) {
-			throw new Exception("Campo Email possui formato invalido");
-		}
 
 		stagedPessoa.setEmail(text);
 
 	}
 
-	public void validateSetPessoaFisicaCPF(String cpf) throws Exception {
+	public void validateSetPessoaFisicaCPF(String cpf) throws UserInputException {
 
 		String text = cpf;
 
 		if (text == null || "".equals(text)) {
-			throw new Exception("Campo CPF deve ser preenchido");
+			throw new UserInputException("Campo CPF deve ser preenchido");
 		}
 
 		text = text.replaceAll("^\\s+|\\s+$", "");
 
 		if (!FieldValidators.validateBrazilianCPFFormat(text)) {
-			throw new Exception("Campo CPF deve possuir o " + "formato 000.000.000-00");
+			throw new UserInputException("Campo CPF deve possuir o " + "formato 000.000.000-00");
 		}
 
 		if (!FieldValidators.validateBrazilianCPF(text)) {
-			throw new Exception("Campo CPF Inválido");
+			throw new UserInputException("Campo CPF Inválido");
 		}
 
 		// TODO Improve method polymorphism security
@@ -758,7 +711,7 @@ public class PessoaController {
 		((PessoaFisica) stagedPessoa).setCpf(text);
 	}
 
-	public void validateSetPessoaFisicaRG(String rg) throws Exception {
+	public void validateSetPessoaFisicaRG(String rg) throws UserInputException {
 
 		String text = rg;
 
@@ -767,13 +720,13 @@ public class PessoaController {
 		}
 
 //		if (text == null || "".equals(text)) {
-//			throw new Exception("Campo RG deve ser preenchido");
+//			throw new UserInputException("Campo RG deve ser preenchido");
 //		}
 
 		text = text.replaceAll("^\\s+|\\s+$", "");
 
 		if (!FieldValidators.validateBrazilianRGFormat(text)) {
-			throw new Exception("Campo RG com formato invalido");
+			throw new UserInputException("Campo RG com formato invalido");
 		}
 
 		// TODO Improve method polymorphism security
@@ -781,22 +734,22 @@ public class PessoaController {
 		((PessoaFisica) stagedPessoa).setRg(text);
 	}
 
-	public void validateSetPessoaJuridicaCNPJ(String cnpj) throws Exception {
+	public void validateSetPessoaJuridicaCNPJ(String cnpj) throws UserInputException {
 
 		String text = cnpj;
 
 		if (text == null || "".equals(text)) {
-			throw new Exception("Campo CNPJ deve ser preenchido");
+			throw new UserInputException("Campo CNPJ deve ser preenchido");
 		}
 
 		text = text.replaceAll("^\\s+|\\s+$", "");
 
 		if (!FieldValidators.validateBrazilianCNPJFormat(text)) {
-			throw new Exception("Campo CNPJ deve possuir o " + "formato 00.000.000/0000-00");
+			throw new UserInputException("Campo CNPJ deve possuir o " + "formato 00.000.000/0000-00");
 		}
 
 		if (!FieldValidators.validateBrazilianCNPJ(text)) {
-			throw new Exception("Campo CNPJ Inválido!");
+			throw new UserInputException("Campo CNPJ Inválido!");
 		}
 
 		// TODO Improve method polymorphism security
@@ -804,7 +757,7 @@ public class PessoaController {
 		((PessoaJuridica) stagedPessoa).setCnpj(text);
 	}
 
-	public void validateSetPessoaJuridicaIEstadual(String iestadual) throws Exception {
+	public void validateSetPessoaJuridicaIEstadual(String iestadual) throws UserInputException {
 
 		String text = iestadual;
 
@@ -813,7 +766,7 @@ public class PessoaController {
 		}
 
 		if (text.length() > PessoaConstants.MAXLEN_INSCESTADUAL.getValue()) {
-			throw new Exception(
+			throw new UserInputException(
 					"Campo Inscrição Estadual deve possuir " + "no máximo "
 							+ PessoaConstants.MAXLEN_INSCESTADUAL.getValue() + "caracteres");
 		}
@@ -826,7 +779,7 @@ public class PessoaController {
 
 	}
 
-	public void validateSetPessoaJuridicaIMunicipal(String imunicipal) throws Exception {
+	public void validateSetPessoaJuridicaIMunicipal(String imunicipal) throws UserInputException {
 
 		String text = imunicipal;
 
@@ -835,7 +788,7 @@ public class PessoaController {
 		}
 
 		if (text.length() > PessoaConstants.MAXLEN_INSCMUNICIPAL.getValue()) {
-			throw new Exception(
+			throw new UserInputException(
 					"Campo Inscrição Municipal deve possuir " + "no máximo "
 							+ PessoaConstants.MAXLEN_INSCMUNICIPAL.getValue() + "caracteres");
 		}
@@ -848,12 +801,48 @@ public class PessoaController {
 
 	}
 
-	public void validateSetPhoneNumber(String phoneNumber) throws Exception {
+	private void validateSetPessoaJuridicaRSocial(String razaoSocial) throws UserInputException {
+
+		String text = razaoSocial;
+
+		if (text == null || text.equals("")) {
+			((PessoaJuridica) stagedPessoa).setRazaoSocial("");
+		}
+
+		text = text.replaceAll("^\\s+|\\s+$", "");
+
+		if (!text.matches(FieldValidators.RegexCharsets.CHARSET_PESSOAJURIDICA_RAZAOSOCIAL.getValue())) {
+			throw new UserInputException("Campo \"Razão Social\" possui caracteres inválidos!");
+		}
+
+		((PessoaJuridica) stagedPessoa).setRazaoSocial(text);
+
+	}
+
+	public void validateSetPessoaName(String name) throws UserInputException {
+
+		String text = name;
+
+		if (text == null || "".equals(text)) {
+			throw new UserInputException("Campo \"Nome\" não foi preenchido! Preencha-o antes de continuar.");
+		}
+
+		text = TextUtils.trimLeadingAndTrailingWhiteSpaces(text);
+
+		if (text.length() > PessoaConstants.MAXLEN_NAME.getValue()) {
+			throw new UserInputException(
+					"Campo nome deve possuir no máximo " + PessoaConstants.MAXLEN_NAME + "caracteres");
+		}
+
+		stagedPessoa.setName(text);
+	}
+
+	public void validateSetPhoneNumber(String phoneNumber) throws UserInputException {
 
 		String text = phoneNumber;
 
 		if (text == null || "".equals(text)) {
-			throw new Exception("Campo Telefone deve ser preenchido");
+			throw new UserInputException("Campo Telefone deve ser preenchido");
 		}
 
 		text = text.replaceAll("^\\s+|\\s+$", "");
@@ -870,42 +859,22 @@ public class PessoaController {
 		stagedPhone.setDdd(ddd);
 	}
 
-	public void validateSetPhoneType(Phone.PhoneType phoneType) throws Exception {
+	public void validateSetPhoneType(Phone.PhoneType phoneType) throws UserInputException {
 
 		if (phoneType == null) {
-			throw new Exception("Tipo de telefone não selecionado");
+			throw new UserInputException("Tipo de telefone não selecionado");
 		}
 
 		stagedPhone.setType(phoneType);
 	}
 
-	public void validateSetTelcomCompany(String text) throws Exception {
+	public void validateSetTelcomCompany(String text) throws UserInputException {
 
 		if (text == null) {
 			stagedPhone.setTelcomCompany("");
 		} else {
 			stagedPhone.setTelcomCompany(text.replaceAll("^\\s+|\\s+$", ""));
 		}
-	}
-
-	public void removePhone() {
-		try {
-			stagedPessoa.removePhone(detachedPhone);
-		} catch (Exception e) {
-			throw new UnsupportedOperationException(
-					"Exception handling not implemented yet - " + e.getClass() + "-" + e.getMessage());
-		}
-
-	}
-
-	public void removeAddress() {
-		try {
-			stagedPessoa.removeAddress(detachedAddress);
-		} catch (Exception e) {
-			throw new UnsupportedOperationException(
-					"Exception handling not implemented yet - " + e.getClass() + "-" + e.getMessage());
-		}
-
 	}
 
 }

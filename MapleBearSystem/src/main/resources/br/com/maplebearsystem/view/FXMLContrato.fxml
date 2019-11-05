@@ -141,9 +141,23 @@
                                                       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                    </padding>
                                                 </VBox>
-                                                <VBox spacing="30.0" style="-fx-background-color: white;">
+                                                <VBox prefHeight="26.0" prefWidth="200.0" spacing="15.0" style="-fx-background-color: white;">
                                                    <children>
-                                                      <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" vgap="25.0" />
+                                                      <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="10.0" vgap="25.0">
+                                                         <children>
+                                                            <JFXButton fx:id="btbuscaralu" buttonType="RAISED" minHeight="50.0" minWidth="80.0" onAction="#buscaraluno" ripplerFill="#282a2f" style="-fx-text-fill: white;" text="Buscar Aluno">
+                                                               <styleClass>
+                                                                  <String fx:value="JFXButtonDefault" />
+                                                                  <String fx:value="JFXButtonCompact" />
+                                                               </styleClass>
+                                                            </JFXButton>
+                                                            <JFXButton fx:id="btbuscarcon" buttonType="RAISED" minHeight="50.0" minWidth="80.0" onAction="#buscarcontrato" ripplerFill="#282a2f" style="-fx-text-fill: white;" text="Buscar Contrato">
+                                                               <styleClass>
+                                                                  <String fx:value="JFXButtonDefault" />
+                                                                  <String fx:value="JFXButtonCompact" />
+                                                               </styleClass>
+                                                            </JFXButton>
+                                                         </children></FlowPane>
                                                    </children>
                                                    <padding>
                                                       <Insets bottom="20.0" left="15.0" right="15.0" top="15.0" />
@@ -389,8 +403,12 @@
                         </JFXTabPane>
                         <HBox alignment="CENTER" spacing="15.0">
                            <children>
-                              <JFXButton fx:id="btsalvar" buttonType="RAISED" minHeight="50.0" minWidth="80.0" onAction="#salvarpedido" ripplerFill="#282a2f" style="-fx-text-fill: white;" styleClass="JFXButtonDefault" text="Salvar" />
-                              <JFXButton buttonType="RAISED" minHeight="50.0" minWidth="80.0" onAction="#voltar" ripplerFill="#282a2f" style="-fx-background-color: orange; -fx-text-fill: white;" text="Cancelar" />
+                              <JFXButton fx:id="btsalvar" buttonType="RAISED" minHeight="50.0" minWidth="80.0" onAction="#salvarpedido" ripplerFill="#282a2f" style="-fx-text-fill: white;" text="Salvar">
+                                 <styleClass>
+                                    <String fx:value="JFXButtonDefault" />
+                                    <String fx:value="JFXButtonCompact" />
+                                 </styleClass></JFXButton>
+                              <JFXButton buttonType="RAISED" minHeight="50.0" minWidth="80.0" onAction="#voltar" ripplerFill="#282a2f" style="-fx-background-color: orange; -fx-text-fill: white;" styleClass="JFXButtonCompact" text="Cancelar" />
                            </children>
                         </HBox>
                      </children>

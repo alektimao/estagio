@@ -8,10 +8,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import br.com.maplebearsystem.controller.PessoaController;
+import br.com.maplebearsystem.controller.UserInputExceptionCombo;
 import br.com.maplebearsystem.model.Phone;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXUISetup;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
+
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
@@ -77,25 +79,19 @@ public class FXMLPhoneManagerController implements Initializable, FXMLDefaultCon
 
 	private Boolean savePhone() {
 
-		List<Exception> errorList = pessoaController.validateSavePhone(
-				pnPhoneFormController.getTfieldPhone().getText(),
-				pnPhoneFormController.getTfieldTelecomCompany().getText(),
-				pnPhoneFormController.getCmbboxPhoneType().getSelectionModel().getSelectedItem());
-
-		if (errorList.isEmpty()) {
-
-			new FXNotification("Telefone salvo com sucesso!", FXNotification.NotificationType.INFORMATION).show();
+		try {
+			pessoaController.validateSavePhone(
+					pnPhoneFormController.getTfieldPhone().getText(),
+					pnPhoneFormController.getTfieldTelecomCompany().getText(),
+					pnPhoneFormController.getCmbboxPhoneType().getSelectionModel().getSelectedItem());
 
 			return true;
-		} else {
-			String errorMessages = "";
-			for (Exception exception : errorList) {
-				errorMessages = errorMessages + exception.getMessage() + "\n";
-			}
-
-			FXNotification notification = new FXNotification(errorMessages, FXNotification.NotificationType.WARNING);
-			notification.show();
-
+		} catch (UserInputExceptionCombo e) {
+			new FXNotification(e.getMessagesInLines(), FXNotification.NotificationType.WARNING).show();
+		} catch (Exception e) {
+			new FXNotification(
+					"Erro desconhecido ao salvar telefone: " + e.getLocalizedMessage(),
+					FXNotification.NotificationType.ERROR).show();
 		}
 
 		return false;

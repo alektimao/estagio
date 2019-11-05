@@ -17,6 +17,8 @@ import br.com.maplebearsystem.view.component.FXMLBuscaEmprestimoController;
 import br.com.maplebearsystem.view.component.FXMLBuscaPedidoFuncController;
 import br.com.maplebearsystem.view.component.FXMLBuscaSalaController;
 import br.com.maplebearsystem.view.component.FXMLBuscaTurmaController;
+import br.com.maplebearsystem.view.component.FXMLConfigurationBackupController;
+import br.com.maplebearsystem.view.component.FXMLConfigurationConnectionParametersController;
 import br.com.maplebearsystem.view.component.FXMLContactRegistrationController;
 import br.com.maplebearsystem.view.component.FXMLContactSearchController;
 import br.com.maplebearsystem.view.component.FXMLFornecedorRegistrationController;
@@ -90,7 +92,7 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 
 	@FXML
 	void actConfigure(ActionEvent event) {
-
+		loadMenu(FXResourcePath.FXML_MAPLEBEARSYSTEM_GERENCIAR_CONFIG);
 	}
 
 	@FXML
@@ -199,6 +201,14 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 		//sub-menus
 		if (sender instanceof FXMLAlocarEquipamentoController) {
 			FXMLAlocarEquipamentoController obj = (FXMLAlocarEquipamentoController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLConfigurationConnectionParametersController) {
+			FXMLConfigurationConnectionParametersController obj = (FXMLConfigurationConnectionParametersController) sender;
+			mainAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLConfigurationBackupController) {
+			FXMLConfigurationBackupController obj = (FXMLConfigurationBackupController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
 		}
 		if (sender instanceof FXMLContratoController) {
@@ -316,6 +326,10 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 		}
 		if (sender instanceof FXMLMenuGeraisController) {
 			FXMLMenuGeraisController obj = (FXMLMenuGeraisController) sender;
+			menuAreaContainer.getChildren().remove(obj.getRootPane());
+		}
+		if (sender instanceof FXMLMenuConfigController) {
+			FXMLMenuConfigController obj = (FXMLMenuConfigController) sender;
 			menuAreaContainer.getChildren().remove(obj.getRootPane());
 		}
 

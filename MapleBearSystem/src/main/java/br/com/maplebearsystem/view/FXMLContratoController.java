@@ -1,20 +1,29 @@
 package br.com.maplebearsystem.view;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 
 import br.com.maplebearsystem.controller.ContratoController;
+import br.com.maplebearsystem.model.Aluno;
 import br.com.maplebearsystem.model.Contrato;
 import br.com.maplebearsystem.model.constants.PessoaConstants;
 import br.com.maplebearsystem.model.validators.FieldValidators;
+import br.com.maplebearsystem.ui.util.FXResourcePath;
 import br.com.maplebearsystem.ui.util.TextFieldFormatterHelper;
+import br.com.maplebearsystem.view.component.FXMLAlunoSearchController;
+import br.com.maplebearsystem.view.util.FXUISetup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -140,44 +149,53 @@ public class FXMLContratoController implements Initializable, FXMLDefaultControl
 	@FXML
 	private JFXDatePicker dtpagamento;
 
+	@FXML
+	private JFXButton btbuscaralu;
+
+	@FXML
+	private JFXButton btbuscarcon;
+
 	private FXMLDefaultControllerInterface sourceController;
 	private ContratoController ContratoController;
 
 	@FXML
-    void salvarpedido(ActionEvent event) {
-    	ContratoController.validar(tfieldnome.getText(),
-    			dtdianasc.getValue(),
-    			tfieldNacionalidade.getText(),
-    			tfieldprofissao.getText(),
-    			tfieldEstCivil.getText(),
-    			tfieldCPF.getText(),
-    			tfieldRG.getText(),
-    			tfieldEnd.getText(),
-    			tfieldNum.getText(),
-    			tfieldComp.getText(),
-    			tfieldCidade.getText(),
-    			tfieldCep.getText(),
-    			tfieldEstado.getText(),
-    			tfieldnome3.getText(),
-    			dtdianasc2.getValue(),
-    			tfieldNacionalidade1.getText(),
-    			tfieldprofissao1.getText(),
-    			tfieldEstCivil1.getText(),
-    			tfieldCPF1.getText(),
-    			tfieldRG1.getText(),
-    			tfieldEnd1.getText(),
-    			tfieldNum1.getText(),
-    			tfieldComp1.getText(),
-    			tfieldCidade1.getText(),
-    			tfieldCep1.getText(),
-    			tfieldEstado1.getText(),
-    			tfieldAluno.getText(),
-    			tfieldTurma.getText(),
-    			tfieldTurno.getText(),
-    			tfieldGuarda.getText(),
-    			tfieldPreco.getText(),
-    			tfieldParcela.getText());
-    }
+	void salvarpedido(ActionEvent event) {
+		List<Exception> errorList = ContratoController.validar(tfieldnome.getText(), dtdianasc.getValue(), tfieldNacionalidade.getText(),
+				tfieldprofissao.getText(), tfieldEstCivil.getText(), tfieldCPF.getText(), tfieldRG.getText(),
+				tfieldEnd.getText(), tfieldNum.getText(), tfieldComp.getText(), tfieldCidade.getText(),
+				tfieldCep.getText(), tfieldEstado.getText(), tfieldnome3.getText(), dtdianasc2.getValue(),
+				tfieldNacionalidade1.getText(), tfieldprofissao1.getText(), tfieldEstCivil1.getText(),
+				tfieldCPF1.getText(), tfieldRG1.getText(), tfieldEnd1.getText(), tfieldNum1.getText(),
+				tfieldComp1.getText(), tfieldCidade1.getText(), tfieldCep1.getText(), tfieldEstado1.getText(),
+				tfieldAluno.getText(), tfieldTurma.getText(), tfieldTurno.getText(), tfieldGuarda.getText(),
+				tfieldPreco.getText(), tfieldParcela.getText());
+		
+		if (errorList.isEmpty()) {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION, "Salvo", ButtonType.OK);
+			alert.showAndWait();
+
+		} else {
+			String text = "";
+
+			for (Exception e : errorList) {
+				text = text + e.getMessage() + "\n";
+			}
+
+			Alert errAlert = new Alert(Alert.AlertType.WARNING, text, ButtonType.OK);
+			errAlert.showAndWait();
+		}
+	}
+
+	private void carregarcampos(Aluno resultado) {
+		tfieldnome.setText(resultado.getResponsavel());
+		tfieldEnd.setText(resultado.getEndereco());
+		tfieldCep.setText(resultado.getCep());
+		tfieldNum.setText(resultado.getNumeroendereco());
+		tfieldnome3.setText(resultado.getResponsavel2());
+		tfieldEnd1.setText(resultado.getEndereco());
+		tfieldCep1.setText(resultado.getCep());
+		tfieldNum1.setText(resultado.getNumeroendereco());
+	}
 
 	@FXML
 	void voltar(ActionEvent event) {
@@ -197,6 +215,34 @@ public class FXMLContratoController implements Initializable, FXMLDefaultControl
 	public void reset() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@FXML
+	void buscaraluno(ActionEvent event) {
+		try {
+			FXMLAlunoSearchController controller = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_ALUNO_BUSCAR, null, 0.0)
+					.<FXMLAlunoSearchController>getController();
+			controller.setSourceFXMLController(this);
+
+		} catch (Exception e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
+					"Error: failed to open FXMLEquipmentRegistration", e);
+		}
+	}
+
+	@FXML
+	void buscarcontrato(ActionEvent event) {
+		try {
+			FXMLAlunoSearchController controller = FXUISetup.getInstance()
+					.loadFXMLIntoStackPane(rootPane, FXResourcePath.FXML_ALUNO_BUSCAR, null, 0.0)
+					.<FXMLAlunoSearchController>getController();
+			controller.setSourceFXMLController(this);
+
+		} catch (Exception e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.WARNING,
+					"Error: failed to open FXMLEquipmentRegistration", e);
+		}
 	}
 
 	private void initTextFieldMasks() {
@@ -232,13 +278,20 @@ public class FXMLContratoController implements Initializable, FXMLDefaultControl
 
 	@Override
 	public void receiveData(Object data, FXMLDefaultControllerInterface sender) throws Exception {
-		// TODO Auto-generated method stub
-
+		if (sender instanceof FXMLAlunoSearchController) {
+			if (data instanceof Aluno) {
+				Aluno resultado = (Aluno) data;
+				carregarcampos(resultado);
+			}
+		}
 	}
 
 	@Override
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
-		// TODO Auto-generated method stub
+		if (sender instanceof FXMLAlunoSearchController) {
+			FXMLAlunoSearchController obj = (FXMLAlunoSearchController) sender;
+			rootPane.getChildren().remove(obj.getRootPane());
+		}
 
 	}
 
@@ -247,6 +300,7 @@ public class FXMLContratoController implements Initializable, FXMLDefaultControl
 		initTextFieldMasks();
 		ContratoController = new ContratoController();
 		ContratoController.setupNewContrato();
+
 	}
 
 }

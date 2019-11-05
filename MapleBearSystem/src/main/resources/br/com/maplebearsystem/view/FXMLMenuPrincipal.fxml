@@ -87,7 +87,6 @@
 		</font>
 		<styleClass>
 		<String fx:value="DWORNavigationMenu" />
-		<String fx:value="JFXButtonNeutral" />
 		<String fx:value="DWORNavigationMenuButton" />
 		</styleClass>
 		</JFXButton>

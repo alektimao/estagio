@@ -66,6 +66,8 @@ public class FXMLMenuAlunoController implements Initializable, FXMLDefaultContro
     @FXML
     void actContrato(ActionEvent event) {
     	sourceController.loadForm(FXResourcePath.FXML_MAPLE_CONTRATO);
+    	//sourceController.loadForm(FXResourcePath.FXML_ALUNO_BUSCAR);
+    	
     }
 
     @FXML

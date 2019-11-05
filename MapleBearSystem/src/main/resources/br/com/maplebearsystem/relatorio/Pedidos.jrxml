@@ -3,6 +3,8 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CaixaReports" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ced95029-b569-4027-895c-af2843a4e088">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="324"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="667"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
 	<style name="SubTitle" forecolor="#3F9E86" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -11,15 +13,14 @@
 	<parameter name="DataIni" class="java.sql.Date"/>
 	<parameter name="DataFim" class="java.sql.Date"/>
 	<queryString language="SQL">
-		<![CDATA[select p.id,p.descricao,p.requestdate,pf.unitprice,p.frete,p.pricetotal,f.nomefantasia,pf.quantity,pro.shortdescription 
+		<![CDATA[select p.id,p.descricao,p.requestdate,pf.unitprice,p.frete,pf.pricetotal,f.nomefantasia,pf.quantity,pro.shortdescription 
 from requisicao p
 inner join requisicao_produto pf on p.id = pf.requisicaoid
 inner join fornecedorproduct pfor on pfor.fornecedor_id = pf.produtofornecedorid and pf.produtorequisicaoid = pfor.produto_id
 inner join fornecedor f on f.id = pfor.fornecedor_id
 inner join product pro on pro.id = pfor.produto_id
 where p.requestdate between $P{DataIni} and $P{DataFim}
-order by p.id,p.descricao
-]]>
+order by p.id,p.descricao]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
@@ -43,7 +44,7 @@ order by p.id,p.descricao
 	</field>
 	<field name="pricetotal" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="pricetotal"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="requisicao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="requisicao_produto"/>
 	</field>
 	<field name="nomefantasia" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="nomefantasia"/>
@@ -209,13 +210,13 @@ order by p.id,p.descricao
 		<band height="15" splitType="Prevent">
 			<frame>
 				<reportElement style="Row" stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="555" height="15" uuid="a98495d8-3c8d-4fa0-81f5-30c3efc2f766"/>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="80" y="0" width="118" height="15" uuid="7e957d58-c5cd-4ca3-bdbe-eaee23c2c5e9">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a0485e08-a33a-4edd-b169-e2f20c3e4915"/>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{shortdescription}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="202" y="0" width="78" height="15" uuid="b2a8fd7c-f7f8-4926-b6b6-47d5146e0996">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e62c716b-fe89-463b-8dbf-9a5132c0bc65"/>
 					</reportElement>
@@ -227,25 +228,25 @@ order by p.id,p.descricao
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{pricetotal}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="280" y="0" width="76" height="15" uuid="2caa31a7-bcb1-4ef8-bc2d-104e97c00937">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ee31dc0d-7577-4854-bf55-c26d384a30e5"/>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 				</textField>
-				<textField pattern="dd/MM/YYYY">
+				<textField isStretchWithOverflow="true" pattern="dd/MM/YYYY">
 					<reportElement x="360" y="0" width="76" height="15" uuid="de7ca613-2e1d-48f4-8caa-516da3f4f8f4">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="64398e6e-9883-4a9d-a3da-c0cea9de9e9a"/>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{requestdate}]]></textFieldExpression>
 				</textField>
-				<textField>
+				<textField isStretchWithOverflow="true">
 					<reportElement x="4" y="0" width="76" height="15" uuid="ef9d4e3a-4d33-46e3-9f9c-c68882bf3ec4">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="40bf0d83-027b-4185-802b-99bb35971ecc"/>
 					</reportElement>
 					<textFieldExpression><![CDATA[$F{nomefantasia}]]></textFieldExpression>
 				</textField>
-				<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<textField isStretchWithOverflow="true" pattern="¤#,##0.00;¤-#,##0.00">
 					<reportElement x="438" y="0" width="52" height="15" uuid="be07c627-b6b5-4d82-95e7-3fc437af1644">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7faec81c-37a3-41c1-b12e-9c52b8ca9bab"/>
 					</reportElement>

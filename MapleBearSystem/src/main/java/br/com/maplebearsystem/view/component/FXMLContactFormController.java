@@ -78,7 +78,8 @@ public class FXMLContactFormController implements Initializable, FXMLDefaultCont
 	}
 
 // SECTION Main FXMLController Methods
-	public void validateSetPrimaryPhoneAndAddress() {
+	public void validateSetPrimaryPhoneAndAddress() throws Exception {
+
 		modelController.validateSavePrimaryPhone(
 				pnPrimaryPhoneFormController.getTfieldPhone().getText(),
 				pnPrimaryPhoneFormController.getTfieldTelecomCompany().getText(),

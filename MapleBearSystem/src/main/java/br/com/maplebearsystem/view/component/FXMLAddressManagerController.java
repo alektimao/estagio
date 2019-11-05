@@ -7,15 +7,15 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
+
 import br.com.maplebearsystem.controller.PessoaController;
+import br.com.maplebearsystem.controller.UserInputExceptionCombo;
 import br.com.maplebearsystem.model.Address;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.ui.util.FXUISetup;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
-
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -74,28 +74,22 @@ public class FXMLAddressManagerController implements Initializable, FXMLDefaultC
 
 	private boolean saveAddress() {
 
-		List<Exception> errorList = pessoaController.validateSaveAddress(
-				pnAddressFormController.getTfieldPostalCode().getText(),
-				pnAddressFormController.getTfieldAddress().getText(),
-				pnAddressFormController.getTfieldAddressNumber().getText(),
-				pnAddressFormController.getTfieldDistrict().getText(),
-				pnAddressFormController.getTfieldAddressComplement().getText(),
-				pnAddressFormController.getCmbboxCity().getSelectionModel().getSelectedItem());
-
-		if (errorList.isEmpty()) {
-
-			new FXNotification("Endereço salvo com sucesso!", FXNotification.NotificationType.INFORMATION).show();
+		try {
+			pessoaController.validateSaveAddress(
+					pnAddressFormController.getTfieldPostalCode().getText(),
+					pnAddressFormController.getTfieldAddress().getText(),
+					pnAddressFormController.getTfieldAddressNumber().getText(),
+					pnAddressFormController.getTfieldDistrict().getText(),
+					pnAddressFormController.getTfieldAddressComplement().getText(),
+					pnAddressFormController.getCmbboxCity().getSelectionModel().getSelectedItem());
 
 			return true;
-		} else {
-			String errorMessages = "";
-			for (Exception exception : errorList) {
-				errorMessages = errorMessages + exception.getMessage() + "\n";
-			}
-
-			FXNotification notification = new FXNotification(errorMessages, FXNotification.NotificationType.WARNING);
-			notification.show();
-
+		} catch (UserInputExceptionCombo e) {
+			new FXNotification(e.getMessagesInLines(), FXNotification.NotificationType.WARNING).show();
+		} catch (Exception e) {
+			new FXNotification(
+					"Erro desconhecido ao alvar endereço: " + e.getLocalizedMessage(),
+					FXNotification.NotificationType.ERROR).show();
 		}
 
 		return false;
@@ -110,7 +104,6 @@ public class FXMLAddressManagerController implements Initializable, FXMLDefaultC
 		setEditPaneEnabled(true);
 	}
 
-	@SuppressWarnings("deprecation")
 	private void editAddress() {
 
 		Address address = listViewAddresses.getSelectionModel().getSelectedItem();
@@ -118,12 +111,7 @@ public class FXMLAddressManagerController implements Initializable, FXMLDefaultC
 		if (address != null) {
 			pessoaController.setupEditAddress(address);
 			pnAddressFormController.reset();
-			pnAddressFormController.loadData(
-					address.getPostalCode(),
-					address.getAddress(),
-					address.getDistrict(),
-					address.getAddressComplement(),
-					address.getCity());
+			pnAddressFormController.loadData(address);
 
 			setEditPaneEnabled(true);
 			btnRemove.setDisable(false);
@@ -155,12 +143,13 @@ public class FXMLAddressManagerController implements Initializable, FXMLDefaultC
 					if (task.get() != null)
 						listViewAddresses.setItems(task.get());
 				} catch (InterruptedException | ExecutionException e) {
-					Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed to load addresses", e);
+					Logger.getLogger(this.getClass().getName())
+							.log(Level.WARNING, "Error: failed to load addresses", e);
 				}
 			});
 		});
 
-		new Thread(task).run();
+		new Thread(task).start();
 	}
 
 	private void setEditPaneEnabled(boolean enable) {

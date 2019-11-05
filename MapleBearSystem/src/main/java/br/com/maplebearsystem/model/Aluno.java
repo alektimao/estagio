@@ -32,9 +32,29 @@ public class Aluno implements Serializable {
 	private String numeromatricula;
 	private Date datanascimento;
 	private String TurmaAtual;
+	private String responsavel;
+	private String responsavel2;
+	private String endereco;
+	private String numeroendereco;
+	private String cep;
+	private String cidade;
 
+//	public Aluno(Long id, Integer idalunowebservice, String nome, String cpf, String rg, String numeromatricula,
+//			Date datanascimento, String turmaAtual) {
+//		super();
+//		this.id = id;
+//		this.idalunowebservice = idalunowebservice;
+//		this.nome = nome;
+//		this.cpf = cpf;
+//		this.rg = rg;
+//		this.numeromatricula = numeromatricula;
+//		this.datanascimento = datanascimento;
+//		TurmaAtual = turmaAtual;
+//	}
+	
 	public Aluno(Long id, Integer idalunowebservice, String nome, String cpf, String rg, String numeromatricula,
-			Date datanascimento, String turmaAtual) {
+			Date datanascimento, String turmaAtual, String responsavel, String responsavel2, String endereco,
+			String numeroendereco, String cep, String cidade) {
 		super();
 		this.id = id;
 		this.idalunowebservice = idalunowebservice;
@@ -44,7 +64,14 @@ public class Aluno implements Serializable {
 		this.numeromatricula = numeromatricula;
 		this.datanascimento = datanascimento;
 		TurmaAtual = turmaAtual;
+		this.responsavel = responsavel;
+		this.responsavel2 = responsavel2;
+		this.endereco = endereco;
+		this.numeroendereco = numeroendereco;
+		this.cep = cep;
+		this.cidade = cidade;
 	}
+
 	public Aluno () {
 		super();	
 	}
@@ -112,7 +139,44 @@ public class Aluno implements Serializable {
 	public void setTurmaAtual(String turmaAtual) {
 		TurmaAtual = turmaAtual;
 	}
+	
 
+	public String getResponsavel() {
+		return responsavel;
+	}
+	public String getResponsavel2() {
+		return responsavel2;
+	}
+	public String getEndereco() {
+		return endereco;
+	}
+	public String getNumeroendereco() {
+		return numeroendereco;
+	}
+	public String getCep() {
+		return cep;
+	}
+	public String getCidade() {
+		return cidade;
+	}
+	public void setResponsavel(String responsavel) {
+		this.responsavel = responsavel;
+	}
+	public void setResponsavel2(String responsavel2) {
+		this.responsavel2 = responsavel2;
+	}
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+	public void setNumeroendereco(String numeroendereco) {
+		this.numeroendereco = numeroendereco;
+	}
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {

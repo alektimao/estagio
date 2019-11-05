@@ -41,7 +41,7 @@ public class ContratoController {
 		contrato = new Contrato();
 	}
 
-	public void validar(String nome, LocalDate nasc, String nacionalidade, String profissao, String estdcivil,
+	public List<Exception> validar(String nome, LocalDate nasc, String nacionalidade, String profissao, String estdcivil,
 			String cpf, String rg, String end, String num, String comp, String cidade, String cep, String estado,
 			String nome2, LocalDate nasc2, String nacionalidade2, String profissao2, String estdcivil2, String cpf2,
 			String rg2, String end2, String num2, String comp2, String cidade2, String cep2, String estado2,
@@ -76,6 +76,7 @@ public class ContratoController {
 				errList.add(new Exception("Falha ao Salvar"));
 			}
 		}
+		return errList;
 
 	}
 

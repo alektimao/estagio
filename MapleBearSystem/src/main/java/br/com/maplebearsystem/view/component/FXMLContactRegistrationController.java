@@ -7,11 +7,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import br.com.maplebearsystem.controller.PessoaController;
+import br.com.maplebearsystem.controller.UserInputExceptionCombo;
 import br.com.maplebearsystem.model.Pessoa;
 import br.com.maplebearsystem.model.PessoaFisica;
 import br.com.maplebearsystem.model.PessoaJuridica;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
+
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
@@ -83,36 +85,28 @@ public class FXMLContactRegistrationController implements Initializable, FXMLDef
 	}
 
 	private boolean save() {
-		
-		
-		pnContactFormController.validateSetPrimaryPhoneAndAddress();
-		
-		List<Exception> errorList = modelController.savePessoa(pnContactFormController.getTfieldName().getText(),
-				pnContactFormController.getTfieldOtherName().getText(),
-				pnContactFormController.getTfieldRGIE().getText(), pnContactFormController.getTfieldCPFCNPJ().getText(),
-				pnContactFormController.getTfieldIMunicipal().getText(),
-				pnContactFormController.getTfieldEmail().getText());
 
-		if (errorList.isEmpty()) {
-			FXNotification notification = new FXNotification("Contato Salvo!",
-					FXNotification.NotificationType.INFORMATION);
-			notification.show();
+		try {
+			pnContactFormController.validateSetPrimaryPhoneAndAddress();
+
+			modelController.savePessoa(
+					pnContactFormController.getTfieldName().getText(),
+					pnContactFormController.getTfieldOtherName().getText(),
+					pnContactFormController.getTfieldRGIE().getText(),
+					pnContactFormController.getTfieldCPFCNPJ().getText(),
+					pnContactFormController.getTfieldIMunicipal().getText(),
+					pnContactFormController.getTfieldEmail().getText());
+
 			return true;
-
-		} else {
-			String text = "";
-
-			for (Exception e : errorList) {
-				text = text + e.getMessage() + "\n";
-			}
-
-			FXNotification notification = new FXNotification(text, FXNotification.NotificationType.WARNING);
-			notification.show();
-
-
-			pnContactFormController.validateTextFields();
-			return false;
+		} catch (UserInputExceptionCombo e) {
+			new FXNotification(e.getMessagesInLines(), FXNotification.NotificationType.WARNING).show();
+		} catch (Exception e) {
+			new FXNotification(
+					"Falha desconhecida ao salvar Contato: " + e.getLocalizedMessage(),
+					FXNotification.NotificationType.ERROR).show();
 		}
+
+		return false;
 
 	}
 

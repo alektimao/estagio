@@ -253,19 +253,19 @@ public class FXMLContactSearchController implements Initializable, FXMLDefaultCo
 				if (filter.equals("")) {
 
 					if (isJuridicaModeOnly()) {
-						modelo = FXCollections.observableArrayList(getModelController().getJuridicas());
+						modelo = FXCollections.observableArrayList(getModelController().findPessoasJuridicas());
 					} else if (isFisicaModeOnly()) {
-						modelo = FXCollections.observableArrayList(getModelController().getPessoasFisica());
+						modelo = FXCollections.observableArrayList(getModelController().findPessoasFisicas());
 					} else {
-						modelo = FXCollections.observableArrayList(getModelController().getPessoas());
+						modelo = FXCollections.observableArrayList(getModelController().findPessoas());
 					}
 				} else {
 					if (isJuridicaModeOnly()) {
-						modelo = FXCollections.observableArrayList(getModelController().getJuridicas(filter));
+						modelo = FXCollections.observableArrayList(getModelController().findPessoasJuridicas(filter));
 					} else if (isFisicaModeOnly()) {
-						modelo = FXCollections.observableArrayList(getModelController().getPessoasFisica(filter));
+						modelo = FXCollections.observableArrayList(getModelController().findPessoasFisicas(filter));
 					} else {
-						modelo = FXCollections.observableList(getModelController().getPessoas(filter));
+						modelo = FXCollections.observableList(getModelController().findPessoas(filter));
 					}
 				}
 				return modelo;
