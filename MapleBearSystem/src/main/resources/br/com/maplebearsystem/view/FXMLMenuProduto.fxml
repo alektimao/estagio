@@ -77,15 +77,6 @@
       						<String fx:value="DWORNavigationMenuButton" />
       					</styleClass>
       				</JFXButton>
-            <JFXButton id="NavigationMenuButton" maxWidth="1.7976931348623157E308" onAction="#actRelatorio" text="Relatorios" textAlignment="CENTER" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-               <styleClass>
-                  <String fx:value="DWORNavigationMenu" />
-                  <String fx:value="DWORNavigationMenuButton" />
-               </styleClass>
-            </JFXButton>
       			</children>
       		</HBox>
    </children>

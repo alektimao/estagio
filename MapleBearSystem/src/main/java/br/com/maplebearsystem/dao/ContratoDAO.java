@@ -1,12 +1,9 @@
 package br.com.maplebearsystem.dao;
 
-import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -41,7 +38,7 @@ public class ContratoDAO extends GenericDAO<Contrato> {
 		return list;
 	}
 	
-	public List<Contrato> listApprovedBudgetOrders(String responsavel,String responsavel2,String Aluno) {
+	public List<Contrato> listApprovedBudgetOrders(String responsavel,String responsavel2,String Contrato) {
 
 		Root<Contrato> ContratoRoot;
 
@@ -61,9 +58,9 @@ public class ContratoDAO extends GenericDAO<Contrato> {
 		
 		Predicate pEqualsResponsavel2 = criteriaBuilder.equal(ContratoRoot.get("Responsavel2"), responsavel2);
 		
-		Predicate pEqualsAluno = criteriaBuilder.equal(ContratoRoot.get("Aluno"), responsavel2);
+		Predicate pEqualsContrato = criteriaBuilder.equal(ContratoRoot.get("Contrato"), responsavel2);
 
-		Predicate filtros = criteriaBuilder.and(pEqualsResponsavel1, pEqualsResponsavel2,pEqualsAluno);
+		Predicate filtros = criteriaBuilder.and(pEqualsResponsavel1, pEqualsResponsavel2,pEqualsContrato);
 
 		criteriaQuery.select(ContratoRoot).where(filtros).orderBy(criteriaBuilder.asc(ContratoRoot.get("id")));
 
@@ -117,6 +114,49 @@ public class ContratoDAO extends GenericDAO<Contrato> {
 		} finally {
 			em.close();
 		}
+	}
+
+	public List<Contrato> listContratoBusca(String responsavel,String nometurma,String aluno) {
+
+		Root<Contrato> ContratoRoot;
+
+		List<Contrato> result;
+
+		EntityManager em = JPAUtil.getEntityManager();
+
+		em.getTransaction().begin();
+
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+
+		CriteriaQuery<Contrato> criteriaQuery = criteriaBuilder.createQuery(Contrato.class);
+
+		ContratoRoot = criteriaQuery.from(Contrato.class);
+		
+		List<Predicate> filtros = new ArrayList<Predicate>();
+		
+		if (nometurma != null && !nometurma.equals("")) {
+			Predicate pEqualsTurma = criteriaBuilder.like(ContratoRoot.get("Turma"), "%"+nometurma+"%");
+			filtros.add(pEqualsTurma);
+		}
+		if (responsavel != null && !responsavel.equals("")) {
+			Predicate pEqualsresponsavel = criteriaBuilder.like(ContratoRoot.get("Responsavel"), "%"+responsavel+"%");
+			filtros.add(pEqualsresponsavel);
+		}
+		
+		if (aluno != null && !aluno.equals("")) {
+			Predicate pEqualsaluno = criteriaBuilder.like(ContratoRoot.get("Aluno"), "%"+aluno+"%");			
+			filtros.add(pEqualsaluno);
+		}
+		
+		//Predicate filtros2 = criteriaBuilder.any(filtros.toArray());
+		
+	    criteriaQuery.select(ContratoRoot).where(filtros.toArray(new Predicate[] {})).orderBy(criteriaBuilder.asc(ContratoRoot.get("id")));
+
+		result = em.createQuery(criteriaQuery).getResultList();
+
+		em.getTransaction().commit();
+
+		return result;
 	}
 
 }

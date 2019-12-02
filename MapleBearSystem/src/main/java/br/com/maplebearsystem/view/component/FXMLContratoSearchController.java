@@ -10,10 +10,9 @@ import javax.persistence.PersistenceException;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
-import br.com.maplebearsystem.controller.AlunoController;
-import br.com.maplebearsystem.model.Aluno;
+import br.com.maplebearsystem.controller.ContratoController;
+import br.com.maplebearsystem.model.Contrato;
 import br.com.maplebearsystem.ui.notifications.FXNotification;
-import br.com.maplebearsystem.ui.util.TextFieldFormatterHelper;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -29,7 +28,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class FXMLAlunoSearchController implements Initializable, FXMLDefaultControllerInterface {
+public class FXMLContratoSearchController implements Initializable, FXMLDefaultControllerInterface {
 
 	@FXML
 	private VBox rootPane;
@@ -38,28 +37,28 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 	private JFXTextField tfieldNome;
 
 	@FXML
-	private JFXTextField tfieldcpf;
+	private JFXTextField tfieldResponsavel;
 
 	@FXML
-	private JFXTextField tfieldNumero;
+	private JFXTextField tfieldTurma;
 
 	@FXML
 	private JFXButton btnSPSearch;
 
 	@FXML
-	private TableView<Aluno> tviewPessoas;
+	private TableView<Contrato> tviewPessoas;
 
 	@FXML
-	private TableColumn<Aluno, String> tviewColID;
+	private TableColumn<Contrato, String> tviewColID;
 
 	@FXML
-	private TableColumn<Aluno, String> tviewColName;
+	private TableColumn<Contrato, String> tviewColName;
 
 	@FXML
-	private TableColumn<Aluno, String> tviewColCPF;
+	private TableColumn<Contrato, String> tviewColResponsavel;
 
 	@FXML
-	private TableColumn<Aluno, String> tviewColNumero;
+	private TableColumn<Contrato, String> tviewColTurma;
 
 	@FXML
 	private HBox pnSelectorMode;
@@ -78,14 +77,14 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 
 // SECTION Main FXMLController Attributes
 	private FXMLDefaultControllerInterface sourceController;
-	private AlunoController modelController;
+	private ContratoController modelController;
 	private FXMLContactRegistrationController contactRegistrationController;
 // ENDSECTION Main FXMLController Attributes
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		setModelController(new AlunoController());
-		tfieldcpf.setTextFormatter(TextFieldFormatterHelper.getTextFieldMaskFormatter("[0-9]*", "###.###.###-##"));
+		setModelController(new ContratoController());
+		//tfieldResponsavel.setTextFormatter(TextFieldFormatterHelper.getTextFieldMaskFormatter("[0-9]*", "###.###.###-##"));
 		initTableViews();
 	}
 
@@ -101,13 +100,13 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 			return false;
 
 		try {
-			Aluno itemToRemove = tviewPessoas.getSelectionModel().getSelectedItem();
-			getModelController().deleteAluno(itemToRemove);
+			Contrato itemToRemove = tviewPessoas.getSelectionModel().getSelectedItem();
+			getModelController().deleteContrato(itemToRemove);
 			tviewPessoas.getItems().remove(itemToRemove);
 		}
 		catch (PersistenceException ex)
 		{
-			new FXNotification("Não e possivel deletar aluno pois ele e utlizado em outras funções do sistema", FXNotification.NotificationType.ERROR).show();
+			new FXNotification("Não e possivel deletar Contrato pois ele e utlizado em outras funções do sistema", FXNotification.NotificationType.ERROR).show();
 			return false;
 		}
 		catch (Exception e) {
@@ -136,7 +135,7 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 
 		try {
 			tviewPessoas.setRowFactory(tv -> {
-				TableRow<Aluno> row = new TableRow<Aluno>();
+				TableRow<Contrato> row = new TableRow<Contrato>();
 				row.setOnMouseClicked(event -> {
 					if (event.getClickCount() == 2 && (!row.isEmpty())) {
 						selectItem();
@@ -153,14 +152,14 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 	}
 
 	public void reloadTableView() {
-		LoadTableView(tfieldcpf.getText(), tfieldNome.getText(), tfieldNumero.getText());
+		LoadTableView(tfieldResponsavel.getText(), tfieldTurma.getText(),tfieldNome.getText());
 	}
 
-	private void LoadTableView(String cpf, String nome, String numero) {
-		if (cpf.equals("") && nome.equals("") && numero.equals("")) {
+	private void LoadTableView(String responsavel, String turma, String aluno) {
+		if (responsavel.equals("") && turma.equals("") && aluno.equals("")) {
 			try {
-				ObservableList<Aluno> modelo;
-				modelo = FXCollections.observableArrayList(modelController.getAlunos());
+				ObservableList<Contrato> modelo;
+				modelo = FXCollections.observableArrayList(modelController.getContratos());
 				if (tviewPessoas.getItems() != null)
 					tviewPessoas.getItems().clear();
 				tviewPessoas.setItems(modelo);
@@ -169,8 +168,8 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 			}
 		} else {
 			try {
-				ObservableList<Aluno> modelo;
-				modelo = FXCollections.observableArrayList(modelController.getAlunos(cpf, nome, numero));
+				ObservableList<Contrato> modelo;
+				modelo = FXCollections.observableArrayList(modelController.getContratos(responsavel, turma, aluno));
 				if (tviewPessoas.getItems() != null)
 					tviewPessoas.getItems().clear();
 				tviewPessoas.setItems(modelo);
@@ -203,13 +202,13 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 	@FXML
 	void actSPDelete(ActionEvent event) {
 		if (delete()) {
-			LoadTableView(tfieldcpf.getText(), tfieldNome.getText(), tfieldNumero.getText());
+			LoadTableView(tfieldResponsavel.getText(), tfieldTurma.getText(),tfieldNome.getText());
 		}
 	}
 
 	@FXML
 	void actSPSearch(ActionEvent event) {
-		LoadTableView(tfieldcpf.getText(), tfieldNome.getText(), tfieldNumero.getText());
+		LoadTableView(tfieldResponsavel.getText(), tfieldTurma.getText(),tfieldNome.getText());
 	}
 
 	@FXML
@@ -263,11 +262,11 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 
 // ENDSECTION FXMLDefaultControllerInterface Implementation
 
-	public AlunoController getModelController() {
+	public ContratoController getModelController() {
 		return modelController;
 	}
 
-	public void setModelController(AlunoController modelController) {
+	public void setModelController(ContratoController modelController) {
 		this.modelController = modelController;
 	}
 	
@@ -275,14 +274,14 @@ public class FXMLAlunoSearchController implements Initializable, FXMLDefaultCont
 		tviewColID.setCellValueFactory((data) -> {
 			return new SimpleStringProperty("" + data.getValue().getId());
 		});
-		tviewColCPF.setCellValueFactory((data) -> {
-			return new SimpleStringProperty("" + data.getValue().getCpf());
+		tviewColResponsavel.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getResponsavel());
 		});
 		tviewColName.setCellValueFactory((data) -> {
-			return new SimpleStringProperty("" + data.getValue().getNome());
+			return new SimpleStringProperty("" + data.getValue().getAluno());
 		});
-		tviewColNumero.setCellValueFactory((data) -> {
-			return new SimpleStringProperty("" + data.getValue().getNumeromatricula());
+		tviewColTurma.setCellValueFactory((data) -> {
+			return new SimpleStringProperty("" + data.getValue().getTurma());
 		});
 	}
 

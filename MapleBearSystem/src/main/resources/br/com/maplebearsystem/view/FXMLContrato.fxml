@@ -359,6 +359,24 @@
                                                                            </styleClass>
                                                                         </JFXTextField>
                                                                         <JFXDatePicker fx:id="dtpagamento" promptText="Dia Primeira parcela" />
+                                                                        <JFXTextField id="tfieldName" fx:id="tfieldPrecoLanche" labelFloat="true" promptText="PREÇO LANCHE">
+                                                                           <styleClass>
+                                                                              <String fx:value="jfxtextfieldform" />
+                                                                              <String fx:value="formMaxWidth" />
+                                                                           </styleClass>
+                                                                        </JFXTextField>
+                                                                        <JFXTextField id="tfieldName" fx:id="tfieldConvenio" labelFloat="true" promptText="Convenio">
+                                                                           <styleClass>
+                                                                              <String fx:value="jfxtextfieldform" />
+                                                                              <String fx:value="formMaxWidth" />
+                                                                           </styleClass>
+                                                                        </JFXTextField>
+                                                                        <JFXTextField id="tfieldName" fx:id="tfieldDescConvenio" labelFloat="true" promptText="Desconto Convenio">
+                                                                           <styleClass>
+                                                                              <String fx:value="jfxtextfieldform" />
+                                                                              <String fx:value="formMaxWidth" />
+                                                                           </styleClass>
+                                                                        </JFXTextField>
                                                                      </children>
                                                                      <padding>
                                                                         <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />

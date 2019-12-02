@@ -14,8 +14,6 @@
 		<![CDATA[select p.id,e.qtd, p.shortdescription,p.partnumber 
 from product p
 inner join estoque e on p.estoque_id = e.id
-where (p.partnumber like '%$P!{Tipo}%' or  $P{Tipo}=' ') 
-and (p.shortdescription like '%$P!{Prod}%' or $P{Prod} = ' ')
 group by p.id,e.qtd, p.shortdescription,p.partnumber]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">

@@ -90,6 +90,15 @@
 		<String fx:value="DWORNavigationMenuButton" />
 		</styleClass>
 		</JFXButton>
+            <JFXButton id="NavigationMenuButton" fx:id="btnajuda" onAction="#actajuda" text="ajuda">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="DWORNavigationMenu" />
+                  <String fx:value="DWORNavigationMenuButton" />
+               </styleClass>
+            </JFXButton>
 		</children>
 		<VBox.margin>
 		<Insets />

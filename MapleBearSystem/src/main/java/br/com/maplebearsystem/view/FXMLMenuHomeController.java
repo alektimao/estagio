@@ -1,5 +1,7 @@
 package br.com.maplebearsystem.view;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -63,8 +65,11 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 
 	@FXML
 	private JFXButton btnGerais;
-	
-	//public static Funcionario logado = new Funcionario();
+
+	@FXML
+	private JFXButton btnajuda;
+
+	// public static Funcionario logado = new Funcionario();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -80,7 +85,7 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 	private void desabilitarMenus() {
 		btnSidebarEquipments.setDisable(true);
 		btnAlunos.setDisable(true);
-		
+
 	}
 
 	@FXML
@@ -91,8 +96,30 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 	}
 
 	@FXML
-	void actConfigure(ActionEvent event) {
+	void actConfigure(ActionEvent event) throws Exception {
+		closeSenderNode(currentFXController);
+		closeSenderNode(currentFXMenuController);
 		loadMenu(FXResourcePath.FXML_MAPLEBEARSYSTEM_GERENCIAR_CONFIG);
+	}
+
+	@FXML
+	void actajuda(ActionEvent event) {
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					//String d = System.getProperty("user.dir") + "\\help.chm::Funcionalidades.html";
+					String d = System.getProperty("user.dir") + "\\help.chm";
+					Runtime.getRuntime().exec("cmd /c start "+d);
+					//Runtime.getRuntime().exec("hh.exe mk:@MSITStore: /c start " + d);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.run();
+
 	}
 
 	@FXML
@@ -118,7 +145,7 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 
 	@FXML
 	void actManageWorkOrders(ActionEvent event) {
-		new FXNotification("Teste error", FXNotification.NotificationType.ERROR).show();
+		loadForm(FXResourcePath.FXML_MAPLE_RELATORIO);
 	}
 
 	public void closeSenderNodeMenu() throws Exception {
@@ -153,7 +180,6 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 	}
 
 	private void loadMenu(URL url) {
-
 		try {
 
 			FXMLDefaultControllerInterface controller = FXUISetup.getInstance()
@@ -179,7 +205,7 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 	public void setSourceFXMLController(FXMLDefaultControllerInterface controller) throws Exception {
 		if (controller instanceof FXMLLoginController) {
 			FXMLLoginController obj = (FXMLLoginController) controller;
-			//logado = FXMLLoginController.logado;
+			// logado = FXMLLoginController.logado;
 		}
 
 	}
@@ -198,7 +224,7 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 
 	@Override
 	public void closeSenderNode(FXMLDefaultControllerInterface sender) throws Exception {
-		//sub-menus
+		// sub-menus
 		if (sender instanceof FXMLAlocarEquipamentoController) {
 			FXMLAlocarEquipamentoController obj = (FXMLAlocarEquipamentoController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
@@ -315,7 +341,7 @@ public class FXMLMenuHomeController implements FXMLDefaultControllerInterface, I
 			FXMLRelatorioController obj = (FXMLRelatorioController) sender;
 			mainAreaContainer.getChildren().remove(obj.getRootPane());
 		}
-		//menu
+		// menu
 		if (sender instanceof FXMLMenuProdutoController) {
 			FXMLMenuProdutoController obj = (FXMLMenuProdutoController) sender;
 			menuAreaContainer.getChildren().remove(obj.getRootPane());

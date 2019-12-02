@@ -1,7 +1,6 @@
 package br.com.maplebearsystem.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Date;
 
 import javax.persistence.Entity;
@@ -52,7 +51,9 @@ public class Contrato implements Serializable {
 	private String Turno;
 	private String Guarda;
 	private String Parcela;
-	private BigDecimal Preco;
+	private String FormaPagamento;
+	private Date primeiroVencimento;
+	private String Preco;
 
 	public Contrato() {
 		super();
@@ -186,7 +187,7 @@ public class Contrato implements Serializable {
 		return Parcela;
 	}
 
-	public BigDecimal getPreco() {
+	public String getPreco() {
 		return Preco;
 	}
 
@@ -318,8 +319,32 @@ public class Contrato implements Serializable {
 		Parcela = parcela;
 	}
 
-	public void setPreco(BigDecimal preco) {
+	public void setPreco(String preco) {
 		Preco = preco;
+	}
+
+	public String getPessoa1End() {
+		return Pessoa1End;
+	}
+
+	public String getFormaPagamento() {
+		return FormaPagamento;
+	}
+
+	public Date getPrimeiroVencimento() {
+		return primeiroVencimento;
+	}
+
+	public void setPessoa1End(String pessoa1End) {
+		Pessoa1End = pessoa1End;
+	}
+
+	public void setFormaPagamento(String formaPagamento) {
+		FormaPagamento = formaPagamento;
+	}
+
+	public void setPrimeiroVencimento(Date primeiroVencimento) {
+		this.primeiroVencimento = primeiroVencimento;
 	}
 
 	@Override

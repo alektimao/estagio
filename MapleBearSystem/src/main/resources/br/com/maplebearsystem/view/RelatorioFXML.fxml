@@ -3,10 +3,10 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.HBox?>
@@ -25,7 +25,7 @@
             </HBox>
             <HBox alignment="BOTTOM_RIGHT" prefHeight="36.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <JFXComboBox fx:id="cbb_usuario" editable="true" focusColor="#009688" prefHeight="36.0" prefWidth="140.0" unFocusColor="BLACK">
+                  <JFXComboBox fx:id="cbb_usuario" editable="true" focusColor="#009688" onAction="#change" prefHeight="36.0" prefWidth="140.0" promptText="Relatorio" unFocusColor="BLACK">
                      <tooltip>
                         <Tooltip fx:id="ttp_status" text="Lista de status." />
                      </tooltip>
@@ -37,24 +37,10 @@
                         </ContextMenu>
                      </contextMenu>
                   </JFXComboBox>
-                  <Label fx:id="lbl_abertura" alignment="BOTTOM_CENTER" prefHeight="36.0" text="DT.Inicio">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <tooltip>
-                        <Tooltip fx:id="ttp_lblClienteT1" text="Data de abertura da parcela." />
-                     </tooltip>
-                  </Label>
-                  <JFXDatePicker fx:id="dp_aberturaIni" prefHeight="36.0" prefWidth="150.0" />
-                  <Label fx:id="lbl_aberturaFinal" alignment="BOTTOM_CENTER" prefHeight="36.0" text="DT.Fim">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <tooltip>
-                        <Tooltip fx:id="ttp_lblVencimentoT1" text="Data de vencimento da parcela." />
-                     </tooltip>
-                  </Label>
-                  <JFXDatePicker fx:id="dp_aberturaFim" prefHeight="36.0" prefWidth="131.0" />
+                  <JFXDatePicker fx:id="dp_aberturaIni" prefHeight="36.0" prefWidth="150.0" promptText="DT.Inicio" />
+                  <JFXDatePicker fx:id="dp_aberturaFim" prefHeight="36.0" prefWidth="131.0" promptText="DT.Fim" />
+                  <JFXTextField fx:id="txtProd" promptText="Produto" />
+                  <JFXTextField fx:id="txtTipo" promptText="Tipo" />
                   <JFXButton fx:id="btn_Gerar" buttonType="RAISED" contentDisplay="RIGHT" onAction="#OnActionGerar" prefHeight="31.0" prefWidth="120.0" ripplerFill="#0cb388" styleClass="JFXButtonAdd" text="Gerar">
                      <font>
                         <Font name="System Bold" size="14.0" />

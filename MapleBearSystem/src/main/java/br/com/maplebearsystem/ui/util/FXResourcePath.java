@@ -38,6 +38,7 @@ public class FXResourcePath {
 	public static final URL FXML_PESSOA_BUSCAR = resURL("/br/com/maplebearsystem/view/component/FXMLContactSearch.fxml");
 	public static final URL FXML_INTERESSADOS_BUSCAR = resURL("/br/com/maplebearsystem/view/component/FXMLInteressadosSearch.fxml");
 	public static final URL FXML_ALUNO_BUSCAR = resURL("/br/com/maplebearsystem/view/component/FXMLAlunoBuscaBase.fxml");
+	public static final URL FXML_CONTRATO_BUSCAR = resURL("/br/com/maplebearsystem/view/component/FXMLContratoBusca.fxml");
 	public static final URL FXML_INTERESSADOS_GERENCIAR = resURL("/br/com/maplebearsystem/view/FXMLInteressadosManager.fxml");
 	public static final URL FXML_MAPLE_SALA_MULTI = resURL("/br/com/maplebearsystem/view/FXMLSalaMultiUso.fxml");
 	public static final URL FXML_MAPLE_TURMA = resURL("/br/com/maplebearsystem/view/FXMLTurmaPersonalizada.fxml");
