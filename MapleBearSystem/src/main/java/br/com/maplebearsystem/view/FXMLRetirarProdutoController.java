@@ -65,8 +65,8 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 	@FXML
 	private JFXTextField tfieldnome;
 
-    @FXML
-    private JFXTextField tfieldFunc;
+	@FXML
+	private JFXTextField tfieldFunc;
 
 	@FXML
 	private JFXDatePicker dtdiapedido;
@@ -124,10 +124,12 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 	void buscarpedido(ActionEvent event) {
 
 	}
+
 	@FXML
-    void buscarFunc(MouseEvent event) {
+	void buscarFunc(MouseEvent event) {
 		loadtela(FXResourcePath.FXML_MAPLE_FUNCIONARIO_BUSCA);
-    }
+	}
+
 	public void loadtela(URL url) {
 		try {
 
@@ -154,7 +156,7 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 			if (t.getProduto().getEstoque() != null && t.getRestante() - t.getRetirar() >= 0 && t.getQtd() > 0) {
 				t.setRestante(t.getRestante() - t.getRetirar());
 				controlerMovement.saveProductMovement("Retirada de Produto", null, LocalDate.now(), t.getProduto(),
-						(-t.getRetirar()), t.getRestante());
+						(-t.getRetirar()), t.getRestante(),controlerRetirar.getRetiramovimento().getFuncionario());
 				listMovement.add(controlerMovement.getProductMovement());
 			}
 			t.setRetirar(0);
@@ -175,6 +177,8 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 			FXNotification notification = new FXNotification("Produto(s) Retirado(s),",
 					FXNotification.NotificationType.INFORMATION);
 			notification.show();
+			controlerMovement.setupNewProductMovement();
+			listMovement = new ArrayList<ProductMovement>();
 			FXUISetup.getInstance().clearTextInputs(rootPane);
 			FXUISetup.getInstance().clearTableViews(rootPane);
 		} else {
@@ -191,6 +195,10 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 
 	private boolean save() {
 		try {
+			if (listMovement.isEmpty() || listMovement.size() == 0) {
+				mainErrorList.add(new Exception("Confirme pelo menos uma retirada antes de salvar"));
+				return false;
+			}
 			for (ProductMovement productMovement : listMovement) {
 				mainErrorList = controlerMovement.SalvarMovimentoaoSalvarRecebimento(productMovement);
 			}
@@ -264,16 +272,16 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 				loadTableView();
 			}
 		}
-//		if (sender instanceof FXMLFuncionarioSearchController) {
-//			if (data instanceof Funcionario) {
-//				Funcionario resultado = (Funcionario) data;
-//				controlerRetirar.setupNewRetirar();
-//				controlerRetirar.getRetiramovimento().setFuncionario(resultado);
-//				FXUISetup.getInstance().clearTextInputs(rootPane);
-//				FXUISetup.getInstance().clearTableViews(rootPane);
-//				tfieldFunc.setText(controlerRetirar.getRetiramovimento().getFuncionario().getPessoa().getName());
-//			}
-//		}
+		if (sender instanceof FXMLFuncionarioSearchController) {
+			if (data instanceof Funcionario) {
+				Funcionario resultado = (Funcionario) data;
+				controlerRetirar.setupNewRetirar();
+				controlerRetirar.getRetiramovimento().setFuncionario(resultado.getId());
+				FXUISetup.getInstance().clearTextInputs(rootPane);
+				FXUISetup.getInstance().clearTableViews(rootPane);
+				tfieldFunc.setText(resultado.getPessoa().getName());
+			}
+		}
 
 	}
 
@@ -300,6 +308,7 @@ public class FXMLRetirarProdutoController implements Initializable, FXMLDefaultC
 		controlerMovement = new ProductMovementController();
 		controlerRetirar.setupNewRetirar();
 		listMovement = new ArrayList<ProductMovement>();
+		mainErrorList = new ArrayList<Exception>(); 
 		initTableViews();
 	}
 

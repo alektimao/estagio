@@ -3,6 +3,8 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CaixaReports" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ced95029-b569-4027-895c-af2843a4e088">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="305"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="688"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
 	<style name="SubTitle" forecolor="#3F9E86" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -10,13 +12,14 @@
 	<style name="Row" mode="Transparent"/>
 	<parameter name="DataIni" class="java.sql.Date"/>
 	<parameter name="DataFim" class="java.sql.Date"/>
+	<parameter name="mesini" class="java.lang.Integer"/>
+	<parameter name="mesfim" class="java.lang.Integer"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT name,aniversario,job
 FROM pessoa p
 inner join  funcionario f on f.pessoa_id = p.id and ativo = 0
-where f.aniversario between $P{DataIni} and $P{DataFim}
-group by name,aniversario,job,p.id
-]]>
+where date_part('month',f.aniversario) >= $P{mesini} and date_part('month',f.aniversario) <= $P{mesfim}
+group by name,aniversario,job,p.id]]>
 	</queryString>
 	<field name="name" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="name"/>

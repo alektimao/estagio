@@ -14,10 +14,12 @@ import br.com.maplebearsystem.dao.FornecedorProductDAO;
 import br.com.maplebearsystem.dao.ProductDAO;
 import br.com.maplebearsystem.dao.ProductMovementDAO;
 import br.com.maplebearsystem.model.FornecedorProduct;
+import br.com.maplebearsystem.model.Funcionario;
 import br.com.maplebearsystem.model.Product;
 import br.com.maplebearsystem.model.ProductMovement;
 import br.com.maplebearsystem.model.Requisicao;
 import br.com.maplebearsystem.model.validators.FieldValidators;
+import br.com.maplebearsystem.view.FXMLLoginController;
 
 public class ProductMovementController {
 
@@ -47,7 +49,7 @@ public class ProductMovementController {
 	}
 
 	public List<Exception> saveProductMovement(String description, Requisicao pedido, LocalDate date, Product produto,
-			Integer recebido, Integer restante) {
+			Integer recebido, Integer restante, Long func) {
 		List<Exception> errorList = new ArrayList<Exception>();
 
 		if (movimento == null) {
@@ -102,6 +104,13 @@ public class ProductMovementController {
 			errorList.add(e);
 			System.out.println("Info:" + e.getMessage());
 		}
+		try {
+			setFunc(func);
+		} catch (Exception e) {
+			// TODO log user input exception
+			errorList.add(e);
+			System.out.println("Info:" + e.getMessage());
+		}
 		return errorList;
 	}
 
@@ -148,6 +157,12 @@ public class ProductMovementController {
 //			throw new Exception("Quantidade resteante de produto Inválido");
 //		}
 		movimento.setRestante(restante);
+	}
+	public void setFunc(Long func) throws Exception {
+		if(func == null) {
+			func = FXMLLoginController.logado.getId();
+		}
+		movimento.setFuncionario(func);
 	}
 
 	public void setRecebido(Integer recebido) throws Exception {

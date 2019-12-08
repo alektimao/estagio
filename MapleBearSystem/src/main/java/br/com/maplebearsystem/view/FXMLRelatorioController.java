@@ -151,6 +151,33 @@ public class FXMLRelatorioController implements Initializable, FXMLDefaultContro
 			// FXUISetup.getInstance().clearTextInputs(rootpane);
 
 		}
+		if (cbb_usuario.getValue().equals("MOVIMENTO PRODUTOS")) {
+			String tipo = "";
+			relatorio = "MOVIMENTO PRODUTOS";			
+			if (dp_aberturaIni.getValue() == null || dp_aberturaFim == null || cbb_usuario.getValue() == null) {
+				FXNotification notification = new FXNotification("Informe os filtros de data,",
+						FXNotification.NotificationType.WARNING);
+				notification.show();
+			} else {
+				DataVencimentoT = Date.valueOf(dp_aberturaIni.getValue().toString());
+				DataAberturaT = Date.valueOf(dp_aberturaFim.getValue().toString());
+				if (txtProd.getText().equals("") && txtTipo.getText().equals("")) {
+					relatorio = "MOVIMENTO PRODUTOS2";
+				}
+				else
+				{
+					tipo = txtTipo.getText();
+					if (tipo.toLowerCase().contains("entrada")) {
+						tipo = "Entrada de Produto";
+					}
+					else
+					{
+						tipo = "Retirada de Produto";
+					}
+				}
+				exibeRelatorio( relatorio,  DataVencimentoT,  DataAberturaT, tipo);
+			}
+		}
 	}
 
 	@FXML
@@ -168,6 +195,9 @@ public class FXMLRelatorioController implements Initializable, FXMLDefaultContro
 				|| cbb_usuario.getValue().equals("COMPRAR PRODUTOS")) {
 			txtProd.setVisible(false);
 			txtTipo.setVisible(false);
+		}
+		if (cbb_usuario.getValue().equals("MOVIMENTO PRODUTOS")) {
+			txtProd.setVisible(false);
 		}
 		// FXUISetup.getInstance().clearTextInputs(rootpane);
 	}
@@ -248,21 +278,73 @@ public class FXMLRelatorioController implements Initializable, FXMLDefaultContro
 						parameters.put("DataIni", ini);
 						parameters.put("DataFim", fim);
 
-						jasper1 = MapleBearSystemDesktopClient.class
-								.getResourceAsStream("/br/com/maplebearsystem/relatorio/PedidosFunc.jasper");
+						jasper1 = MapleBearSystemDesktopClient.class.getResourceAsStream("/br/com/maplebearsystem/relatorio/PedidosFunc.jasper");
 					} else if (relatorio.equals("COMPRAR PRODUTOS")) {
 						parameters.put("Comprado", true);
 						parameters.put("DataIni", ini);
 						parameters.put("DataFim", fim);
 
-						jasper1 = MapleBearSystemDesktopClient.class
-								.getResourceAsStream("/br/com/maplebearsystem/relatorio/Pedidos.jasper");
+						jasper1 = MapleBearSystemDesktopClient.class.getResourceAsStream("/br/com/maplebearsystem/relatorio/Pedidos.jasper");
 					} else if (relatorio.equals("ANIVERSARIO FUNCIONARIOS")) {
 						parameters.put("DataIni", ini);
 						parameters.put("DataFim", fim);
-
+						parameters.put("mesini", ini.toLocalDate().getMonthValue());
+						parameters.put("mesfim", fim.toLocalDate().getMonthValue());
 						jasper1 = MapleBearSystemDesktopClient.class
 								.getResourceAsStream("/br/com/maplebearsystem/relatorio/FuncnNiver.jasper");
+					}
+					JasperPrint jp = JasperFillManager.fillReport(jasper1, parameters, con);
+					JRViewer jr = new JRViewer(jp);
+
+					return jr;
+				} catch (Exception e) {
+					Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Warning: an error ocurred when ",
+							e);
+
+				}
+				return null;
+			}
+		};
+
+		task.setOnSucceeded((event1) -> {
+			Platform.runLater(() -> {
+				try {
+					vboxRelatorio.setVisible(true);
+					hboxJasperMaldito.getChildren().remove(sn);
+					HBox.setHgrow(sn, Priority.ALWAYS);
+					sn.setContent(task.get());
+					hboxJasperMaldito.getChildren().add(sn);
+				} catch (InterruptedException | ExecutionException e) {
+					Logger.getLogger(this.getClass().getName()).log(Level.WARNING, "Error: failed to load ", e);
+				}
+			});
+		});
+
+		new Thread(task).start();
+
+	}
+	private void exibeRelatorio(String relatorio, Date ini, Date fim, String Tipo) {
+		FXNotification notification = new FXNotification("Gerando Relatorio,",
+				FXNotification.NotificationType.INFORMATION);
+		notification.show();
+		Task<JRViewer> task = new Task<JRViewer>() {
+			@Override
+			public JRViewer call() {
+				try {
+					Banco.getCon();
+					Connection con = Conexao.abre();
+					HashMap<String, Object> parameters = new HashMap<String, Object>();
+					InputStream jasper1 = null;
+					if (relatorio.equals("MOVIMENTO PRODUTOS")) {
+						parameters.put("DataIni", ini);
+						parameters.put("DataFim", fim);
+						parameters.put("Tipo", Tipo);
+						jasper1 = MapleBearSystemDesktopClient.class.getResourceAsStream("/br/com/maplebearsystem/relatorio/EntradaSaidaProduto.jasper");
+					} else {
+						parameters.put("DataIni", ini);
+						parameters.put("DataFim", fim);
+						jasper1 = MapleBearSystemDesktopClient.class
+								.getResourceAsStream("/br/com/maplebearsystem/relatorio/EntradaSaidaProduto2.jasper");
 					}
 					JasperPrint jp = JasperFillManager.fillReport(jasper1, parameters, con);
 					JRViewer jr = new JRViewer(jp);
@@ -342,7 +424,7 @@ public class FXMLRelatorioController implements Initializable, FXMLDefaultContro
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		cbb_usuario.getItems().addAll("PEDIDO FUNCIONARIOS", "COMPRAR PRODUTOS", "ESTOQUE PRODUTOS",
-				"ANIVERSARIO FUNCIONARIOS");
+				"ANIVERSARIO FUNCIONARIOS","MOVIMENTO PRODUTOS");
 	}
 
 }

@@ -17,6 +17,7 @@ import br.com.maplebearsystem.ui.util.FXUISetup;
 import br.com.maplebearsystem.view.FXMLAlocarEquipamentoController;
 import br.com.maplebearsystem.view.FXMLDefaultControllerInterface;
 import br.com.maplebearsystem.view.FXMLReceberController;
+import br.com.maplebearsystem.view.FXMLRetirarProdutoController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -299,6 +300,17 @@ public class FXMLFuncionarioSearchController implements Initializable, FXMLDefau
 	void actSelectItem(ActionEvent event) {
 		if (sourceController instanceof FXMLAlocarEquipamentoController) {
 			FXMLAlocarEquipamentoController controller = (FXMLAlocarEquipamentoController) sourceController;
+			try {
+				Funcionario resultado = tviewSearch.getSelectionModel().getSelectedItem();
+				controller.receiveData(resultado, this);
+				controller.closeSenderNode(this);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (sourceController instanceof FXMLRetirarProdutoController) {
+			FXMLRetirarProdutoController controller = (FXMLRetirarProdutoController) sourceController;
 			try {
 				Funcionario resultado = tviewSearch.getSelectionModel().getSelectedItem();
 				controller.receiveData(resultado, this);

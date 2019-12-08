@@ -235,7 +235,7 @@ public class FXMLReceberController implements Initializable, FXMLDefaultControll
 			if (t.getRecebido() != null && t.getRestante() - t.getRecebido() >= 0 && t.getRecebido() > 0) {
 				t.setRestante(t.getRestante() - t.getRecebido());
 				Requisicao requisicao = controlerPedido.getRequisicao();
-				controlerMovement.saveProductMovement("Entrada de Produto",requisicao,LocalDate.now(), t.getProdRequisicao(), t.getRecebido(), t.getRestante());
+				controlerMovement.saveProductMovement("Entrada de Produto",requisicao,LocalDate.now(), t.getProdRequisicao(), t.getRecebido(), t.getRestante(),null);
 				ListMovement.add(controlerMovement.getProductMovement());
 			}
 			t.setRecebido(0);

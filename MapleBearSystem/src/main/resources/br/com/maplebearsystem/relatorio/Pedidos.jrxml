@@ -188,7 +188,7 @@ order by p.id,p.descricao]]>
 			<staticText>
 				<reportElement style="Title" x="2" y="0" width="553" height="62" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Pedido de Produtos]]></text>
+				<text><![CDATA[Compra de Produtos]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement mode="Opaque" x="182" y="61" width="374" height="24" backcolor="#F7202B" uuid="6dac9e50-11d7-4e1d-b4bd-f0b2f6a9c5a9">

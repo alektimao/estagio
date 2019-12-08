@@ -33,14 +33,14 @@ public class ProductMovement implements Serializable {
 	private Integer recebido;
 	private Integer restante;
 	private String description;
-	private Funcionario funcionario;
+	private Long funcionario_id;
 
 	public ProductMovement() {
 		super();
 	}
 
 	public ProductMovement(Long id, Product produto, Requisicao pedido, Date date, Integer recebido, Integer restante,
-			String description, Funcionario funcionario) {
+			String description, Long funcionario_id) {
 		super();
 		this.id = id;
 		this.produto = produto;
@@ -49,7 +49,7 @@ public class ProductMovement implements Serializable {
 		this.recebido = recebido;
 		this.restante = restante;
 		this.description = description;
-		this.funcionario = funcionario;
+		this.funcionario_id = funcionario_id;
 	}
 
 	public Long getId() {
@@ -108,12 +108,12 @@ public class ProductMovement implements Serializable {
 		this.description = description;
 	}
 
-	public Funcionario getFuncionario() {
-		return funcionario;
+	public Long getFuncionario() {
+		return funcionario_id;
 	}
 
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public void setFuncionario(Long funcionario) {
+		this.funcionario_id = funcionario;
 	}
 
 }

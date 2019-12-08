@@ -135,16 +135,16 @@ public class AlunoDAO extends GenericDAO<Aluno> {
 		List<Predicate> filtros = new ArrayList<Predicate>();
 		
 		if (nometurma != null && !nometurma.equals("")) {
-			Predicate pEqualsTurma = criteriaBuilder.equal(AlunoRoot.get("nome"), nometurma);
+			Predicate pEqualsTurma = criteriaBuilder.like(criteriaBuilder.lower(AlunoRoot.get("nome")), "%"+nometurma.toLowerCase()+"%");
 			filtros.add(pEqualsTurma);
 		}
 		if (cpf != null && !cpf.equals("")) {
-			Predicate pEqualscpf = criteriaBuilder.equal(AlunoRoot.get("cpf"), cpf);
+			Predicate pEqualscpf = criteriaBuilder.like(criteriaBuilder.lower(AlunoRoot.get("cpf")), "%"+cpf.toLowerCase()+"%");
 			filtros.add(pEqualscpf);
 		}
 		
 		if (numeromatricula != null && !numeromatricula.equals("")) {
-			Predicate pEqualsnumeromatricula = criteriaBuilder.equal(AlunoRoot.get("numeromatricula"), numeromatricula);			
+			Predicate pEqualsnumeromatricula = criteriaBuilder.like(criteriaBuilder.lower(AlunoRoot.get("numeromatricula")), "%"+numeromatricula+"%");			
 			filtros.add(pEqualsnumeromatricula);
 		}
 		

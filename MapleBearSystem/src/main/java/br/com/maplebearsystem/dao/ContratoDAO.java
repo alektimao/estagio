@@ -135,16 +135,16 @@ public class ContratoDAO extends GenericDAO<Contrato> {
 		List<Predicate> filtros = new ArrayList<Predicate>();
 		
 		if (nometurma != null && !nometurma.equals("")) {
-			Predicate pEqualsTurma = criteriaBuilder.like(ContratoRoot.get("Turma"), "%"+nometurma+"%");
+			Predicate pEqualsTurma = criteriaBuilder.like(criteriaBuilder.lower(ContratoRoot.get("Turma")), "%"+nometurma.toLowerCase()+"%");
 			filtros.add(pEqualsTurma);
 		}
 		if (responsavel != null && !responsavel.equals("")) {
-			Predicate pEqualsresponsavel = criteriaBuilder.like(ContratoRoot.get("Responsavel"), "%"+responsavel+"%");
+			Predicate pEqualsresponsavel = criteriaBuilder.like(criteriaBuilder.lower(ContratoRoot.get("Responsavel")), "%"+responsavel.toLowerCase()+"%");
 			filtros.add(pEqualsresponsavel);
 		}
 		
 		if (aluno != null && !aluno.equals("")) {
-			Predicate pEqualsaluno = criteriaBuilder.like(ContratoRoot.get("Aluno"), "%"+aluno+"%");			
+			Predicate pEqualsaluno = criteriaBuilder.like(criteriaBuilder.lower(ContratoRoot.get("Aluno")), "%"+aluno.toLowerCase()+"%");			
 			filtros.add(pEqualsaluno);
 		}
 		
